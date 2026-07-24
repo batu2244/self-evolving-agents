@@ -111,15 +111,11 @@ export function OnboardingChat() {
     const trimmed = text.trim();
     if (!trimmed || pending) return;
     setInput("");
-    setMsgs((m) => {
-      const withUser = [...m, { id: nextId++, role: "user" as const, content: trimmed }];
-      post(
-        withUser
-          .filter((x) => !x.error)
-          .map((x) => ({ role: x.role, content: x.content })),
-      );
-      return withUser;
-    });
+    // side effects must stay out of the setMsgs updater — StrictMode
+    // double-invokes updaters, which duplicated the API call
+    const withUser = [...msgs, { id: nextId++, role: "user" as const, content: trimmed }];
+    setMsgs(withUser);
+    post(withUser.filter((x) => !x.error).map((x) => ({ role: x.role, content: x.content })));
   };
 
   const retry = () => {
