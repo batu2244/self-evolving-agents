@@ -36,6 +36,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from .deliberation import Case, Side, Stance, run_deliberation
 from .judge import default_judge
+from .learnings import LearningStore
 from .track_record import TrackRecord
 from .transport import InMemoryFloor
 
@@ -149,6 +150,7 @@ class Village:
         agent_types: dict[str, Callable[[], VillageAgent]] | None = None,
         price_fn: Callable[[str], "asyncio.Future | object"] | None = None,
         data_dir: Path | None = None,
+        learning_store: LearningStore | None = None,
     ) -> None:
         self.name = name
         self.tickers = [t.upper() for t in tickers]
@@ -160,6 +162,7 @@ class Village:
             path=self._data_dir / f"village_{name}_track_record.json", alpha=0.15
         )
         self._price_fn = price_fn or _default_price
+        self.learnings = learning_store or LearningStore()
 
     # -- state -------------------------------------------------------------
 
@@ -235,9 +238,28 @@ class Village:
                 "stances": [{"agent": s.agent, "side": s.side.value} for s in stances],
             }
 
+        # 3. Notes to Actian, learnings surfaced back out of them.
+        derived = []
+        if grading:
+            self.learnings.record_gradings(self.name, cycle, grading)
+            credibility = {a: self.record.credibility(a) for a in self.agents}
+            derived = self.learnings.derive(
+                village=self.name,
+                cycle=cycle,
+                graded=grading,
+                decisions_now={t: r["decision"] for t, r in results.items()},
+                decisions_prev={t: e["decision"] for t, e in (prev or {}).get("tickers", {}).items()},
+                credibility=credibility,
+                prev_leader=(prev or {}).get("leader"),
+            )
+        cred_now = {a: self.record.credibility(a) for a in self.agents}
+        state["leader"] = max(cred_now, key=lambda a: cred_now[a]) if cred_now else None
+
         self._save_state(state)
         return {"village": self.name, "cycle": cycle, "grading": grading,
-                "prices": prices, "results": results}
+                "prices": prices, "results": results,
+                "learnings": [{"kind": l.kind, "ticker": l.ticker, "agent": l.agent,
+                               "text": l.text} for l in derived]}
 
 
 async def _default_price(ticker: str) -> float | None:
@@ -272,6 +294,9 @@ def main() -> None:
         flag = " UNANIMOUS" if r["unanimous"] else ""
         print(f"{t}: {r['decision'].upper()} at {r['conviction']:.0%} conviction{flag}")
         print("  " + ", ".join(f"{a} {w:.0%}" for a, w in sorted(r["contributions"].items())))
+
+    for l in out["learnings"]:
+        print(f"📝 learning ({l['kind']}): {l['text']}")
         if verbose:
             for m in r["transcript"]:
                 print(f"\n[{m['sender']}]")
