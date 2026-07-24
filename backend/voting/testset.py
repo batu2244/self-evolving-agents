@@ -362,7 +362,10 @@ class OpenRangeAgent:
                 f"where the day's move exhausts, not where it points.")
 
 
-def replay(use_llm: bool = False, news_only: bool = False) -> None:
+REPLAY_DUMP = TESTDATA / "xtb_wa_60d_replay.json"
+
+
+def replay(use_llm: bool = False, news_only: bool = False, dump: bool = False) -> None:
     fixture = json.loads(FIXTURE.read_text())
     points = [p for p in fixture["decision_points"] if p["outcome"]]
     judge = default_judge() if use_llm else HeuristicJudge()
@@ -379,6 +382,7 @@ def replay(use_llm: bool = False, news_only: bool = False) -> None:
     desk_ret = 0.0
     hits = 0
     rows = []
+    dumped = []
     for p in points:
         f = p["features"]
         news.load(p["news_window"])
@@ -388,7 +392,8 @@ def replay(use_llm: bool = False, news_only: bool = False) -> None:
             agents["openrange"].load(f, p["label"])
         stances = [a.stance(fixture["symbol"]) for a in agents.values()]
 
-        verdict = run_deliberation(p["id"], stances, agents, judge, record, InMemoryFloor())
+        room = InMemoryFloor()
+        verdict = run_deliberation(p["id"], stances, agents, judge, record, room)
         tv = verdict.verdicts[0]
         fwd = p["outcome"]["forward_ret"]
         direction = 1 if tv.decision == Side.BUY else -1
@@ -396,11 +401,39 @@ def replay(use_llm: bool = False, news_only: bool = False) -> None:
         right = direction * fwd > 0
         hits += right
 
+        credibility_before = {a: record.credibility(a) for a in agents}
         for s in stances:
             d = 1 if s.side == Side.BUY else -1
             record.record_outcome(s.agent, max(-1.0, min(1.0, d * fwd / 0.004)))
 
         rows.append((p["id"], tv.decision.value.upper(), tv.conviction, fwd, right))
+        if dump:
+            # Front-end embeddable record: full conversation + structured verdict.
+            dumped.append({
+                "id": p["id"],
+                "date": p["date"],
+                "label": p["label"],
+                "price": p["price"],
+                "transcript": [
+                    {"sender": m.sender, "text": m.text, "mentions": m.mentions}
+                    for m in room.history()
+                ],
+                "verdict": tv.model_dump(mode="json"),
+                "credibility_before": credibility_before,
+                "credibility_after": {a: record.credibility(a) for a in agents},
+                "grading": {"forward_ret": fwd, "desk_was_right": right},
+            })
+
+    if dump:
+        REPLAY_DUMP.write_text(json.dumps({
+            "symbol": fixture["symbol"],
+            "heartbeat": fixture["heartbeat"],
+            "committee": sorted(agents),
+            "buy_and_hold_ret": fixture["buy_and_hold_ret"],
+            "decisions": dumped,
+        }, indent=2, ensure_ascii=False))
+        print(f"wrote {REPLAY_DUMP} ({len(dumped)} decisions with full transcripts)",
+              file=sys.stderr)
 
     committee = "news agent only" if news_only else "news agent + 3 price STAND-INS (real price agents incoming)"
     print(f"REPLAY · {fixture['symbol']} · {len(points)} decisions over "
@@ -428,7 +461,11 @@ def main() -> None:
     elif cmd == "replay":
         if not FIXTURE.exists():
             build()
-        replay(use_llm="--llm" in sys.argv, news_only="--news-only" in sys.argv)
+        replay(
+            use_llm="--llm" in sys.argv,
+            news_only="--news-only" in sys.argv,
+            dump="--dump" in sys.argv,
+        )
     else:
         sys.exit(f"unknown command: {cmd} (use build | replay)")
 
