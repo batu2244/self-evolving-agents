@@ -198,12 +198,33 @@ async def fetch_quote(ticker: str) -> dict:
         stamps = result.get("timestamp") or []
         quote = ((result.get("indicators") or {}).get("quote") or [{}])[0]
         volumes = [v for v in (quote.get("volume") or []) if v]
+
+        # Daily bars, newest last. The final bar is the session in progress.
+        sessions = [
+            (datetime.fromtimestamp(ts, timezone.utc).date(), _at(quote.get("close"), i))
+            for i, ts in enumerate(stamps)
+        ]
+        sessions = [(d, c) for d, c in sessions if c is not None]
+
         price = meta.get("regularMarketPrice")
         if price is None:
-            closes = [c for c in (quote.get("close") or []) if c is not None]
-            price = closes[-1] if closes else None
+            price = sessions[-1][1] if sessions else None
         if price is None:
             raise MarketDataUnavailable(f"{ticker}: no price in chart response")
+
+        # NOT meta["chartPreviousClose"] -- that is the close *before the chart range
+        # begins* (a month back here), which would read as a huge overnight gap. The
+        # previous close is the last completed session before the newest bar.
+        previous_close = None
+        if len(sessions) >= 2:
+            newest_date = sessions[-1][0]
+            for day, close in reversed(sessions[:-1]):
+                if day < newest_date:
+                    previous_close = close
+                    break
+        if previous_close is None:
+            previous_close = meta.get("previousClose")
+
         idx = len(stamps) - 1
         return {
             "ticker": ticker.upper(),
@@ -211,7 +232,7 @@ async def fetch_quote(ticker: str) -> dict:
             "open": meta.get("regularMarketDayOpen") or _at(quote.get("open"), idx),
             "high": meta.get("regularMarketDayHigh") or _at(quote.get("high"), idx),
             "low": meta.get("regularMarketDayLow") or _at(quote.get("low"), idx),
-            "previous_close": meta.get("previousClose") or meta.get("chartPreviousClose"),
+            "previous_close": previous_close,
             "volume": meta.get("regularMarketVolume") or (volumes[-1] if volumes else None),
             "average_volume": round(sum(volumes[-20:]) / len(volumes[-20:]), 2) if volumes else None,
             "source": "yahoo",

@@ -8,6 +8,7 @@ to get there.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -41,6 +42,7 @@ class Signal(BaseModel):
 
     ticker: str
     source: str
+    action: Literal["BUY", "SELL", "HOLD"] = "HOLD"
     direction: float = Field(ge=-1.0, le=1.0, description="-1 fully bearish .. +1 fully bullish")
     confidence: float = Field(ge=0.0, le=1.0)
     rationale: str
@@ -48,6 +50,26 @@ class Signal(BaseModel):
     deterministic: bool = True
     cycle: str = Field(default_factory=current_cycle)
     created_at: datetime = Field(default_factory=utcnow)
+    prompt_snapshot: dict[str, str] = Field(
+        default_factory=dict,
+        description="Agent prompt identity and text in force for this signal",
+    )
+    equation_snapshot: dict[str, str] = Field(
+        default_factory=dict,
+        description="Named equation strategy in force for this signal",
+    )
+    agent_trace: dict = Field(
+        default_factory=dict,
+        description="Structured trace of candidate reads and selection rationale",
+    )
+    model_snapshot: dict = Field(
+        default_factory=dict,
+        description="Decision provider, Gemini model, and thinking level used",
+    )
+    learning_snapshot: dict = Field(
+        default_factory=dict,
+        description="Versioned performance policy available when this signal was produced",
+    )
 
     @field_validator("ticker")
     @classmethod
@@ -59,6 +81,7 @@ class Contribution(BaseModel):
     """One analyst's share of a forecast, in the forecast's own units."""
 
     source: str
+    action: Literal["BUY", "SELL", "HOLD"] = "HOLD"
     direction: float
     confidence: float
     weight: float = Field(description="Configured weight, renormalized over reporting sources")
@@ -70,6 +93,7 @@ class Forecast(BaseModel):
     """The forecaster's tally across all reporting analysts."""
 
     ticker: str
+    action: Literal["BUY", "SELL", "HOLD"] = "HOLD"
     direction: str = Field(description="UP, DOWN, or FLAT")
     score: float = Field(ge=-1.0, le=1.0)
     confidence: float = Field(ge=0.0, le=1.0)
@@ -80,7 +104,40 @@ class Forecast(BaseModel):
     cycle: str = Field(default_factory=current_cycle)
     created_at: datetime = Field(default_factory=utcnow)
     mode: str = "paper-trading-research"
+    config_snapshot: dict[str, float] = Field(
+        default_factory=dict,
+        description="Tunable values in force for this forecast, so an outcome can later "
+                    "be attributed to the exact settings that produced it",
+    )
+    prompt_snapshot: dict[str, str] = Field(
+        default_factory=dict,
+        description="Forecaster prompt identity and text in force for this forecast",
+    )
+    equation_snapshot: dict[str, str] = Field(
+        default_factory=dict,
+        description="Named equation strategy in force for this forecast",
+    )
+    agent_trace: dict = Field(
+        default_factory=dict,
+        description="Structured trace of candidate forecasts and selection rationale",
+    )
+    model_snapshot: dict = Field(
+        default_factory=dict,
+        description="Decision provider, Gemini model, and thinking level used",
+    )
+    learning_snapshot: dict = Field(
+        default_factory=dict,
+        description="Versioned performance policy available when this forecast was produced",
+    )
 
 
 def clamp(value: float, low: float = -1.0, high: float = 1.0) -> float:
     return max(low, min(high, value))
+
+
+def action_for_direction(direction: float, threshold: float) -> str:
+    if direction > threshold:
+        return "BUY"
+    if direction < -threshold:
+        return "SELL"
+    return "HOLD"

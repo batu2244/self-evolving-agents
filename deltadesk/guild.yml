@@ -1,0 +1,133 @@
+- model: deltadesk
+  description: Data-aware multi-agent market forecasting experiments
+  operations:
+    experiment:
+      description: Run all analyst agents and the forecaster as one tracked experiment
+      main: guild_experiment
+      flags-dest: args
+      flags:
+        ticker:
+          default: GOOGL
+          type: string
+        cycle:
+          default: null
+          type: string
+        mock_mode:
+          default: true
+          choices: [true, false]
+          arg-encoding:
+            true: "true"
+            false: "false"
+        gemini_model:
+          default: gemini-3.6-flash
+          type: string
+        gemini_reasoning:
+          default: false
+          choices: [true, false]
+          arg-encoding:
+            true: "true"
+            false: "false"
+        thinking_level:
+          default: high
+          choices: [low, medium, high]
+        news_policy:
+          default: auto
+          choices: [auto, configured]
+        historical_policy:
+          default: auto
+          choices: [auto, configured]
+        realtime_policy:
+          default: auto
+          choices: [auto, configured]
+        forecaster_policy:
+          default: auto
+          choices: [auto, configured]
+        news_equation:
+          default: weighted_score
+          choices: [weighted_score, action_conviction_blend, article_count_fade]
+        historical_equation:
+          default: trend_blend
+          choices: [trend_blend, slope_only, ma_cross]
+        realtime_equation:
+          default: balanced_momentum
+          choices: [balanced_momentum, previous_close_only, open_weighted]
+        forecaster_equation:
+          default: confidence_weighted
+          choices: [confidence_weighted, direction_only, consensus]
+        news_weight:
+          default: 0.40
+          min: 0.0
+          max: 1.0
+        historical_weight:
+          default: 0.35
+          min: 0.0
+          max: 1.0
+        realtime_weight:
+          default: 0.25
+          min: 0.0
+          max: 1.0
+        direction_threshold:
+          default: 0.15
+          min: 0.0
+          max: 0.99
+        news_thin_coverage_max:
+          default: 2
+          type: int
+          min: 0
+          max: 20
+        news_action_conviction_min:
+          default: 0.65
+          min: 0.0
+          max: 1.0
+        news_weak_score_abs:
+          default: 0.15
+          min: 0.0
+          max: 1.0
+        forecast_low_confidence:
+          default: 0.35
+          min: 0.0
+          max: 1.0
+      output-scalars:
+        signals_count: '^signals_count: (\value)$'
+        degraded_sources: '^degraded_sources: (\value)$'
+        forecast_score: '^forecast_score: (\value)$'
+        forecast_confidence: '^forecast_confidence: (\value)$'
+        forecast_direction: '^forecast_direction: (\value)$'
+        forecast_action: '^forecast_action: (\value)$'
+        learning_policy_version: '^learning_policy_version: (\value)$'
+        learning_observations: '^learning_observations: (\value)$'
+        learning_reliability: '^learning_reliability: (\value)$'
+        news_direction: '^news_direction: (\value)$'
+        news_confidence: '^news_confidence: (\value)$'
+        news_action: '^news_action: (\value)$'
+        historical_direction: '^historical_direction: (\value)$'
+        historical_confidence: '^historical_confidence: (\value)$'
+        historical_action: '^historical_action: (\value)$'
+        realtime_direction: '^realtime_direction: (\value)$'
+        realtime_confidence: '^realtime_confidence: (\value)$'
+        realtime_action: '^realtime_action: (\value)$'
+      compare:
+        - =ticker
+        - =forecaster_policy
+        - =forecaster_equation
+        - =gemini_model
+        - =gemini_reasoning
+        - =thinking_level
+        - =news_weight
+        - =historical_weight
+        - =realtime_weight
+        - forecast_direction
+        - forecast_action
+        - forecast_score
+        - forecast_confidence
+        - learning_policy_version
+        - learning_observations
+        - learning_reliability
+        - degraded_sources
+      tags: [multi-agent, forecasting, deltadesk]
+      plugins: summary
+      env:
+        LOG_FORMAT: "%(levelname)s: [%(name)s] %(message)s"
+      requires:
+        - file: ../google-news-agent/sample_output.json
+          target-type: copy

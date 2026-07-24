@@ -24,7 +24,9 @@ from sqlalchemy import (
     Text,
     UniqueConstraint,
     create_engine,
+    inspect,
     select,
+    text,
 )
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
@@ -106,6 +108,7 @@ class SignalRow(Base):
     run_id = Column(String(64), index=True)
     ticker = Column(String(32), nullable=False, index=True)
     source = Column(String(32), nullable=False, index=True)
+    action = Column(String(8), nullable=False, default="HOLD")
     cycle = Column(String(32), nullable=False, index=True)
     direction = Column(Float, nullable=False)
     confidence = Column(Float, nullable=False)
@@ -115,6 +118,11 @@ class SignalRow(Base):
     inputs_used = Column(JSON)
     degraded = Column(Boolean, default=False)
     provenance_notes = Column(Text)
+    prompt_snapshot = Column(JSON)
+    equation_snapshot = Column(JSON)
+    agent_trace = Column(JSON)
+    model_snapshot = Column(JSON)
+    learning_snapshot = Column(JSON)
     created_at = Column(DateTime(timezone=True), nullable=False, default=utcnow)
 
 
@@ -126,6 +134,7 @@ class ForecastRow(Base):
     run_id = Column(String(64), index=True)
     ticker = Column(String(32), nullable=False, index=True)
     cycle = Column(String(32), nullable=False, index=True)
+    action = Column(String(8), nullable=False, default="HOLD")
     direction = Column(String(8), nullable=False)
     score = Column(Float, nullable=False)
     confidence = Column(Float, nullable=False)
@@ -136,7 +145,73 @@ class ForecastRow(Base):
     degraded = Column(Boolean, default=False)
     provenance_notes = Column(Text)
     mode = Column(String(32), default="paper-trading-research")
+    config_snapshot = Column(JSON)
+    prompt_snapshot = Column(JSON)
+    equation_snapshot = Column(JSON)
+    agent_trace = Column(JSON)
+    model_snapshot = Column(JSON)
+    learning_snapshot = Column(JSON)
     created_at = Column(DateTime(timezone=True), nullable=False, default=utcnow)
+
+
+class PerformanceOutcome(Base):
+    """One immutable prediction evaluated over the next stored trading close."""
+
+    __tablename__ = "performance_outcomes"
+    __table_args__ = (
+        UniqueConstraint("subject_type", "subject_id", name="uq_outcome_subject"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    subject_type = Column(String(16), nullable=False)
+    subject_id = Column(Integer, nullable=False)
+    agent = Column(String(32), nullable=False, index=True)
+    ticker = Column(String(32), nullable=False, index=True)
+    action = Column(String(8), nullable=False)
+    equation = Column(String(64), nullable=False)
+    signal_date = Column(String(10), nullable=False, index=True)
+    entry_date = Column(String(10), nullable=False)
+    exit_date = Column(String(10), nullable=False)
+    entry_close = Column(Float, nullable=False)
+    exit_close = Column(Float, nullable=False)
+    return_pct = Column(Float, nullable=False)
+    performance_score = Column(Float, nullable=False)
+    correct = Column(Boolean, nullable=False)
+    evaluated_at = Column(DateTime(timezone=True), nullable=False, default=utcnow)
+
+
+class AgentPolicy(Base):
+    """Latest bounded policy learned for one agent."""
+
+    __tablename__ = "agent_policies"
+
+    id = Column(Integer, primary_key=True)
+    agent = Column(String(32), unique=True, nullable=False, index=True)
+    version = Column(Integer, nullable=False, default=1)
+    learning_date = Column(String(10), nullable=False)
+    recommended_equation = Column(String(64))
+    equation_stats = Column(JSON)
+    reliability = Column(Float, nullable=False, default=0.5)
+    observations = Column(Integer, nullable=False, default=0)
+    config_overrides = Column(JSON)
+    updated_at = Column(DateTime(timezone=True), nullable=False, default=utcnow)
+
+
+class DailyLearningRun(Base):
+    """Idempotency and audit ledger for the once-per-day learner."""
+
+    __tablename__ = "daily_learning_runs"
+
+    id = Column(Integer, primary_key=True)
+    learning_date = Column(String(10), unique=True, nullable=False, index=True)
+    status = Column(String(16), nullable=False, default="running")
+    outcomes_added = Column(Integer, nullable=False, default=0)
+    before_snapshot = Column(JSON)
+    after_snapshot = Column(JSON)
+    details = Column(JSON)
+    error = Column(Text)
+    started_at = Column(DateTime(timezone=True), nullable=False, default=utcnow)
+    finished_at = Column(DateTime(timezone=True))
 
 
 # --------------------------------------------------------------------------
@@ -157,7 +232,40 @@ def get_engine(url: str | None = None):
 
 
 def init_db(url: str | None = None) -> None:
-    Base.metadata.create_all(get_engine(url))
+    engine = get_engine(url)
+    Base.metadata.create_all(engine)
+    _ensure_compat_columns(engine)
+
+
+def _ensure_compat_columns(engine) -> None:
+    """Add newly introduced columns to older local SQLite databases."""
+    if engine.dialect.name != "sqlite":
+        return
+    inspector = inspect(engine)
+    wanted = {
+        "signals": {
+            "action": "VARCHAR(8) NOT NULL DEFAULT 'HOLD'",
+            "prompt_snapshot": "JSON",
+            "equation_snapshot": "JSON",
+            "agent_trace": "JSON",
+            "model_snapshot": "JSON",
+            "learning_snapshot": "JSON",
+        },
+        "forecasts": {
+            "action": "VARCHAR(8) NOT NULL DEFAULT 'HOLD'",
+            "prompt_snapshot": "JSON",
+            "equation_snapshot": "JSON",
+            "agent_trace": "JSON",
+            "model_snapshot": "JSON",
+            "learning_snapshot": "JSON",
+        },
+    }
+    with engine.begin() as conn:
+        for table, columns in wanted.items():
+            existing = {c["name"] for c in inspector.get_columns(table)}
+            for name, ddl_type in columns.items():
+                if name not in existing:
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {name} {ddl_type}"))
 
 
 @contextmanager
@@ -271,6 +379,7 @@ def store_signal(signal: Signal, run_id: str) -> None:
             row = SignalRow(ticker=signal.ticker, source=signal.source, cycle=signal.cycle)
             s.add(row)
         row.run_id = run_id
+        row.action = signal.action
         row.direction = signal.direction
         row.confidence = signal.confidence
         row.rationale = signal.rationale
@@ -279,6 +388,11 @@ def store_signal(signal: Signal, run_id: str) -> None:
         row.inputs_used = signal.provenance.inputs_used
         row.degraded = signal.provenance.degraded
         row.provenance_notes = signal.provenance.notes
+        row.prompt_snapshot = signal.prompt_snapshot
+        row.equation_snapshot = signal.equation_snapshot
+        row.agent_trace = signal.agent_trace
+        row.model_snapshot = signal.model_snapshot
+        row.learning_snapshot = signal.learning_snapshot
         row.created_at = signal.created_at
 
 
@@ -299,12 +413,18 @@ def latest_signals(ticker: str, sources: tuple[str, ...] | None = None) -> dict[
             out[source] = Signal(
                 ticker=row.ticker,
                 source=row.source,
+                action=row.action or "HOLD",
                 direction=row.direction,
                 confidence=row.confidence,
                 rationale=row.rationale or "",
                 deterministic=bool(row.deterministic),
                 cycle=row.cycle,
                 created_at=_as_utc(row.created_at),
+                prompt_snapshot=dict(row.prompt_snapshot or {}),
+                equation_snapshot=dict(row.equation_snapshot or {}),
+                agent_trace=dict(row.agent_trace or {}),
+                model_snapshot=dict(row.model_snapshot or {}),
+                learning_snapshot=dict(row.learning_snapshot or {}),
                 provenance=Provenance(
                     source_run_id=row.source_run_id,
                     inputs_used=list(row.inputs_used or []),
@@ -326,6 +446,7 @@ def store_forecast(forecast: Forecast, run_id: str) -> None:
             row = ForecastRow(ticker=forecast.ticker, cycle=forecast.cycle)
             s.add(row)
         row.run_id = run_id
+        row.action = forecast.action
         row.direction = forecast.direction
         row.score = forecast.score
         row.confidence = forecast.confidence
@@ -336,6 +457,12 @@ def store_forecast(forecast: Forecast, run_id: str) -> None:
         row.degraded = forecast.provenance.degraded
         row.provenance_notes = forecast.provenance.notes
         row.mode = forecast.mode
+        row.config_snapshot = forecast.config_snapshot
+        row.prompt_snapshot = forecast.prompt_snapshot
+        row.equation_snapshot = forecast.equation_snapshot
+        row.agent_trace = forecast.agent_trace
+        row.model_snapshot = forecast.model_snapshot
+        row.learning_snapshot = forecast.learning_snapshot
         row.created_at = forecast.created_at
 
 
@@ -387,6 +514,282 @@ def latest_snapshot(ticker: str) -> dict | None:
             "volume": row.volume,
             "average_volume": row.average_volume,
             "source": row.source,
+        }
+
+
+# --------------------------------------------------------------------------
+# Daily performance learning
+# --------------------------------------------------------------------------
+
+
+def evaluation_subjects() -> list[dict]:
+    """Latest prediction per agent/ticker/day that has not been evaluated."""
+    with session_scope() as s:
+        evaluated = {
+            (row.subject_type, row.subject_id)
+            for row in s.execute(select(PerformanceOutcome)).scalars()
+        }
+        candidates: list[dict] = []
+        for row in s.execute(select(SignalRow)).scalars():
+            candidates.append({
+                "subject_type": "signal",
+                "subject_id": row.id,
+                "agent": row.source,
+                "ticker": row.ticker,
+                "action": row.action or "HOLD",
+                "equation": (row.equation_snapshot or {}).get(row.source, "unknown"),
+                "signal_date": row.cycle[:10],
+                "cycle": row.cycle,
+                "created_at": row.created_at,
+            })
+        for row in s.execute(select(ForecastRow)).scalars():
+            candidates.append({
+                "subject_type": "forecast",
+                "subject_id": row.id,
+                "agent": "forecaster",
+                "ticker": row.ticker,
+                "action": row.action or "HOLD",
+                "equation": (row.equation_snapshot or {}).get("forecaster", "unknown"),
+                "signal_date": row.cycle[:10],
+                "cycle": row.cycle,
+                "created_at": row.created_at,
+            })
+
+    # Intraday cycles can produce several predictions. One daily observation per
+    # agent and ticker prevents high-frequency runs from dominating policy updates.
+    latest: dict[tuple[str, str, str, str], dict] = {}
+    for item in candidates:
+        key = (
+            item["subject_type"],
+            item["agent"],
+            item["ticker"],
+            item["signal_date"],
+        )
+        current = latest.get(key)
+        order = (
+            (item["created_at"].isoformat() if item["created_at"] else ""),
+            item["subject_id"],
+        )
+        current_order = (
+            (
+                current["created_at"].isoformat() if current["created_at"] else "",
+                current["subject_id"],
+            )
+            if current else None
+        )
+        if current is None or order > current_order:
+            latest[key] = item
+    return [
+        item
+        for item in latest.values()
+        if (item["subject_type"], item["subject_id"]) not in evaluated
+    ]
+
+
+def bars_for_evaluation(ticker: str, signal_date: str) -> list[dict]:
+    """Return the entry close and later closes available for one prediction."""
+    with session_scope() as s:
+        rows = list(
+            s.execute(
+                select(HistoricalBar)
+                .where(
+                    HistoricalBar.ticker == ticker.upper(),
+                    HistoricalBar.bar_date >= signal_date,
+                    HistoricalBar.close.is_not(None),
+                )
+                .order_by(HistoricalBar.bar_date.asc())
+                .limit(3)
+            ).scalars()
+        )
+    return [{"bar_date": row.bar_date, "close": row.close} for row in rows]
+
+
+def store_performance_outcomes(outcomes: list[dict]) -> int:
+    """Insert outcome labels once. Returns the number of new rows."""
+    inserted = 0
+    with session_scope() as s:
+        existing = {
+            (row.subject_type, row.subject_id)
+            for row in s.execute(select(PerformanceOutcome)).scalars()
+        }
+        for data in outcomes:
+            key = (data["subject_type"], data["subject_id"])
+            if key in existing:
+                continue
+            s.add(PerformanceOutcome(**data))
+            existing.add(key)
+            inserted += 1
+    return inserted
+
+
+def performance_outcomes(since_date: str | None = None) -> list[dict]:
+    stmt = select(PerformanceOutcome)
+    if since_date:
+        stmt = stmt.where(PerformanceOutcome.signal_date >= since_date)
+    stmt = stmt.order_by(PerformanceOutcome.signal_date.asc(), PerformanceOutcome.id.asc())
+    with session_scope() as s:
+        rows = list(s.execute(stmt).scalars())
+    return [
+        {
+            "agent": row.agent,
+            "ticker": row.ticker,
+            "action": row.action,
+            "equation": row.equation,
+            "signal_date": row.signal_date,
+            "return_pct": row.return_pct,
+            "performance_score": row.performance_score,
+            "correct": bool(row.correct),
+        }
+        for row in rows
+    ]
+
+
+def _policy_dict(row: AgentPolicy) -> dict:
+    return {
+        "agent": row.agent,
+        "version": row.version,
+        "learning_date": row.learning_date,
+        "recommended_equation": row.recommended_equation,
+        "equation_stats": dict(row.equation_stats or {}),
+        "reliability": row.reliability,
+        "observations": row.observations,
+        "config_overrides": dict(row.config_overrides or {}),
+        "updated_at": _as_utc(row.updated_at).isoformat(),
+    }
+
+
+def agent_performance_context(agent: str) -> dict:
+    """Compact learned prior supplied to one agent's next decision."""
+    with session_scope() as s:
+        row = s.execute(
+            select(AgentPolicy).where(AgentPolicy.agent == agent)
+        ).scalar_one_or_none()
+        if row is None:
+            return {
+                "learned": False,
+                "agent": agent,
+                "observations": 0,
+                "note": "No completed performance policy yet; use current data only.",
+            }
+        return {"learned": True, **_policy_dict(row)}
+
+
+def all_policy_snapshots() -> dict[str, dict]:
+    with session_scope() as s:
+        rows = list(s.execute(select(AgentPolicy).order_by(AgentPolicy.agent)).scalars())
+        return {row.agent: _policy_dict(row) for row in rows}
+
+
+def upsert_agent_policy(
+    *,
+    agent: str,
+    learning_date: str,
+    recommended_equation: str,
+    equation_stats: dict,
+    reliability: float,
+    observations: int,
+    config_overrides: dict | None = None,
+) -> dict:
+    with session_scope() as s:
+        row = s.execute(
+            select(AgentPolicy).where(AgentPolicy.agent == agent)
+        ).scalar_one_or_none()
+        if row is None:
+            row = AgentPolicy(agent=agent, version=1)
+            s.add(row)
+        elif row.learning_date != learning_date:
+            row.version += 1
+        row.learning_date = learning_date
+        row.recommended_equation = recommended_equation
+        row.equation_stats = equation_stats
+        row.reliability = reliability
+        row.observations = observations
+        row.config_overrides = config_overrides or {}
+        row.updated_at = utcnow()
+        s.flush()
+        return _policy_dict(row)
+
+
+def activate_learned_policy() -> dict[str, float]:
+    """Apply only allow-listed learned overrides for the next complete run."""
+    if not config.LEARNING_ENABLED:
+        return {}
+    context = agent_performance_context("forecaster")
+    requested = context.get("config_overrides") or {}
+    allowed = {
+        key: value
+        for key, value in requested.items()
+        if key.startswith("SIGNAL_WEIGHTS.")
+    }
+    return config.apply_overrides(allowed) if allowed else {}
+
+
+def start_daily_learning(learning_date: str) -> bool:
+    """Claim a date. Successful or currently running dates are idempotent."""
+    with session_scope() as s:
+        row = s.execute(
+            select(DailyLearningRun).where(
+                DailyLearningRun.learning_date == learning_date
+            )
+        ).scalar_one_or_none()
+        if row is not None and row.status in {"running", "success"}:
+            return False
+        before = all_policy_snapshots()
+        if row is None:
+            row = DailyLearningRun(learning_date=learning_date)
+            s.add(row)
+            row.before_snapshot = before
+        row.status = "running"
+        row.outcomes_added = 0
+        row.after_snapshot = None
+        row.details = {}
+        row.error = None
+        row.started_at = utcnow()
+        row.finished_at = None
+    return True
+
+
+def finish_daily_learning(
+    learning_date: str,
+    *,
+    status: str,
+    outcomes_added: int = 0,
+    details: dict | None = None,
+    error: str | None = None,
+) -> None:
+    with session_scope() as s:
+        row = s.execute(
+            select(DailyLearningRun).where(
+                DailyLearningRun.learning_date == learning_date
+            )
+        ).scalar_one_or_none()
+        if row is None:
+            return
+        row.status = status
+        row.outcomes_added = outcomes_added
+        row.after_snapshot = all_policy_snapshots()
+        row.details = details or {}
+        row.error = error[:2000] if error else None
+        row.finished_at = utcnow()
+
+
+def daily_learning_run(learning_date: str) -> dict | None:
+    with session_scope() as s:
+        row = s.execute(
+            select(DailyLearningRun).where(
+                DailyLearningRun.learning_date == learning_date
+            )
+        ).scalar_one_or_none()
+        if row is None:
+            return None
+        return {
+            "learning_date": row.learning_date,
+            "status": row.status,
+            "outcomes_added": row.outcomes_added,
+            "before_snapshot": dict(row.before_snapshot or {}),
+            "after_snapshot": dict(row.after_snapshot or {}),
+            "details": dict(row.details or {}),
+            "error": row.error,
         }
 
 
