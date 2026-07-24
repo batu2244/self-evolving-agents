@@ -191,6 +191,9 @@ class OutcomeReport(BaseModel):
     agent: str
     # Signed hit in [-1, 1]: proposed direction · realized move (§5 attribution).
     score: float
+    # Which instrument the graded decision was on — enables per-instrument
+    # performance history; omit for an aggregate/unattributed grade.
+    ticker: str | None = None
 
 
 @router.post("/outcomes")
@@ -202,6 +205,7 @@ def report_outcome(req: OutcomeReport) -> dict:
         {
             "agent": req.agent,
             "score": req.score,
+            "ticker": req.ticker,
             "credibility": cred,
             "ts": datetime.now(timezone.utc).isoformat(),
         }

@@ -26,8 +26,11 @@ DEFAULT_STORE = Path(__file__).parent / "data" / "track_record.json"
 
 
 class TrackRecord:
-    def __init__(self, path: Path | str | None = None) -> None:
+    def __init__(self, path: Path | str | None = None, alpha: float = EW_ALPHA) -> None:
+        # alpha tunes to cadence: ~0.3 for daily cycles, ~0.1 for 10-minute
+        # cycles (so one noisy bar doesn't crater an agent's standing).
         self._path = Path(path) if path else DEFAULT_STORE
+        self._alpha = alpha
         self._ew: dict[str, float] = {}
         self._counts: dict[str, int] = {}
         self._load()
@@ -36,7 +39,7 @@ class TrackRecord:
         """Record a signed outcome score in [-1, +1]; returns new credibility."""
         score = max(-1.0, min(1.0, score))
         prev = self._ew.get(agent, NEUTRAL_SCORE)
-        self._ew[agent] = (1 - EW_ALPHA) * prev + EW_ALPHA * score
+        self._ew[agent] = (1 - self._alpha) * prev + self._alpha * score
         self._counts[agent] = self._counts.get(agent, 0) + 1
         self._save()
         return self.credibility(agent)

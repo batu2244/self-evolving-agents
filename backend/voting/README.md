@@ -43,10 +43,24 @@ voting/
 ## Run (from `backend/`)
 
 ```bash
-.venv/bin/python -m pytest voting/tests -q          # 9 tests
-.venv/bin/python -m voting.demo                     # transcript incl. challenge
+.venv/bin/python -m pytest voting/tests -q          # tests
+.venv/bin/python -m voting.demo                     # scripted binary-vote demo
+.venv/bin/python -m voting.simulate NVDA            # one-off vote on live data
+.venv/bin/python -m voting.cycle NVDA               # ← run this every 10 min
 .venv/bin/uvicorn 'voting.api:create_app' --factory --reload   # standalone API
 ```
+
+## The 10-minute loop
+
+Decisions are made every 10 minutes, not daily. `voting.cycle` is the loop
+body — invoke it on a 10-minute schedule (cron / `/loop 10m` / Guild
+trigger). Each run first **grades the previous cycle** (realized move since
+the last verdict scores every agent's stance: right side of a ±0.2% move =
+full ±1, credibility updates with alpha=0.1 damping), then votes on fresh
+5-minute intraday data (last-10-min tape, hour trend vs VWAP, news
+backdrop; the GOOGL news analyst joins for GOOGL). State per symbol lives
+in `voting/data/cycle_state_<symbol>.json`. Use `BTC-USD` outside US
+market hours — it trades 24/7.
 
 ## Integrating
 
