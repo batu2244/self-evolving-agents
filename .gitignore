@@ -1,11 +1,18 @@
 # Secrets -- never commit
-.env
-.env.local
+.env*
+!.env.example
 *.key
 *.pem
 
 # Actian VectorAI database files
 local_data/
+
+# Node
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+npm-debug.log*
 
 # Python
 .venv/
@@ -17,6 +24,11 @@ __pycache__/
 
 # Local tooling
 .claude/settings.local.json
+.vercel
+.gstack/
+
+# voting module local state (Band keys, track record)
+backend/voting/data/
 
 # macOS
 .DS_Store

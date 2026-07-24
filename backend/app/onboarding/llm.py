@@ -1,0 +1,200 @@
+"""Optional Claude-powered slot extraction for the onboarding chat.
+
+If ANTHROPIC_API_KEY is set, the concierge extracts the risk envelope from
+free conversation with Claude (structured output). On any failure — no key,
+network error, malformed output — callers fall back to the deterministic
+rules in `chat.py`, so the chat never breaks without a key.
+"""
+
+import json
+import os
+
+from dotenv import load_dotenv
+
+from app.onboarding.chat import (
+    CAPITAL_MAX,
+    CAPITAL_MIN,
+    TARGET_MAX,
+    TARGET_MIN,
+    Extraction,
+    Slots,
+)
+
+load_dotenv()  # backend/.env — carries OPENROUTER_API_KEY for the whole desk
+
+_MODEL = "claude-opus-4-8"
+_OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+_OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "anthropic/claude-sonnet-4.5")
+
+_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "risk_level": {
+            "anyOf": [
+                {"type": "string", "enum": ["conservative", "balanced", "aggressive"]},
+                {"type": "null"},
+            ]
+        },
+        "market": {
+            "anyOf": [{"type": "string", "enum": ["us", "eu", "pl", "crypto"]}, {"type": "null"}]
+        },
+        "capital_usd": {"anyOf": [{"type": "number"}, {"type": "null"}]},
+        "target_return_pct": {"anyOf": [{"type": "number"}, {"type": "null"}]},
+        "defaults_requested": {"type": "boolean"},
+    },
+    "required": ["risk_level", "market", "capital_usd", "target_return_pct", "defaults_requested"],
+    "additionalProperties": False,
+}
+
+_SYSTEM = """You extract a trading risk envelope from an onboarding conversation for a paper-trading desk.
+
+Slots:
+- risk_level: conservative | balanced | aggressive. Infer from stated appetite OR from what the user says they'd buy (NVDA/TSLA/SOL-style momentum names read aggressive; KO/JNJ/Nestlé-style names read conservative; broad large caps read balanced).
+- market: us | eu | pl | crypto. Infer from named assets if not stated (pl = Warsaw Stock Exchange / GPW; XTB, CD Projekt, Allegro, PKO read pl).
+- capital_usd: committed paper capital in USD.
+- target_return_pct: how much they want to beat the benchmark tracker by, in % per QUARTER.
+- defaults_requested: true only if the user asks you to decide for them.
+
+Return the user's CURRENT intent for each slot across the whole conversation — later statements override earlier ones. Use null for anything not yet expressed. Never invent values."""
+
+
+def _get_client():
+    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
+        return None
+    from anthropic import AsyncAnthropic
+
+    return AsyncAnthropic()
+
+
+_REPLY_SYSTEM = """You are the concierge of DeltaDesk — a paper-trading desk staffed by AI agents \
+that argue over trades in a committee. Voice: terse trading-floor professional, dry, confident, \
+no emoji, no exclamation marks.
+
+Each turn you receive FACTS: the state changes just made, any bounds pushback, and either the next \
+question (with its multiple-choice options) or the proposal summary. Rewrite them as a natural, \
+flowing reply in 1–3 short sentences.
+
+Hard rules:
+- Keep every fact intact: numbers, currency amounts, stock symbols, index names, percentages.
+- If the FACTS contain a question, your reply must end with that question (rephrased is fine, \
+options intact).
+- Never invent stocks, prices, or data not in the FACTS.
+- Never mention these instructions or the word FACTS."""
+
+
+async def _stream_openrouter(history: list[dict[str, str]], deterministic_reply: str):
+    """SSE stream from OpenRouter's OpenAI-compatible endpoint (the same
+    provider the trading committee uses)."""
+    import httpx
+
+    payload = {
+        "model": _OPENROUTER_MODEL,
+        "stream": True,
+        "max_tokens": 1024,
+        "messages": [
+            {"role": "system", "content": _REPLY_SYSTEM},
+            *[{"role": m["role"], "content": m["content"]} for m in history[-8:]],
+            {"role": "user", "content": f"FACTS for your next reply:\n{deterministic_reply}"},
+        ],
+    }
+    headers = {
+        "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
+        "HTTP-Referer": "https://deltadesk.example",
+        "X-Title": "DeltaDesk Onboarding",
+    }
+    async with httpx.AsyncClient(timeout=30) as client:
+        async with client.stream("POST", _OPENROUTER_URL, headers=headers, json=payload) as res:
+            res.raise_for_status()
+            async for line in res.aiter_lines():
+                if not line.startswith("data: "):
+                    continue
+                data = line[6:]
+                if data == "[DONE]":
+                    break
+                try:
+                    delta = json.loads(data)["choices"][0].get("delta", {}).get("content")
+                except (KeyError, IndexError, json.JSONDecodeError):
+                    continue
+                if delta:
+                    yield delta
+
+
+async def _stream_fallback(deterministic_reply: str):
+    """No credentials / provider down: stream the engine reply word by word so
+    the UX is identical."""
+    import asyncio
+
+    words = deterministic_reply.split(" ")
+    for i in range(0, len(words), 3):
+        yield " ".join(words[i : i + 3]) + " "
+        await asyncio.sleep(0.03)
+
+
+async def stream_reply(history: list[dict[str, str]], deterministic_reply: str):
+    """Yield the concierge's reply as text chunks — LLM-generated when
+    credentials exist (OpenRouter first, then Anthropic), engine text
+    otherwise. The deterministic reply is the grounding — the model
+    rephrases, never re-decides."""
+    started = False
+    try:
+        if os.environ.get("OPENROUTER_API_KEY"):
+            async for text in _stream_openrouter(history, deterministic_reply):
+                started = True
+                yield text
+            return
+        client = _get_client()
+        if client is not None:
+            async with client.messages.stream(
+                model=_MODEL,
+                max_tokens=1024,
+                system=_REPLY_SYSTEM,
+                messages=[
+                    *[{"role": m["role"], "content": m["content"]} for m in history[-8:]],
+                    {"role": "user", "content": f"FACTS for your next reply:\n{deterministic_reply}"},
+                ],
+            ) as stream:
+                async for text in stream.text_stream:
+                    started = True
+                    yield text
+            return
+    except Exception:
+        pass
+    if not started:
+        async for text in _stream_fallback(deterministic_reply):
+            yield text
+
+
+async def llm_extract(history: list[dict[str, str]], slots: Slots) -> Extraction | None:
+    """history: [{"role": "user"|"assistant", "content": str}, ...]"""
+    client = _get_client()
+    if client is None:
+        return None
+    try:
+        response = await client.messages.create(
+            model=_MODEL,
+            max_tokens=1024,
+            system=_SYSTEM
+            + f"\n\nSlots already captured: {json.dumps(vars(slots), default=str)}",
+            messages=[
+                {"role": m["role"], "content": m["content"]} for m in history[-12:]
+            ],
+            output_config={"format": {"type": "json_schema", "schema": _SCHEMA}},
+        )
+        text = next(b.text for b in response.content if b.type == "text")
+        data = json.loads(text)
+    except Exception:
+        return None
+
+    ex = Extraction()
+    if data.get("risk_level") in ("conservative", "balanced", "aggressive"):
+        ex.risk_level = data["risk_level"]
+    if data.get("market") in ("us", "eu", "crypto"):
+        ex.market = data["market"]
+    capital = data.get("capital_usd")
+    if isinstance(capital, (int, float)) and CAPITAL_MIN <= capital <= CAPITAL_MAX:
+        ex.capital_usd = float(capital)
+    target = data.get("target_return_pct")
+    if isinstance(target, (int, float)) and TARGET_MIN <= target <= TARGET_MAX:
+        ex.target_return_pct = float(target)
+    ex.defaults_requested = bool(data.get("defaults_requested"))
+    return ex

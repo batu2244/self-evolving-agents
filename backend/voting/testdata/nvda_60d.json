@@ -1,0 +1,2679 @@
+{
+  "symbol": "NVDA",
+  "exchange": "Nasdaq",
+  "currency": "USD",
+  "heartbeat": "twice daily: 10:30 (open+1h) and 15:00 (close-1h) America/New_York",
+  "window_days": 59,
+  "generated_at": "2026-07-24T18:26:07.957270-04:00",
+  "buy_and_hold_ret": -0.01734,
+  "decision_points": [
+    {
+      "id": "2026-05-27-open+1h",
+      "date": "2026-05-27",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 209.92,
+      "features": {
+        "ret_last_hour": -0.006625,
+        "ret_since_open": -0.019615,
+        "gap_open": -0.003444,
+        "prev_day_ret": -0.002183,
+        "ret_5d": -0.033555,
+        "ret_20d": -0.008079,
+        "volume_ratio": 1.865
+      },
+      "news_window": {
+        "start": "2026-05-24",
+        "end": "2026-05-26"
+      },
+      "outcome": {
+        "forward_ret": 0.013767,
+        "next_point": "2026-05-27-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-05-27-close-1h",
+      "date": "2026-05-27",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 212.81,
+      "features": {
+        "ret_last_hour": -0.001829,
+        "ret_since_open": -0.006118,
+        "gap_open": -0.003444,
+        "prev_day_ret": -0.002183,
+        "ret_5d": -0.033555,
+        "ret_20d": -0.008079,
+        "volume_ratio": 0.737
+      },
+      "news_window": {
+        "start": "2026-05-24",
+        "end": "2026-05-27"
+      },
+      "outcome": {
+        "forward_ret": -0.001686,
+        "next_point": "2026-05-28-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-05-28-open+1h",
+      "date": "2026-05-28",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 212.4513,
+      "features": {
+        "ret_last_hour": -0.001733,
+        "ret_since_open": 0.005568,
+        "gap_open": -0.006232,
+        "prev_day_ret": -0.010518,
+        "ret_5d": -0.036308,
+        "ret_20d": -0.002674,
+        "volume_ratio": 1.378
+      },
+      "news_window": {
+        "start": "2026-05-25",
+        "end": "2026-05-27"
+      },
+      "outcome": {
+        "forward_ret": 0.009078,
+        "next_point": "2026-05-28-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-05-28-close-1h",
+      "date": "2026-05-28",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 214.38,
+      "features": {
+        "ret_last_hour": 0.0,
+        "ret_since_open": 0.014697,
+        "gap_open": -0.006232,
+        "prev_day_ret": -0.010518,
+        "ret_5d": -0.036308,
+        "ret_20d": -0.002674,
+        "volume_ratio": 0.743
+      },
+      "news_window": {
+        "start": "2026-05-25",
+        "end": "2026-05-28"
+      },
+      "outcome": {
+        "forward_ret": 0.007184,
+        "next_point": "2026-05-29-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-05-29-open+1h",
+      "date": "2026-05-29",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 215.92,
+      "features": {
+        "ret_last_hour": -0.005435,
+        "ret_since_open": 0.006855,
+        "gap_open": 0.000933,
+        "prev_day_ret": 0.007761,
+        "ret_5d": -0.041258,
+        "ret_20d": 0.023895,
+        "volume_ratio": 1.785
+      },
+      "news_window": {
+        "start": "2026-05-26",
+        "end": "2026-05-28"
+      },
+      "outcome": {
+        "forward_ret": 0.003612,
+        "next_point": "2026-05-29-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-05-29-close-1h",
+      "date": "2026-05-29",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 216.6999,
+      "features": {
+        "ret_last_hour": -0.001245,
+        "ret_since_open": 0.010492,
+        "gap_open": 0.000933,
+        "prev_day_ret": 0.007761,
+        "ret_5d": -0.041258,
+        "ret_20d": 0.023895,
+        "volume_ratio": 0.755
+      },
+      "news_window": {
+        "start": "2026-05-26",
+        "end": "2026-05-29"
+      },
+      "outcome": {
+        "forward_ret": 0.021551,
+        "next_point": "2026-06-01-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-01-open+1h",
+      "date": "2026-06-01",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 221.37,
+      "features": {
+        "ret_last_hour": 0.01013,
+        "ret_since_open": 0.025906,
+        "gap_open": 0.021976,
+        "prev_day_ret": -0.014516,
+        "ret_5d": -0.03813,
+        "ret_20d": 0.057975,
+        "volume_ratio": 2.356
+      },
+      "news_window": {
+        "start": "2026-05-29",
+        "end": "2026-05-29"
+      },
+      "outcome": {
+        "forward_ret": 0.011813,
+        "next_point": "2026-06-01-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-01-close-1h",
+      "date": "2026-06-01",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 223.985,
+      "features": {
+        "ret_last_hour": -0.002809,
+        "ret_since_open": 0.038025,
+        "gap_open": 0.021976,
+        "prev_day_ret": -0.014516,
+        "ret_5d": -0.03813,
+        "ret_20d": 0.057975,
+        "volume_ratio": 0.894
+      },
+      "news_window": {
+        "start": "2026-05-29",
+        "end": "2026-06-01"
+      },
+      "outcome": {
+        "forward_ret": 0.020291,
+        "next_point": "2026-06-02-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-02-open+1h",
+      "date": "2026-06-02",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 228.5299,
+      "features": {
+        "ret_last_hour": -0.012506,
+        "ret_since_open": 0.005898,
+        "gap_open": 0.012614,
+        "prev_day_ret": 0.062612,
+        "ret_5d": 0.041936,
+        "ret_20d": 0.130562,
+        "volume_ratio": 1.98
+      },
+      "news_window": {
+        "start": "2026-05-30",
+        "end": "2026-06-01"
+      },
+      "outcome": {
+        "forward_ret": -0.025773,
+        "next_point": "2026-06-02-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-02-close-1h",
+      "date": "2026-06-02",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 222.64,
+      "features": {
+        "ret_last_hour": -0.001525,
+        "ret_since_open": -0.020027,
+        "gap_open": 0.012614,
+        "prev_day_ret": 0.062612,
+        "ret_5d": 0.041936,
+        "ret_20d": 0.130562,
+        "volume_ratio": 0.74
+      },
+      "news_window": {
+        "start": "2026-05-30",
+        "end": "2026-06-02"
+      },
+      "outcome": {
+        "forward_ret": -0.02906,
+        "next_point": "2026-06-03-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-03-open+1h",
+      "date": "2026-06-03",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 216.17,
+      "features": {
+        "ret_last_hour": -0.00488,
+        "ret_since_open": -0.024878,
+        "gap_open": -0.005094,
+        "prev_day_ret": -0.006864,
+        "ret_5d": 0.037047,
+        "ret_20d": 0.122632,
+        "volume_ratio": 2.153
+      },
+      "news_window": {
+        "start": "2026-05-31",
+        "end": "2026-06-02"
+      },
+      "outcome": {
+        "forward_ret": -0.000324,
+        "next_point": "2026-06-03-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-03-close-1h",
+      "date": "2026-06-03",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 216.1,
+      "features": {
+        "ret_last_hour": 0.000486,
+        "ret_since_open": -0.025193,
+        "gap_open": -0.005094,
+        "prev_day_ret": -0.006864,
+        "ret_5d": 0.037047,
+        "ret_20d": 0.122632,
+        "volume_ratio": 0.513
+      },
+      "news_window": {
+        "start": "2026-05-31",
+        "end": "2026-06-03"
+      },
+      "outcome": {
+        "forward_ret": -0.012078,
+        "next_point": "2026-06-04-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-04-open+1h",
+      "date": "2026-06-04",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 213.4899,
+      "features": {
+        "ret_last_hour": 0.005439,
+        "ret_since_open": -0.001941,
+        "gap_open": -0.003935,
+        "prev_day_ret": -0.036218,
+        "ret_5d": 0.010113,
+        "ret_20d": 0.092875,
+        "volume_ratio": 1.684
+      },
+      "news_window": {
+        "start": "2026-06-01",
+        "end": "2026-06-03"
+      },
+      "outcome": {
+        "forward_ret": 0.032742,
+        "next_point": "2026-06-04-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-04-close-1h",
+      "date": "2026-06-04",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 220.48,
+      "features": {
+        "ret_last_hour": -0.001177,
+        "ret_since_open": 0.030738,
+        "gap_open": -0.003935,
+        "prev_day_ret": -0.036218,
+        "ret_5d": 0.010113,
+        "ret_20d": 0.092875,
+        "volume_ratio": 0.834
+      },
+      "news_window": {
+        "start": "2026-06-01",
+        "end": "2026-06-04"
+      },
+      "outcome": {
+        "forward_ret": -0.041841,
+        "next_point": "2026-06-05-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-05-open+1h",
+      "date": "2026-06-05",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 211.255,
+      "features": {
+        "ret_last_hour": -0.003408,
+        "ret_since_open": -0.014807,
+        "gap_open": -0.019345,
+        "prev_day_ret": 0.018207,
+        "ret_5d": 0.020583,
+        "ret_20d": 0.05211,
+        "volume_ratio": 1.738
+      },
+      "news_window": {
+        "start": "2026-06-02",
+        "end": "2026-06-04"
+      },
+      "outcome": {
+        "forward_ret": -0.025396,
+        "next_point": "2026-06-05-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-05-close-1h",
+      "date": "2026-06-05",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 205.89,
+      "features": {
+        "ret_last_hour": -0.000607,
+        "ret_since_open": -0.039826,
+        "gap_open": -0.019345,
+        "prev_day_ret": 0.018207,
+        "ret_5d": 0.020583,
+        "ret_20d": 0.05211,
+        "volume_ratio": 1.434
+      },
+      "news_window": {
+        "start": "2026-06-02",
+        "end": "2026-06-05"
+      },
+      "outcome": {
+        "forward_ret": 0.009398,
+        "next_point": "2026-06-08-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-08-open+1h",
+      "date": "2026-06-08",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 207.825,
+      "features": {
+        "ret_last_hour": 0.00749,
+        "ret_since_open": -0.011205,
+        "gap_open": 0.024768,
+        "prev_day_ret": -0.062014,
+        "ret_5d": -0.028607,
+        "ret_20d": -0.03026,
+        "volume_ratio": 1.219
+      },
+      "news_window": {
+        "start": "2026-06-05",
+        "end": "2026-06-05"
+      },
+      "outcome": {
+        "forward_ret": 0.00486,
+        "next_point": "2026-06-08-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-08-close-1h",
+      "date": "2026-06-08",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 208.835,
+      "features": {
+        "ret_last_hour": -0.001983,
+        "ret_since_open": -0.006399,
+        "gap_open": 0.024768,
+        "prev_day_ret": -0.062014,
+        "ret_5d": -0.028607,
+        "ret_20d": -0.03026,
+        "volume_ratio": 0.437
+      },
+      "news_window": {
+        "start": "2026-06-05",
+        "end": "2026-06-08"
+      },
+      "outcome": {
+        "forward_ret": -0.008907,
+        "next_point": "2026-06-09-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-09-open+1h",
+      "date": "2026-06-09",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 206.975,
+      "features": {
+        "ret_last_hour": -0.010447,
+        "ret_since_open": -0.017283,
+        "gap_open": 0.009466,
+        "prev_day_ret": 0.01726,
+        "ret_5d": -0.070066,
+        "ret_20d": -0.030483,
+        "volume_ratio": 1.572
+      },
+      "news_window": {
+        "start": "2026-06-06",
+        "end": "2026-06-08"
+      },
+      "outcome": {
+        "forward_ret": 0.000556,
+        "next_point": "2026-06-09-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-09-close-1h",
+      "date": "2026-06-09",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 207.09,
+      "features": {
+        "ret_last_hour": 0.003064,
+        "ret_since_open": -0.016737,
+        "gap_open": 0.009466,
+        "prev_day_ret": 0.01726,
+        "ret_5d": -0.070066,
+        "ret_20d": -0.030483,
+        "volume_ratio": 0.974
+      },
+      "news_window": {
+        "start": "2026-06-06",
+        "end": "2026-06-09"
+      },
+      "outcome": {
+        "forward_ret": -0.004322,
+        "next_point": "2026-06-10-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-10-open+1h",
+      "date": "2026-06-10",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 206.195,
+      "features": {
+        "ret_last_hour": 0.006161,
+        "ret_since_open": 0.008658,
+        "gap_open": -0.018084,
+        "prev_day_ret": -0.002157,
+        "ret_5d": -0.065658,
+        "ret_20d": -0.051267,
+        "volume_ratio": 1.269
+      },
+      "news_window": {
+        "start": "2026-06-07",
+        "end": "2026-06-09"
+      },
+      "outcome": {
+        "forward_ret": -0.024419,
+        "next_point": "2026-06-10-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-10-close-1h",
+      "date": "2026-06-10",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 201.16,
+      "features": {
+        "ret_last_hour": -0.005438,
+        "ret_since_open": -0.015972,
+        "gap_open": -0.018084,
+        "prev_day_ret": -0.002157,
+        "ret_5d": -0.065658,
+        "ret_20d": -0.051267,
+        "volume_ratio": 0.844
+      },
+      "news_window": {
+        "start": "2026-06-07",
+        "end": "2026-06-10"
+      },
+      "outcome": {
+        "forward_ret": 0.005891,
+        "next_point": "2026-06-11-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-11-open+1h",
+      "date": "2026-06-11",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 202.345,
+      "features": {
+        "ret_last_hour": -0.002096,
+        "ret_since_open": 0.004717,
+        "gap_open": 0.004865,
+        "prev_day_ret": -0.037322,
+        "ret_5d": -0.066729,
+        "ret_20d": -0.092219,
+        "volume_ratio": 1.164
+      },
+      "news_window": {
+        "start": "2026-06-08",
+        "end": "2026-06-10"
+      },
+      "outcome": {
+        "forward_ret": 0.00252,
+        "next_point": "2026-06-11-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-11-close-1h",
+      "date": "2026-06-11",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 202.855,
+      "features": {
+        "ret_last_hour": 0.000469,
+        "ret_since_open": 0.007249,
+        "gap_open": 0.004865,
+        "prev_day_ret": -0.037322,
+        "ret_5d": -0.066729,
+        "ret_20d": -0.092219,
+        "volume_ratio": 0.672
+      },
+      "news_window": {
+        "start": "2026-06-08",
+        "end": "2026-06-11"
+      },
+      "outcome": {
+        "forward_ret": 0.013975,
+        "next_point": "2026-06-12-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-12-open+1h",
+      "date": "2026-06-12",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 205.69,
+      "features": {
+        "ret_last_hour": 0.008433,
+        "ret_since_open": 0.004689,
+        "gap_open": -0.000683,
+        "prev_day_ret": 0.022203,
+        "ret_5d": -0.063066,
+        "ret_20d": -0.092813,
+        "volume_ratio": 1.131
+      },
+      "news_window": {
+        "start": "2026-06-09",
+        "end": "2026-06-11"
+      },
+      "outcome": {
+        "forward_ret": -0.004912,
+        "next_point": "2026-06-12-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-12-close-1h",
+      "date": "2026-06-12",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 204.6797,
+      "features": {
+        "ret_last_hour": -0.001173,
+        "ret_since_open": -0.000246,
+        "gap_open": -0.000683,
+        "prev_day_ret": 0.022203,
+        "ret_5d": -0.063066,
+        "ret_20d": -0.092813,
+        "volume_ratio": 0.514
+      },
+      "news_window": {
+        "start": "2026-06-09",
+        "end": "2026-06-12"
+      },
+      "outcome": {
+        "forward_ret": 0.023037,
+        "next_point": "2026-06-15-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-15-open+1h",
+      "date": "2026-06-15",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 209.395,
+      "features": {
+        "ret_last_hour": 0.003025,
+        "ret_since_open": 0.002586,
+        "gap_open": 0.017861,
+        "prev_day_ret": 0.001562,
+        "ret_5d": 0.000439,
+        "ret_20d": -0.129592,
+        "volume_ratio": 1.124
+      },
+      "news_window": {
+        "start": "2026-06-12",
+        "end": "2026-06-12"
+      },
+      "outcome": {
+        "forward_ret": 0.013826,
+        "next_point": "2026-06-15-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-15-close-1h",
+      "date": "2026-06-15",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 212.29,
+      "features": {
+        "ret_last_hour": 0.001651,
+        "ret_since_open": 0.016447,
+        "gap_open": 0.017861,
+        "prev_day_ret": 0.001562,
+        "ret_5d": 0.000439,
+        "ret_20d": -0.129592,
+        "volume_ratio": 0.521
+      },
+      "news_window": {
+        "start": "2026-06-12",
+        "end": "2026-06-15"
+      },
+      "outcome": {
+        "forward_ret": -0.015168,
+        "next_point": "2026-06-16-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-16-open+1h",
+      "date": "2026-06-16",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 209.07,
+      "features": {
+        "ret_last_hour": 0.001749,
+        "ret_since_open": -0.009687,
+        "gap_open": -0.006284,
+        "prev_day_ret": 0.035382,
+        "ret_5d": 0.018261,
+        "ret_20d": -0.057119,
+        "volume_ratio": 1.2
+      },
+      "news_window": {
+        "start": "2026-06-13",
+        "end": "2026-06-15"
+      },
+      "outcome": {
+        "forward_ret": -0.000383,
+        "next_point": "2026-06-16-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-16-close-1h",
+      "date": "2026-06-16",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 208.99,
+      "features": {
+        "ret_last_hour": -0.002197,
+        "ret_since_open": -0.010066,
+        "gap_open": -0.006284,
+        "prev_day_ret": 0.035382,
+        "ret_5d": 0.018261,
+        "ret_20d": -0.057119,
+        "volume_ratio": 0.424
+      },
+      "news_window": {
+        "start": "2026-06-13",
+        "end": "2026-06-16"
+      },
+      "outcome": {
+        "forward_ret": -0.005242,
+        "next_point": "2026-06-17-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-17-open+1h",
+      "date": "2026-06-17",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 207.8944,
+      "features": {
+        "ret_last_hour": 0.0034,
+        "ret_since_open": -0.003048,
+        "gap_open": 0.0054,
+        "prev_day_ret": -0.023723,
+        "ret_5d": -0.003747,
+        "ret_20d": -0.067066,
+        "volume_ratio": 0.866
+      },
+      "news_window": {
+        "start": "2026-06-14",
+        "end": "2026-06-16"
+      },
+      "outcome": {
+        "forward_ret": -0.009329,
+        "next_point": "2026-06-17-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-17-close-1h",
+      "date": "2026-06-17",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 205.955,
+      "features": {
+        "ret_last_hour": -4.9e-05,
+        "ret_since_open": -0.012348,
+        "gap_open": 0.0054,
+        "prev_day_ret": -0.023723,
+        "ret_5d": -0.003747,
+        "ret_20d": -0.067066,
+        "volume_ratio": 0.873
+      },
+      "news_window": {
+        "start": "2026-06-14",
+        "end": "2026-06-17"
+      },
+      "outcome": {
+        "forward_ret": 0.015416,
+        "next_point": "2026-06-18-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-18-open+1h",
+      "date": "2026-06-18",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 209.1301,
+      "features": {
+        "ret_last_hour": 0.006352,
+        "ret_since_open": 0.00895,
+        "gap_open": 0.012827,
+        "prev_day_ret": -0.013307,
+        "ret_5d": 0.021106,
+        "ret_20d": -0.072345,
+        "volume_ratio": 1.211
+      },
+      "news_window": {
+        "start": "2026-06-15",
+        "end": "2026-06-17"
+      },
+      "outcome": {
+        "forward_ret": 0.002725,
+        "next_point": "2026-06-18-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-18-close-1h",
+      "date": "2026-06-18",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 209.7,
+      "features": {
+        "ret_last_hour": -0.002355,
+        "ret_since_open": 0.011699,
+        "gap_open": 0.012827,
+        "prev_day_ret": -0.013307,
+        "ret_5d": 0.021106,
+        "ret_20d": -0.072345,
+        "volume_ratio": 0.57
+      },
+      "news_window": {
+        "start": "2026-06-15",
+        "end": "2026-06-18"
+      },
+      "outcome": {
+        "forward_ret": 0.006724,
+        "next_point": "2026-06-22-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-22-open+1h",
+      "date": "2026-06-22",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 211.11,
+      "features": {
+        "ret_last_hour": -0.009176,
+        "ret_since_open": -0.001584,
+        "gap_open": 0.003583,
+        "prev_day_ret": 0.029514,
+        "ret_5d": 0.028408,
+        "ret_20d": -0.057189,
+        "volume_ratio": 1.114
+      },
+      "news_window": {
+        "start": "2026-06-19",
+        "end": "2026-06-18"
+      },
+      "outcome": {
+        "forward_ret": -0.011795,
+        "next_point": "2026-06-22-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-22-close-1h",
+      "date": "2026-06-22",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 208.62,
+      "features": {
+        "ret_last_hour": -0.000623,
+        "ret_since_open": -0.013361,
+        "gap_open": 0.003583,
+        "prev_day_ret": 0.029514,
+        "ret_5d": 0.028408,
+        "ret_20d": -0.057189,
+        "volume_ratio": 0.448
+      },
+      "news_window": {
+        "start": "2026-06-19",
+        "end": "2026-06-22"
+      },
+      "outcome": {
+        "forward_ret": -0.026651,
+        "next_point": "2026-06-23-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-23-open+1h",
+      "date": "2026-06-23",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 203.06,
+      "features": {
+        "ret_last_hour": -0.001721,
+        "ret_since_open": 0.004452,
+        "gap_open": -0.031105,
+        "prev_day_ret": -0.009683,
+        "ret_5d": 0.016862,
+        "ret_20d": -0.049474,
+        "volume_ratio": 1.031
+      },
+      "news_window": {
+        "start": "2026-06-20",
+        "end": "2026-06-22"
+      },
+      "outcome": {
+        "forward_ret": -0.011967,
+        "next_point": "2026-06-23-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-23-close-1h",
+      "date": "2026-06-23",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 200.63,
+      "features": {
+        "ret_last_hour": -0.005083,
+        "ret_since_open": -0.007568,
+        "gap_open": -0.031105,
+        "prev_day_ret": -0.009683,
+        "ret_5d": 0.016862,
+        "ret_20d": -0.049474,
+        "volume_ratio": 0.666
+      },
+      "news_window": {
+        "start": "2026-06-20",
+        "end": "2026-06-23"
+      },
+      "outcome": {
+        "forward_ret": -0.003788,
+        "next_point": "2026-06-24-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-24-open+1h",
+      "date": "2026-06-24",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 199.87,
+      "features": {
+        "ret_last_hour": -0.00188,
+        "ret_since_open": -0.001,
+        "gap_open": 0.00015,
+        "prev_day_ret": -0.041265,
+        "ret_5d": -0.058414,
+        "ret_20d": -0.071007,
+        "volume_ratio": 1.253
+      },
+      "news_window": {
+        "start": "2026-06-21",
+        "end": "2026-06-23"
+      },
+      "outcome": {
+        "forward_ret": -0.013309,
+        "next_point": "2026-06-24-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-24-close-1h",
+      "date": "2026-06-24",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 197.21,
+      "features": {
+        "ret_last_hour": -0.006849,
+        "ret_since_open": -0.014295,
+        "gap_open": 0.00015,
+        "prev_day_ret": -0.041265,
+        "ret_5d": -0.058414,
+        "ret_20d": -0.071007,
+        "volume_ratio": 0.709
+      },
+      "news_window": {
+        "start": "2026-06-21",
+        "end": "2026-06-24"
+      },
+      "outcome": {
+        "forward_ret": -0.013792,
+        "next_point": "2026-06-25-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-25-open+1h",
+      "date": "2026-06-25",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 194.49,
+      "features": {
+        "ret_last_hour": 0.010942,
+        "ret_since_open": -0.027939,
+        "gap_open": 0.005427,
+        "prev_day_ret": -0.005199,
+        "ret_5d": -0.040548,
+        "ret_20d": -0.073816,
+        "volume_ratio": 1.74
+      },
+      "news_window": {
+        "start": "2026-06-22",
+        "end": "2026-06-24"
+      },
+      "outcome": {
+        "forward_ret": -0.000463,
+        "next_point": "2026-06-25-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-25-close-1h",
+      "date": "2026-06-25",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 194.4,
+      "features": {
+        "ret_last_hour": -0.006947,
+        "ret_since_open": -0.028389,
+        "gap_open": 0.005427,
+        "prev_day_ret": -0.005199,
+        "ret_5d": -0.040548,
+        "ret_20d": -0.073816,
+        "volume_ratio": 0.577
+      },
+      "news_window": {
+        "start": "2026-06-22",
+        "end": "2026-06-25"
+      },
+      "outcome": {
+        "forward_ret": -0.003498,
+        "next_point": "2026-06-26-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-26-open+1h",
+      "date": "2026-06-26",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 193.72,
+      "features": {
+        "ret_last_hour": 0.000827,
+        "ret_since_open": 0.003185,
+        "gap_open": -0.013462,
+        "prev_day_ret": -0.016382,
+        "ret_5d": -0.043538,
+        "ret_20d": -0.079304,
+        "volume_ratio": 0.972
+      },
+      "news_window": {
+        "start": "2026-06-23",
+        "end": "2026-06-25"
+      },
+      "outcome": {
+        "forward_ret": -0.000155,
+        "next_point": "2026-06-26-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-26-close-1h",
+      "date": "2026-06-26",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 193.69,
+      "features": {
+        "ret_last_hour": -0.001701,
+        "ret_since_open": 0.003029,
+        "gap_open": -0.013462,
+        "prev_day_ret": -0.016382,
+        "ret_5d": -0.043538,
+        "ret_20d": -0.079304,
+        "volume_ratio": 0.52
+      },
+      "news_window": {
+        "start": "2026-06-23",
+        "end": "2026-06-26"
+      },
+      "outcome": {
+        "forward_ret": -0.005111,
+        "next_point": "2026-06-29-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-29-open+1h",
+      "date": "2026-06-29",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 192.7,
+      "features": {
+        "ret_last_hour": -0.00313,
+        "ret_since_open": -0.005599,
+        "gap_open": 0.006518,
+        "prev_day_ret": -0.016399,
+        "ret_5d": -0.086193,
+        "ret_20d": -0.101377,
+        "volume_ratio": 2.031
+      },
+      "news_window": {
+        "start": "2026-06-26",
+        "end": "2026-06-26"
+      },
+      "outcome": {
+        "forward_ret": 0.006642,
+        "next_point": "2026-06-29-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-29-close-1h",
+      "date": "2026-06-29",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 193.98,
+      "features": {
+        "ret_last_hour": 0.000929,
+        "ret_since_open": 0.001006,
+        "gap_open": 0.006518,
+        "prev_day_ret": -0.016399,
+        "ret_5d": -0.086193,
+        "ret_20d": -0.101377,
+        "volume_ratio": 0.409
+      },
+      "news_window": {
+        "start": "2026-06-26",
+        "end": "2026-06-29"
+      },
+      "outcome": {
+        "forward_ret": 0.019177,
+        "next_point": "2026-06-30-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-30-open+1h",
+      "date": "2026-06-30",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 197.7,
+      "features": {
+        "ret_last_hour": -0.000716,
+        "ret_since_open": 0.002561,
+        "gap_open": 0.011412,
+        "prev_day_ret": 0.012673,
+        "ret_5d": -0.065564,
+        "ret_20d": -0.076584,
+        "volume_ratio": 1.158
+      },
+      "news_window": {
+        "start": "2026-06-27",
+        "end": "2026-06-29"
+      },
+      "outcome": {
+        "forward_ret": 0.005817,
+        "next_point": "2026-06-30-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-30-close-1h",
+      "date": "2026-06-30",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 198.85,
+      "features": {
+        "ret_last_hour": -0.000402,
+        "ret_since_open": 0.008393,
+        "gap_open": 0.011412,
+        "prev_day_ret": 0.012673,
+        "ret_5d": -0.065564,
+        "ret_20d": -0.076584,
+        "volume_ratio": 0.632
+      },
+      "news_window": {
+        "start": "2026-06-27",
+        "end": "2026-06-30"
+      },
+      "outcome": {
+        "forward_ret": -0.013327,
+        "next_point": "2026-07-01-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-01-open+1h",
+      "date": "2026-07-01",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 196.2,
+      "features": {
+        "ret_last_hour": 0.003812,
+        "ret_since_open": 0.000153,
+        "gap_open": -0.019591,
+        "prev_day_ret": 0.02626,
+        "ret_5d": 0.00025,
+        "ret_20d": -0.108174,
+        "volume_ratio": 1.125
+      },
+      "news_window": {
+        "start": "2026-06-28",
+        "end": "2026-06-30"
+      },
+      "outcome": {
+        "forward_ret": 0.01106,
+        "next_point": "2026-07-01-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-01-close-1h",
+      "date": "2026-07-01",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 198.37,
+      "features": {
+        "ret_last_hour": 0.001388,
+        "ret_since_open": 0.011215,
+        "gap_open": -0.019591,
+        "prev_day_ret": 0.02626,
+        "ret_5d": 0.00025,
+        "ret_20d": -0.108174,
+        "volume_ratio": 0.532
+      },
+      "news_window": {
+        "start": "2026-06-28",
+        "end": "2026-07-01"
+      },
+      "outcome": {
+        "forward_ret": -0.002621,
+        "next_point": "2026-07-02-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-02-open+1h",
+      "date": "2026-07-02",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 197.85,
+      "features": {
+        "ret_last_hour": -0.005054,
+        "ret_since_open": 0.003551,
+        "gap_open": -0.002176,
+        "prev_day_ret": -0.012544,
+        "ret_5d": -0.007136,
+        "ret_20d": -0.113275,
+        "volume_ratio": 1.082
+      },
+      "news_window": {
+        "start": "2026-06-29",
+        "end": "2026-07-01"
+      },
+      "outcome": {
+        "forward_ret": -0.02234,
+        "next_point": "2026-07-02-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-02-close-1h",
+      "date": "2026-07-02",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 193.43,
+      "features": {
+        "ret_last_hour": -0.001717,
+        "ret_since_open": -0.018869,
+        "gap_open": -0.002176,
+        "prev_day_ret": -0.012544,
+        "ret_5d": -0.007136,
+        "ret_20d": -0.113275,
+        "volume_ratio": 0.557
+      },
+      "news_window": {
+        "start": "2026-06-29",
+        "end": "2026-07-02"
+      },
+      "outcome": {
+        "forward_ret": 0.016254,
+        "next_point": "2026-07-06-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-06-open+1h",
+      "date": "2026-07-06",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 196.574,
+      "features": {
+        "ret_last_hour": 0.001498,
+        "ret_since_open": 0.011235,
+        "gap_open": -0.002258,
+        "prev_day_ret": -0.013918,
+        "ret_5d": -0.004649,
+        "ret_20d": -0.092759,
+        "volume_ratio": 0.959
+      },
+      "news_window": {
+        "start": "2026-07-03",
+        "end": "2026-07-02"
+      },
+      "outcome": {
+        "forward_ret": 0.000259,
+        "next_point": "2026-07-06-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-06-close-1h",
+      "date": "2026-07-06",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 196.625,
+      "features": {
+        "ret_last_hour": 0.001809,
+        "ret_since_open": 0.011498,
+        "gap_open": -0.002258,
+        "prev_day_ret": -0.013918,
+        "ret_5d": -0.004649,
+        "ret_20d": -0.092759,
+        "volume_ratio": 0.366
+      },
+      "news_window": {
+        "start": "2026-07-03",
+        "end": "2026-07-06"
+      },
+      "outcome": {
+        "forward_ret": -0.024233,
+        "next_point": "2026-07-07-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-07-open+1h",
+      "date": "2026-07-07",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 191.8601,
+      "features": {
+        "ret_last_hour": -0.004048,
+        "ret_since_open": -0.002651,
+        "gap_open": -0.016262,
+        "prev_day_ret": 0.003696,
+        "ret_5d": 0.015686,
+        "ret_20d": -0.105689,
+        "volume_ratio": 1.07
+      },
+      "news_window": {
+        "start": "2026-07-04",
+        "end": "2026-07-06"
+      },
+      "outcome": {
+        "forward_ret": 0.023756,
+        "next_point": "2026-07-07-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-07-close-1h",
+      "date": "2026-07-07",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 196.418,
+      "features": {
+        "ret_last_hour": -0.004344,
+        "ret_since_open": 0.021043,
+        "gap_open": -0.016262,
+        "prev_day_ret": 0.003696,
+        "ret_5d": 0.015686,
+        "ret_20d": -0.105689,
+        "volume_ratio": 0.57
+      },
+      "news_window": {
+        "start": "2026-07-04",
+        "end": "2026-07-07"
+      },
+      "outcome": {
+        "forward_ret": 0.003014,
+        "next_point": "2026-07-08-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-08-open+1h",
+      "date": "2026-07-08",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 197.01,
+      "features": {
+        "ret_last_hour": -0.003062,
+        "ret_since_open": 0.009635,
+        "gap_open": -0.00914,
+        "prev_day_ret": 0.007057,
+        "ret_5d": 0.010053,
+        "ret_20d": -0.039834,
+        "volume_ratio": 0.778
+      },
+      "news_window": {
+        "start": "2026-07-05",
+        "end": "2026-07-07"
+      },
+      "outcome": {
+        "forward_ret": 0.036394,
+        "next_point": "2026-07-08-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-08-close-1h",
+      "date": "2026-07-08",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 204.18,
+      "features": {
+        "ret_last_hour": 0.009842,
+        "ret_since_open": 0.046379,
+        "gap_open": -0.00914,
+        "prev_day_ret": 0.007057,
+        "ret_5d": 0.010053,
+        "ret_20d": -0.039834,
+        "volume_ratio": 0.957
+      },
+      "news_window": {
+        "start": "2026-07-05",
+        "end": "2026-07-08"
+      },
+      "outcome": {
+        "forward_ret": -0.019321,
+        "next_point": "2026-07-09-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-09-open+1h",
+      "date": "2026-07-09",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 200.235,
+      "features": {
+        "ret_last_hour": -0.009228,
+        "ret_since_open": -0.020664,
+        "gap_open": 0.001666,
+        "prev_day_ret": 0.03651,
+        "ret_5d": 0.020141,
+        "ret_20d": -0.021664,
+        "volume_ratio": 1.752
+      },
+      "news_window": {
+        "start": "2026-07-06",
+        "end": "2026-07-08"
+      },
+      "outcome": {
+        "forward_ret": 0.016156,
+        "next_point": "2026-07-09-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-09-close-1h",
+      "date": "2026-07-09",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 203.47,
+      "features": {
+        "ret_last_hour": -0.000197,
+        "ret_since_open": -0.004842,
+        "gap_open": 0.001666,
+        "prev_day_ret": 0.03651,
+        "ret_5d": 0.020141,
+        "ret_20d": -0.021664,
+        "volume_ratio": 0.682
+      },
+      "news_window": {
+        "start": "2026-07-06",
+        "end": "2026-07-09"
+      },
+      "outcome": {
+        "forward_ret": 0.018823,
+        "next_point": "2026-07-10-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-10-open+1h",
+      "date": "2026-07-10",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 207.3,
+      "features": {
+        "ret_last_hour": -0.000152,
+        "ret_since_open": 0.026644,
+        "gap_open": -0.004241,
+        "prev_day_ret": -0.006565,
+        "ret_5d": 0.026318,
+        "ret_20d": -0.025986,
+        "volume_ratio": 1.689
+      },
+      "news_window": {
+        "start": "2026-07-07",
+        "end": "2026-07-09"
+      },
+      "outcome": {
+        "forward_ret": 0.013652,
+        "next_point": "2026-07-10-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-10-close-1h",
+      "date": "2026-07-10",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 210.13,
+      "features": {
+        "ret_last_hour": -0.000856,
+        "ret_since_open": 0.04066,
+        "gap_open": -0.004241,
+        "prev_day_ret": -0.006565,
+        "ret_5d": 0.026318,
+        "ret_20d": -0.025986,
+        "volume_ratio": 0.515
+      },
+      "news_window": {
+        "start": "2026-07-07",
+        "end": "2026-07-10"
+      },
+      "outcome": {
+        "forward_ret": -0.007138,
+        "next_point": "2026-07-13-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-13-open+1h",
+      "date": "2026-07-13",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 208.63,
+      "features": {
+        "ret_last_hour": -0.000407,
+        "ret_since_open": 0.000432,
+        "gap_open": -0.011471,
+        "prev_day_ret": 0.040339,
+        "ret_5d": 0.08279,
+        "ret_20d": 0.05259,
+        "volume_ratio": 0.897
+      },
+      "news_window": {
+        "start": "2026-07-10",
+        "end": "2026-07-10"
+      },
+      "outcome": {
+        "forward_ret": -0.023285,
+        "next_point": "2026-07-13-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-13-close-1h",
+      "date": "2026-07-13",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 203.7721,
+      "features": {
+        "ret_last_hour": 0.000698,
+        "ret_since_open": -0.022863,
+        "gap_open": -0.011471,
+        "prev_day_ret": 0.040339,
+        "ret_5d": 0.08279,
+        "ret_20d": 0.05259,
+        "volume_ratio": 0.515
+      },
+      "news_window": {
+        "start": "2026-07-10",
+        "end": "2026-07-13"
+      },
+      "outcome": {
+        "forward_ret": 0.008638,
+        "next_point": "2026-07-14-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-14-open+1h",
+      "date": "2026-07-14",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 205.5322,
+      "features": {
+        "ret_last_hour": 0.002596,
+        "ret_since_open": -0.012814,
+        "gap_open": 0.022945,
+        "prev_day_ret": -0.03522,
+        "ret_5d": 0.040808,
+        "ret_20d": -0.006541,
+        "volume_ratio": 0.885
+      },
+      "news_window": {
+        "start": "2026-07-11",
+        "end": "2026-07-13"
+      },
+      "outcome": {
+        "forward_ret": 0.033025,
+        "next_point": "2026-07-14-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-14-close-1h",
+      "date": "2026-07-14",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 212.32,
+      "features": {
+        "ret_last_hour": 0.002551,
+        "ret_since_open": 0.019789,
+        "gap_open": 0.022945,
+        "prev_day_ret": -0.03522,
+        "ret_5d": 0.040808,
+        "ret_20d": -0.006541,
+        "volume_ratio": 0.648
+      },
+      "news_window": {
+        "start": "2026-07-11",
+        "end": "2026-07-14"
+      },
+      "outcome": {
+        "forward_ret": -0.007724,
+        "next_point": "2026-07-15-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-15-open+1h",
+      "date": "2026-07-15",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 210.68,
+      "features": {
+        "ret_last_hour": -0.00618,
+        "ret_since_open": -0.006273,
+        "gap_open": 0.000991,
+        "prev_day_ret": 0.040633,
+        "ret_5d": 0.075509,
+        "ret_20d": 0.032214,
+        "volume_ratio": 0.969
+      },
+      "news_window": {
+        "start": "2026-07-12",
+        "end": "2026-07-14"
+      },
+      "outcome": {
+        "forward_ret": -0.001946,
+        "next_point": "2026-07-15-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-15-close-1h",
+      "date": "2026-07-15",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 210.27,
+      "features": {
+        "ret_last_hour": -0.00095,
+        "ret_since_open": -0.008207,
+        "gap_open": 0.000991,
+        "prev_day_ret": 0.040633,
+        "ret_5d": 0.075509,
+        "ret_20d": 0.032214,
+        "volume_ratio": 0.492
+      },
+      "news_window": {
+        "start": "2026-07-12",
+        "end": "2026-07-15"
+      },
+      "outcome": {
+        "forward_ret": -0.006183,
+        "next_point": "2026-07-16-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-16-open+1h",
+      "date": "2026-07-16",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 208.9699,
+      "features": {
+        "ret_last_hour": 0.007084,
+        "ret_since_open": -0.006159,
+        "gap_open": -0.010518,
+        "prev_day_ret": 0.003305,
+        "ret_5d": 0.041054,
+        "ret_20d": 0.000235,
+        "volume_ratio": 0.929
+      },
+      "news_window": {
+        "start": "2026-07-13",
+        "end": "2026-07-15"
+      },
+      "outcome": {
+        "forward_ret": -0.009331,
+        "next_point": "2026-07-16-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-16-close-1h",
+      "date": "2026-07-16",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 207.02,
+      "features": {
+        "ret_last_hour": 0.000628,
+        "ret_since_open": -0.015433,
+        "gap_open": -0.010518,
+        "prev_day_ret": 0.003305,
+        "ret_5d": 0.041054,
+        "ret_20d": 0.000235,
+        "volume_ratio": 0.436
+      },
+      "news_window": {
+        "start": "2026-07-13",
+        "end": "2026-07-16"
+      },
+      "outcome": {
+        "forward_ret": -0.015554,
+        "next_point": "2026-07-17-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-17-open+1h",
+      "date": "2026-07-17",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 203.8,
+      "features": {
+        "ret_last_hour": 0.010587,
+        "ret_since_open": 0.006917,
+        "gap_open": -0.024108,
+        "prev_day_ret": -0.024,
+        "ret_5d": 0.022783,
+        "ret_20d": -4.8e-05,
+        "volume_ratio": 1.664
+      },
+      "news_window": {
+        "start": "2026-07-14",
+        "end": "2026-07-16"
+      },
+      "outcome": {
+        "forward_ret": -0.002429,
+        "next_point": "2026-07-17-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-17-close-1h",
+      "date": "2026-07-17",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 203.305,
+      "features": {
+        "ret_last_hour": -0.000446,
+        "ret_since_open": 0.004471,
+        "gap_open": -0.024108,
+        "prev_day_ret": -0.024,
+        "ret_5d": 0.022783,
+        "ret_20d": -4.8e-05,
+        "volume_ratio": 0.563
+      },
+      "news_window": {
+        "start": "2026-07-14",
+        "end": "2026-07-17"
+      },
+      "outcome": {
+        "forward_ret": 0.012936,
+        "next_point": "2026-07-20-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-20-open+1h",
+      "date": "2026-07-20",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 205.935,
+      "features": {
+        "ret_last_hour": 0.000389,
+        "ret_since_open": -0.0005,
+        "gap_open": 0.015916,
+        "prev_day_ret": -0.022131,
+        "ret_5d": -0.038633,
+        "ret_20d": -0.008991,
+        "volume_ratio": 0.717
+      },
+      "news_window": {
+        "start": "2026-07-17",
+        "end": "2026-07-17"
+      },
+      "outcome": {
+        "forward_ret": -0.012553,
+        "next_point": "2026-07-20-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-20-close-1h",
+      "date": "2026-07-20",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 203.35,
+      "features": {
+        "ret_last_hour": -0.004699,
+        "ret_since_open": -0.013046,
+        "gap_open": 0.015916,
+        "prev_day_ret": -0.022131,
+        "ret_5d": -0.038633,
+        "ret_20d": -0.008991,
+        "volume_ratio": 0.4
+      },
+      "news_window": {
+        "start": "2026-07-17",
+        "end": "2026-07-20"
+      },
+      "outcome": {
+        "forward_ret": 0.010032,
+        "next_point": "2026-07-21-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-21-open+1h",
+      "date": "2026-07-21",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 205.39,
+      "features": {
+        "ret_last_hour": -0.000243,
+        "ret_since_open": -0.010359,
+        "gap_open": 0.020956,
+        "prev_day_ret": 0.002317,
+        "ret_5d": -0.001228,
+        "ret_20d": -0.03517,
+        "volume_ratio": 0.874
+      },
+      "news_window": {
+        "start": "2026-07-18",
+        "end": "2026-07-20"
+      },
+      "outcome": {
+        "forward_ret": 0.008666,
+        "next_point": "2026-07-21-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-21-close-1h",
+      "date": "2026-07-21",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 207.17,
+      "features": {
+        "ret_last_hour": 0.004461,
+        "ret_since_open": -0.001783,
+        "gap_open": 0.020956,
+        "prev_day_ret": 0.002317,
+        "ret_5d": -0.001228,
+        "ret_20d": -0.03517,
+        "volume_ratio": 0.495
+      },
+      "news_window": {
+        "start": "2026-07-18",
+        "end": "2026-07-21"
+      },
+      "outcome": {
+        "forward_ret": -0.001788,
+        "next_point": "2026-07-22-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-22-open+1h",
+      "date": "2026-07-22",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 206.7995,
+      "features": {
+        "ret_last_hour": -0.004575,
+        "ret_since_open": 0.004832,
+        "gap_open": -0.007164,
+        "prev_day_ret": 0.019726,
+        "ret_5d": -0.021294,
+        "ret_20d": -0.006518,
+        "volume_ratio": 0.757
+      },
+      "news_window": {
+        "start": "2026-07-19",
+        "end": "2026-07-21"
+      },
+      "outcome": {
+        "forward_ret": 0.033707,
+        "next_point": "2026-07-22-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-22-close-1h",
+      "date": "2026-07-22",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 213.77,
+      "features": {
+        "ret_last_hour": 0.00014,
+        "ret_since_open": 0.038702,
+        "gap_open": -0.007164,
+        "prev_day_ret": 0.019726,
+        "ret_5d": -0.021294,
+        "ret_20d": -0.006518,
+        "volume_ratio": 0.513
+      },
+      "news_window": {
+        "start": "2026-07-19",
+        "end": "2026-07-22"
+      },
+      "outcome": {
+        "forward_ret": -0.024297,
+        "next_point": "2026-07-23-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-23-open+1h",
+      "date": "2026-07-23",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 208.576,
+      "features": {
+        "ret_last_hour": -0.001694,
+        "ret_since_open": -0.003911,
+        "gap_open": -0.012567,
+        "prev_day_ret": 0.023011,
+        "ret_5d": -0.002071,
+        "ret_20d": 0.060088,
+        "volume_ratio": 0.881
+      },
+      "news_window": {
+        "start": "2026-07-20",
+        "end": "2026-07-22"
+      },
+      "outcome": {
+        "forward_ret": -0.00432,
+        "next_point": "2026-07-23-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-23-close-1h",
+      "date": "2026-07-23",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 207.675,
+      "features": {
+        "ret_last_hour": -0.004291,
+        "ret_since_open": -0.008214,
+        "gap_open": -0.012567,
+        "prev_day_ret": 0.023011,
+        "ret_5d": -0.002071,
+        "ret_20d": 0.060088,
+        "volume_ratio": 0.493
+      },
+      "news_window": {
+        "start": "2026-07-20",
+        "end": "2026-07-23"
+      },
+      "outcome": {
+        "forward_ret": 0.002095,
+        "next_point": "2026-07-24-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-24-open+1h",
+      "date": "2026-07-24",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 208.11,
+      "features": {
+        "ret_last_hour": 0.008852,
+        "ret_since_open": 0.00265,
+        "gap_open": -0.005748,
+        "prev_day_ret": -0.015562,
+        "ret_5d": 0.006557,
+        "ret_20d": 0.049045,
+        "volume_ratio": 0.892
+      },
+      "news_window": {
+        "start": "2026-07-21",
+        "end": "2026-07-23"
+      },
+      "outcome": {
+        "forward_ret": -0.008793,
+        "next_point": "2026-07-24-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-24-close-1h",
+      "date": "2026-07-24",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 206.28,
+      "features": {
+        "ret_last_hour": -0.007434,
+        "ret_since_open": -0.006167,
+        "gap_open": -0.005748,
+        "prev_day_ret": -0.015562,
+        "ret_5d": 0.006557,
+        "ret_20d": 0.049045,
+        "volume_ratio": 0.973
+      },
+      "news_window": {
+        "start": "2026-07-21",
+        "end": "2026-07-24"
+      },
+      "outcome": null
+    }
+  ],
+  "headlines": {
+    "2026-05-24": [
+      "The 'Next Nvidia' Trade? Why Investors Are Suddenly Watching Advanced Micro Devices, Arm Holdings, and Marvell Technology - Yahoo Finance",
+      "Nvidia Just Raised Its Dividend by 2,400%. NVDA Stock Is Still a Bet on Growth, Not Income. - Barchart.com",
+      "NVIDIA CORP (NASDAQ:NVDA) Stands Out as a Strong Growth Stock with a Good Technical Setup - ChartMill",
+      "Top investor says Nvidia stock could surge another 40%: here’s why - TradingView",
+      "NVIDIA (NVDA): The Best High Growth Stock to Buy and Hold for the Next Decade - Yahoo Finance",
+      "Nvidia Had Another ‘Usual’ Quarter: How to Play NVDA Stock After Q1 Earnings - Yahoo Finance",
+      "Nvidia Is Buying Equity In Other AI Stocks, And It Can Be A Long-Term Catalyst - Yahoo Finance",
+      "80 Billion Reasons to Buy Nvidia After Its Monster Earnings Report - Yahoo Finance"
+    ],
+    "2026-05-25": [
+      "Prediction: This Will Be Nvidia's Stock Price at the End of 2026 - Yahoo Finance",
+      "Dear Nvidia Stock Fans, Mark Your Calendars for June 2 - Barchart.com",
+      "Nvidia stock faces a key level that could make or break where it goes next - CNBC",
+      "The 5 Most Interesting Analyst Questions From Nvidia’s Q1 Earnings Call - StockStory",
+      "NVIDIA CORP (NASDAQ:NVDA) Stands Out as a Strong Growth Stock with a Good Technical Setup - ChartMill",
+      "Top investor says Nvidia stock could surge another 40%: here’s why - TradingView",
+      "The 'Next Nvidia' Trade? Why Investors Are Suddenly Watching Advanced Micro Devices, Arm Holdings, and Marvell Technology - Yahoo Finance",
+      "Nvidia Just Raised Its Dividend by 2,400%. NVDA Stock Is Still a Bet on Growth, Not Income. - Barchart.com"
+    ],
+    "2026-05-26": [
+      "Nvidia Stock Has Struggled Over the Last Week. Here's What I Think Is Going On. - Yahoo Finance",
+      "Bank of America Says Nvidia Is Still the Top AI Compute Stock to Buy Despite YTD Underperformance. Here’s Why. - Barchart.com",
+      "Why is NVIDIA stock sliding today? - Investing.com",
+      "Nvidia Stock Has Struggled Over the Last Week. Here's What I Think Is Going On. - The Motley Fool",
+      "Nvidia stock faces a key level that could make or break where it goes next - CNBC",
+      "Price Prediction: Nvidia Stock Will Hit $300 On This Date - 24/7 Wall St.",
+      "Nvidia Stock Eyes Major Gains After Rothschild Raises Price Target Following Impressive Earnings - TIKR.com",
+      "Nvidia: The Party Is Coming To An End (NASDAQ:NVDA) - Seeking Alpha"
+    ],
+    "2026-05-27": [
+      "5-star analyst sets jaw-dropping Nvidia stock price target - Yahoo Finance",
+      "NVIDIA Blackwell Sets STAC-AI Record for LLM Inference in Finance | NVIDIA Technical Blog - NVIDIA Developer",
+      "Bank of America Says Nvidia Is Still the Top AI Compute Stock to Buy Despite YTD Underperformance. Here’s Why. - Barchart.com",
+      "Why is NVIDIA stock sliding today? - Investing.com",
+      "Nvidia Stock Has Struggled Over the Last Week. Here's What I Think Is Going On. - The Motley Fool",
+      "Price Prediction: Nvidia Stock Will Hit $300 On This Date - 24/7 Wall St.",
+      "Taiwan chip stocks climb after Nvidia announces $150 billion spending plans - CNBC",
+      "Nvidia Stock Eyes Major Gains After Rothschild Raises Price Target Following Impressive Earnings - TIKR.com"
+    ],
+    "2026-05-28": [
+      "5-star analyst sets jaw-dropping Nvidia stock price target - Yahoo Finance",
+      "3 Reasons to Buy Nvidia Stock in June - The Motley Fool",
+      "Nvidia Finds Support At Key Level After Milestones In May; Is Nvidia A Buy Now? - Investor's Business Daily",
+      "Nvidia Stock Is Now a Chip Laggard - Barron's",
+      "Is NVIDIA (NVDA) the Most Profitable Stock to Invest In? - Yahoo Finance",
+      "Is Nvidia a Top Dividend Stock? - The Motley Fool",
+      "Is NVIDIA Stock Outperforming the S&amp;P 500? - Yahoo Finance",
+      "Aggressive Share Buybacks and Dominant Positioning Still Make Nvidia Stock a Top Buy Now - Yahoo Finance"
+    ],
+    "2026-05-29": [
+      "Prediction: Nvidia Stock Is Going to $400 Within 1 Year - Yahoo Finance",
+      "Nvidia Finds Support At Key Level After Milestones In May; Is Nvidia A Buy Now? - Investor's Business Daily",
+      "What Could Push NVDA Stock Higher From Here? - Trefis",
+      "Nvidia's Stock Price Hits All-Time High: What Comes Next? - ig.com",
+      "Forget Nvidia! This Under-the-Radar Supercharged Growth Stock is a Much Smarter Buy for 2026 - 24/7 Wall St.",
+      "5-star analyst sets jaw-dropping Nvidia stock price target - thestreet.com",
+      "Is NVIDIA (NVDA) the Most Profitable Stock to Invest In? - Yahoo Finance",
+      "Is Nvidia a Top Dividend Stock? - The Motley Fool"
+    ],
+    "2026-05-30": [
+      "Prediction: Nvidia Stock Is Going to $400 Within 1 Year - Yahoo Finance",
+      "Nvidia Stock Has Been Muted After Excellent Earnings. Investors Are Ready for the Next Big Thing. - Barchart.com",
+      "What Could Push NVDA Stock Higher From Here? - Trefis",
+      "5-star analyst sets jaw-dropping Nvidia stock price target - thestreet.com",
+      "NVDA: Nvidia Stock Gains After Huang Updates — First Real PC Revolution in 40 Years? - TradingView",
+      "Nvidia Stock At Key Support Ahead of Big Windows PC Launch - Benzinga",
+      "Missed Out on Nvidia? Here's 1 AI Stock You Can Buy Right Now. - Yahoo Finance",
+      "Could Nvidia Reach Another All-Time High? Analysts Are Watching One Key Number - The Motley Fool"
+    ],
+    "2026-05-31": [
+      "Why Is Nvidia (NVDA) Stock Soaring Today - Yahoo Finance",
+      "Nvidia Stock Split: 2 Years After, Could Nvidia Stock Reach $1,000 Again? - Yahoo Finance",
+      "Tigress Financial Lifts NVIDIA (NVDA) Price Target, Keeps Strong Buy Rating - Yahoo Finance",
+      "Jim Cramer Can’t Understand Why NVIDIA (NVDA) Won’t Go Up - Yahoo Finance",
+      "3 Reasons Why Now is the Perfect Time to Buy Nvidia Stock - Yahoo Finance",
+      "Missed Out on Nvidia? Here's 1 AI Stock You Can Buy Right Now. - Yahoo Finance",
+      "Nvidia Stock Has Been Muted After Excellent Earnings. Investors Are Ready for the Next Big Thing. - Yahoo Finance",
+      "NVIDIA (NVDA): The Best Debt-Free S&amp;P 500 Stock to Buy Now - Yahoo Finance"
+    ],
+    "2026-06-01": [
+      "Why Is Nvidia (NVDA) Stock Soaring Today - Yahoo Finance",
+      "Nvidia: Entry Into the PC Market Announced at Computex; Shares Undervalued - Morningstar",
+      "The Smart Way to Own NVDA: Collect 10% Before You Even Buy - Trefis",
+      "AMD vs. Nvidia Stock: One Metric Tells Me Which Is Clearly the Better Buy - Yahoo Finance",
+      "Nvidia: Entry Into the PC Market Announced at Computex; Shares Undervalued - Morningstar",
+      "Why a massive Nvidia stock rally may be just getting started - Yahoo Finance",
+      "Nvidia vs. Salesforce vs. Marvell Technology: Which Is the Best Stock to Buy? - Morningstar",
+      "Cathie Wood's ARK Loads Up NVDA Stock Amid PC Chip Boost — And Sold $57M In AMD - Yahoo Finance"
+    ],
+    "2026-06-02": [
+      "AMD vs. Nvidia Stock: One Metric Tells Me Which Is Clearly the Better Buy - Yahoo Finance",
+      "Nvidia: Entry Into the PC Market Announced at Computex; Shares Undervalued - Morningstar",
+      "The Smart Way to Own NVDA: Collect 10% Before You Even Buy - Trefis",
+      "Why a massive Nvidia stock rally may be just getting started - Yahoo Finance",
+      "Nvidia: Entry Into the PC Market Announced at Computex; Shares Undervalued - Morningstar",
+      "Structural Risks to Watch For NVDA Stock Over the Next 6 Months - Trefis",
+      "Nvidia (NVDA) Stock Has Made Early Investors a Fortune. Is There Still Room to Run? - Yahoo Finance",
+      "Nvidia vs. Salesforce vs. Marvell Technology: Which Is the Best Stock to Buy? - Morningstar"
+    ],
+    "2026-06-03": [
+      "Is Nvidia Stock Too Cheap to Ignore? - Yahoo Finance",
+      "Structural Risks to Watch For NVDA Stock Over the Next 6 Months - Trefis",
+      "Nvidia Stock Analysis: My Final Verdict - The Motley Fool",
+      "Nvidia Stock Falls. Why Its Partners Are Getting a Boost and It Isn’t. - Barron's",
+      "Nvidia (NVDA) Stock Has Made Early Investors a Fortune. Is There Still Room to Run? - Yahoo Finance",
+      "NVIDIA Stock and the Hundred-Fold Compute Whisper - Trefis",
+      "NVIDIA (NVDA): The Most Promising Stock to Buy Right Now - Yahoo Finance",
+      "Which Growth Stock Is a Better Buy: Nvidia or Broadcom? - Yahoo Finance"
+    ],
+    "2026-06-04": [
+      "Is Nvidia Stock Too Cheap to Ignore? - Yahoo Finance",
+      "Nvidia vs. Salesforce vs. Marvell Technology: Which Is the Best Stock to Buy? - Morningstar",
+      "Why Nvidia (NVDA) Shares Are Getting Obliterated Today - StockStory",
+      "NVIDIA Stock and the Hundred-Fold Compute Whisper - Trefis",
+      "AI Stocks Are Crashing, but Smart Money Is Buying Nvidia and TSM | Smart Money Option - Moomoo",
+      "Nvidia Stock Falls On Concerns Of Backdoor AI Chip Sales To China - Investor's Business Daily",
+      "Nvidia Shares Sink After Strong U.S. Jobs Data Sparks Tech Selloff - Yahoo Finance",
+      "NVIDIA Stock And The Hundred-Fold Compute Clue - Trefis"
+    ],
+    "2026-06-05": [
+      "Nvidia Shares Sink After Strong U.S. Jobs Data Sparks Tech Selloff - Yahoo Finance",
+      "Nvidia vs. Salesforce vs. Marvell Technology: Which Is the Best Stock to Buy? - Morningstar",
+      "NVIDIA Stock And The Hundred-Fold Compute Clue - Trefis",
+      "AI Stocks Are Crashing, but Smart Money Is Buying Nvidia and TSM | Smart Money Option - Moomoo",
+      "Nvidia Stock Falls On Concerns Of Backdoor AI Chip Sales To China - Investor's Business Daily",
+      "Why is NVIDIA stock sliding today? - Investing.com",
+      "Bank of America resets Nvidia stock forecast after CFO meeting - Yahoo Finance",
+      "Is Your NVIDIA Stock Built to Survive a Crash? - Trefis"
+    ],
+    "2026-06-06": [
+      "Senator Sells Up To $500K In Nvidia Stock: You Won't Believe How Much He Paid - Yahoo Finance",
+      "Is Your NVIDIA Stock Built to Survive a Crash? - Trefis",
+      "Think You Missed Out on Nvidia Stock? Here's Why It Could Have Room to Run. - The Motley Fool",
+      "Why Is NVDA Stock Jumping Over 2% In Overnight Trading Today? - Yahoo Finance",
+      "Where NVIDIA Stock Is Most Exposed - Trefis",
+      "If You'd Invested $10,000 in Nvidia Stock 10 Years Ago, Here's How Much You'd Have Today - Yahoo Finance",
+      "Why Nvidia (NVDA) Shares Are Getting Obliterated Today - Yahoo Finance",
+      "Better Buy: Sandisk or Nvidia Stock? - Yahoo Finance"
+    ],
+    "2026-06-07": [
+      "Jim Cramer Says NVIDIA Stock Has Been “Playing a Game of Shoots and Ladders” - Yahoo Finance",
+      "Stock Markets Crashing: Is Nvidia an Excellent Stock to Buy on the Dip? - The Motley Fool",
+      "Is NVIDIA Corporation (NVDA) A Good Stock To Buy Now? - Yahoo Finance",
+      "Think You Missed Out on Nvidia Stock? Here's Why It Could Have Room to Run. - The Motley Fool",
+      "Senator Sells Up To $500K In Nvidia Stock: You Won't Believe How Much He Paid - Yahoo Finance",
+      "Why Is NVDA Stock Jumping Over 2% In Overnight Trading Today? - Yahoo Finance",
+      "If You'd Invested $10,000 in Nvidia Stock 10 Years Ago, Here's How Much You'd Have Today - Yahoo Finance",
+      "Better Buy: Sandisk or Nvidia Stock? - Yahoo Finance"
+    ],
+    "2026-06-08": [
+      "Jim Cramer Says NVIDIA Stock Has Been “Playing a Game of Shoots and Ladders” - Yahoo Finance",
+      "Nvidia Stock Looks Undervalued. Why Buying Now Could Offer 46% Upside Potential. - Barchart.com",
+      "Dow Jones AI Giant Nvidia Stock Tumbles To Key Support Level Amid Market Sell-Off - Investor's Business Daily",
+      "Stock Markets Crashing: Is Nvidia an Excellent Stock to Buy on the Dip? - The Motley Fool",
+      "Jim Cramer says sovereign AI is Nvidia's powerful new growth driver - CNBC",
+      "Nvidia Stock Will Trade at This Price in 2027 - 24/7 Wall St.",
+      "Nvidia is under-appreciated: I’m buying the stock near $215 - The Twelfth Magpie",
+      "Nvidia Finally Lands Apple as an AI Customer. Why the Stock Is Dropping. - Barron's"
+    ],
+    "2026-06-09": [
+      "Is NVIDIA (NVDA) One of the Best NASDAQ Stocks to Buy and Hold for 3 Years? - Yahoo Finance",
+      "Nvidia Stock Looks Undervalued. Why Buying Now Could Offer 46% Upside Potential. - Barchart.com",
+      "Here are Wednesday's biggest analyst calls: Nvidia, Tesla, Cava, Netflix, Chipotle, Pfizer, Nike, SharkNinja &amp; more - CNBC",
+      "Dow Jones AI Giant Nvidia Stock Tumbles To Key Support Level Amid Market Sell-Off - Investor's Business Daily",
+      "Nvidia Stock Trades Cheaper Than the S&amp;P 500, and Looks Even More Like a Value Play - Barron's",
+      "Nvidia Earnings: $81.6B Quarter, 92% DC Surge [2026] - tech-insider.org",
+      "Nvidia (NVDA) Stock Valuation Falls Below S&amp;P 500 Average - GuruFocus",
+      "Nvidia (NVDA) Valuation Check After Major South Korea AI Memory And Data Center Agreements - Yahoo Finance"
+    ],
+    "2026-06-10": [
+      "NVIDIA Corp. (NVDA) Is A Top AI Stock In Ken Griffin’s Portfolio - Yahoo Finance",
+      "Nvidia Breaks Below $200, Approaches Bear Market Territory. How Much Further Can It Fall? - 24/7 Wall St.",
+      "NVIDIA’s Outlook Gains Momentum: Stock Price to Follow - MarketBeat",
+      "Nvidia (NVDA) Stock: Can Robotics Spark a New Rally? - Barron's",
+      "Is NVIDIA Stock’s New CPU Story Big Enough to Cover Its China Silence? - Trefis",
+      "35 Reasons I'm Still Short Nvidia (NASDAQ:NVDA) - Seeking Alpha",
+      "Nvidia Earnings: $81.6B Quarter, 92% DC Surge [2026] - tech-insider.org",
+      "Nvidia (NVDA) Stock Valuation Falls Below S&amp;P 500 Average - GuruFocus"
+    ],
+    "2026-06-11": [
+      "3 Reasons It Might Be Time Buy the Dip in NVIDIA Stock - Yahoo Finance",
+      "Nvidia Breaks Below $200, Approaches Bear Market Territory. How Much Further Can It Fall? - 24/7 Wall St.",
+      "NVIDIA’s Outlook Gains Momentum: Stock Price to Follow - MarketBeat",
+      "Nvidia (NVDA) Stock: Can Robotics Spark a New Rally? - Barron's",
+      "NVDA Stock Heads For Fourth Week In Red: Report Says Nvidia Has Begun Vera Chip Pitches To Chinese Customers - TradingView",
+      "Is NVIDIA Stock’s New CPU Story Big Enough to Cover Its China Silence? - Trefis",
+      "Analysts Keep Hiking Nvidia's Forecast Revenue and Price Targets - Is NVDA Too Cheap? - Barchart.com",
+      "35 Reasons I'm Still Short Nvidia (NASDAQ:NVDA) - Seeking Alpha"
+    ],
+    "2026-06-12": [
+      "Is Nvidia Stock a Buy? - Yahoo Finance",
+      "Is Nvidia Stock a Buy? - The Motley Fool",
+      "Nvidia Stock Just Did Something for the First Time in More Than 5 Years. Here's What History Says Happens Next. - The Globe and Mail",
+      "How Nvidia Can Benefit From SpaceX Stock’s Performance - Barron's",
+      "NVDA Stock Heads For Fourth Week In Red: Report Says Nvidia Has Begun Vera Chip Pitches To Chinese Customers - TradingView",
+      "Nvidia Returned 30% Last Year, but This Stock Could Return 1,000% - InvestorPlace",
+      "Analysts Keep Hiking Nvidia's Forecast Revenue and Price Targets - Is NVDA Too Cheap? - Barchart.com",
+      "3 Reasons It Might Be Time Buy the Dip in NVIDIA Stock - Yahoo Finance"
+    ],
+    "2026-06-13": [
+      "Is Nvidia Stock a Buy? - Yahoo Finance",
+      "Is Nvidia Stock a Buy? - The Motley Fool",
+      "NVIDIA Just Raised Its Dividend 25-Fold and Authorized $80 Billion in Buybacks. Here’s What It Signals for 2026 - TIKR.com",
+      "Nvidia Stock Just Did Something for the First Time in More Than 5 Years. Here's What History Says Happens Next. - The Globe and Mail",
+      "Nvidia Returned 30% Last Year, but This Stock Could Return 1,000% - InvestorPlace",
+      "SpaceX or Nvidia stock? Here’s where I’ve got my money - The Twelfth Magpie",
+      "Goldman says stocks like Nvidia have more room to run - CNBC",
+      "Better AI Growth Buy Right Now: Nvidia vs Micron - The Motley Fool"
+    ],
+    "2026-06-14": [
+      "Why Is NVDA Stock Rising 3% Premarket Today? - Yahoo Finance",
+      "Nvidia stock’s been getting cheaper. Time to buy? - The Twelfth Magpie",
+      "Should You Buy Nvidia Stock Before June 24? - The Motley Fool",
+      "Nvidia stock jumps after $20B bond offering report as AI chip stocks rally - TradingView",
+      "Here are Monday's biggest analyst calls: Nvidia, Micron, Ferrari, Rocket Lab, DataDog &amp; more - CNBC",
+      "NVIDIA Just Raised Its Dividend 25-Fold and Authorized $80 Billion in Buybacks. Here’s What It Signals for 2026 - TIKR.com",
+      "Should You Buy Nvidia Stock Before June 24? - Yahoo Finance",
+      "Better AI Growth Buy Right Now: Nvidia vs Micron - The Motley Fool"
+    ],
+    "2026-06-15": [
+      "Why Is NVDA Stock Rising 3% Premarket Today? - Yahoo Finance",
+      "Nvidia stock’s been getting cheaper. Time to buy? - The Twelfth Magpie",
+      "Can Nvidia Stock Reach $743 in the Next 12 Months? - The Motley Fool",
+      "Nvidia stock jumps after $20B bond offering report as AI chip stocks rally - TradingView",
+      "Here are Monday's biggest analyst calls: Nvidia, Micron, Ferrari, Rocket Lab, DataDog &amp; more - CNBC",
+      "Can Nvidia Stock Reach $743 in the Next 12 Months? - Yahoo Finance",
+      "Should You Buy Nvidia Stock Before June 24? - The Motley Fool",
+      "Should You Buy Nvidia Stock Before June 24? - Yahoo Finance"
+    ],
+    "2026-06-16": [
+      "Nvidia: The AI Champion’s Stock Is Too Cheap to Ignore - Morningstar",
+      "Can Nvidia Stock Reach $743 in the Next 12 Months? - Yahoo Finance",
+      "NVIDIA or Advanced Micro Devices: Which Stock Has More Upside? - Trefis",
+      "Can Nvidia Stock Reach $743 in the Next 12 Months? - The Motley Fool",
+      "An Nvidia Stock Strategy That Holds Large Profit Zone, Even With A Fall - Investor's Business Daily",
+      "Nvidia Is Down Over 10% From Its Record High. Is This the Ultimate \"Buy the Dip\" Moment of 2026? - Yahoo Finance",
+      "Prediction: This Could Be Nvidia's Stock Price By the End of 2027 - Yahoo Finance",
+      "Nvidia: The AI Champion’s Stock Is Too Cheap to Ignore - Morningstar"
+    ],
+    "2026-06-17": [
+      "Nvidia: The AI Champion’s Stock Is Too Cheap to Ignore - Morningstar",
+      "Nvidia Is Down Over 10% From Its Record High. Is This the Ultimate \"Buy the Dip\" Moment of 2026? - Yahoo Finance",
+      "NVIDIA or Advanced Micro Devices: Which Stock Has More Upside? - Trefis",
+      "An Nvidia Stock Strategy That Holds Large Profit Zone, Even With A Fall - Investor's Business Daily",
+      "Massive News for Nvidia Stock Investors! - The Motley Fool",
+      "Nvidia Stock vs. Micron Stock: Wall Street Says Buy One and Sell the Other - Yahoo Finance",
+      "Does NVIDIA Stock Have More Upside? - Trefis",
+      "Nvidia: The AI Champion’s Stock Is Too Cheap to Ignore - Morningstar"
+    ],
+    "2026-06-18": [
+      "Nvidia Stock vs. Micron Stock: Wall Street Says Buy One and Sell the Other - Yahoo Finance",
+      "Does NVIDIA Stock Have More Upside? - Trefis",
+      "Nvidia: 3 Reasons Why The Stock Will Continue To Trail The Market (NASDAQ:NVDA) - Seeking Alpha",
+      "Microsoft vs. Nvidia: Which AI Giant Is the Better Dividend Stock for the Long Haul? - Barchart.com",
+      "Nvidia’s Investment Boom - SOMO - The Centre for Research on Multinational Corporations",
+      "Here's How Many Shares of Nvidia You'd Need for $10,000 in Yearly Dividends - The Motley Fool",
+      "Nvidia Stock Gains as the Chip Maker Looks to Growth Outside the U.S. - Barron's",
+      "AMD vs. NVDA: Which Artificial Intelligence (AI) Semiconductor Stock Dominates the Next Phase of CPUs, GPUs, and Robotics? - Yahoo Finance"
+    ],
+    "2026-06-19": [
+      "AMD vs. NVDA: Which Artificial Intelligence (AI) Semiconductor Stock Dominates the Next Phase of CPUs, GPUs, and Robotics? - Yahoo Finance",
+      "Prediction: This Will Be Nvidia's Stock Price in 2030 - The Motley Fool",
+      "Microsoft vs. Nvidia: Which AI Giant Is the Better Dividend Stock for the Long Haul? - Barchart.com",
+      "NVIDIA Just Raised $25 Billion in Its Biggest Bond Deal Ever. Here’s What It Signals for 2026 - TIKR.com",
+      "NVIDIA (NVDA) at $205: Why Jensen Huang’s $1 Trillion Blackwell-Rubin Vision Matters More Than the Pullback - TradingKey",
+      "Google Is Using Nvidia’s Playbook to Build a Rival AI Chip Business - WSJ",
+      "NVIDIA Corp (NVDA) | How Strong Fundamentals and a Technical Setup Signal a Potential Breakout - ChartMill",
+      "Here's How Many Shares of Nvidia You'd Need for $10,000 in Yearly Dividends - Yahoo Finance"
+    ],
+    "2026-06-20": [
+      "What Will Nvidia Stock's Price Be in 1 Year? - Yahoo Finance",
+      "NVIDIA Stock Has Slipped By 10% From YTD High As Pros Predict 46% Jump - Benzinga",
+      "Analysts see Nvidia stock climbing up to 46% despite slump - MSN",
+      "Will Nvidia Stock Soar After June 24? The Evidence is Piling Up and Here's What It Shows - Yahoo Finance",
+      "NVIDIA (NVDA) at $205: Why Jensen Huang’s $1 Trillion Blackwell-Rubin Vision Matters More Than the Pullback - TradingKey",
+      "Google Is Using Nvidia’s Playbook to Build a Rival AI Chip Business - WSJ",
+      "1 Mind-Boggling Metric That Makes Nvidia Stock a Screaming Buy - The Globe and Mail",
+      "Nvidia RTX Spark: What I Learned From Apple's iMac (NASDAQ:NVDA) - Seeking Alpha"
+    ],
+    "2026-06-21": [
+      "What Will Nvidia Stock's Price Be in 1 Year? - Yahoo Finance",
+      "Nvidia's stock struggles as Kalshi traders bet chip prices are coming down - CNBC",
+      "NVIDIA Stock’s Next Big Move Might Not Involve A GPU - Trefis",
+      "Nvidia Still Down From Its High. History Says This Is the Buy Window Investors Beg For - 24/7 Wall St.",
+      "Nvidia Stock Is Falling on a Good Day for Intel and Other Chip Stocks - Barron's",
+      "What Will Nvidia Stock's Price Be in 1 Year? - The Motley Fool",
+      "What's Going On With NVIDIA Stock Monday? - NVIDIA (NASDAQ:NVDA) - Benzinga",
+      "NVIDIA CORP (NASDAQ:NVDA) Balances Low Yield with Stellar Dividend Growth and Financial Strength - ChartMill"
+    ],
+    "2026-06-22": [
+      "Nvidia (NVDA) Stock Trades Down, Here Is Why - Yahoo Finance",
+      "Nvidia's stock struggles as Kalshi traders bet chip prices are coming down - CNBC",
+      "Nvidia Stock Falls as Tech Selloff Catches Up With Chips - Barron's",
+      "NVIDIA Stock’s Next Big Move Might Not Involve A GPU - Trefis",
+      "Nvidia Still Down From Its High. History Says This Is the Buy Window Investors Beg For - 24/7 Wall St.",
+      "Global Tech Selloff Weighs On Markets—Here’s Why Nvidia, Tesla And More Are Down - Forbes",
+      "Nvidia Just Claimed a New AI Crown. That Means NVDA Stock Investors Have a New Reason to Buy. - Barchart.com",
+      "NVIDIA Is Stalled at $200. Is the Next Move a Breakout or a Breakdown? - Yahoo Finance"
+    ],
+    "2026-06-23": [
+      "Nvidia (NVDA) Stock Trades Down, Here Is Why - Yahoo Finance",
+      "Nvidia Stock Tests Key Support Level. What’s Keeping It From Rising? - Barron's",
+      "Could a $25,000 Investment in Nvidia Stock Make You a Millionaire? - The Motley Fool",
+      "NVIDIA Is Stalled at $200. Is the Next Move a Breakout or a Breakdown? - 24/7 Wall St.",
+      "Nvidia Stock Falls as Tech Selloff Catches Up With Chips - Barron's",
+      "Should You Buy Nvidia Stock Right Now? A Compelling Answer Is Hiding in Plain Sight. - The Motley Fool",
+      "Could a $25,000 Investment in Nvidia Stock Make You a Millionaire? - Yahoo Finance",
+      "Nvidia Is No Longer the Ultimate AI Play, But NVDA Stock Is a Buy Anyways - Yahoo Finance"
+    ],
+    "2026-06-24": [
+      "Why Is Nvidia Stock So Cheap? This Is the Only Plausible Answer - Yahoo Finance",
+      "Nvidia Stock Slips Below $200. Competition Fears Are Growing. - Barron's",
+      "Why Is Nvidia Stock So Cheap? This Is the Only Plausible Answer - The Motley Fool",
+      "The Supply-Chain Bet That Underpins The NVIDIA Stock Story - Trefis",
+      "Why Is NVIDIA Stock Gaining Thursday? - Benzinga",
+      "Could a $25,000 Investment in Nvidia Stock Make You a Millionaire? - Yahoo Finance",
+      "Nvidia Stock Tests Key Support Level. What’s Keeping It From Rising? - Barron's",
+      "Could a $25,000 Investment in Nvidia Stock Make You a Millionaire? - The Motley Fool"
+    ],
+    "2026-06-25": [
+      "Why Is Nvidia Stock So Cheap? This Is the Only Plausible Answer - Yahoo Finance",
+      "How Much Upside Can NVDA Stock’s Growth Deliver? - Trefis",
+      "Nvidia Stock Keeps Falling as 'Hot Money' Heads Away From AI Chips - Barron's",
+      "Nvidia Stock Continues Slide Amid Tech Sell-Off - Investor's Business Daily",
+      "Why Is Nvidia Stock So Cheap? This Is the Only Plausible Answer - The Motley Fool",
+      "Nvidia Stock Is Trading at a Discount, But It Won’t Be for Long - Barchart.com",
+      "Nvidia Stock: The Next Dividend Aristocrat? (NASDAQ:NVDA) - Seeking Alpha",
+      "Nvidia (NVDA) Stock Forecast &amp; Price Predictions for 2026, 2027, 2028–2030, 2040 and Beyond - LiteFinance"
+    ],
+    "2026-06-26": [
+      "Where Will Nvidia Stock Be in 2030? - Yahoo Finance",
+      "How Much Upside Can NVDA Stock’s Growth Deliver? - Trefis",
+      "Nvidia Stock Keeps Falling as 'Hot Money' Heads Away From AI Chips - Barron's",
+      "Nvidia Stock Continues Slide Amid Tech Sell-Off - Investor's Business Daily",
+      "There’s Another New Reason to Get Bullish on Nvidia Stock - Barchart.com",
+      "The Biggest Risk to Nvidia's Stock Price That Almost Nobody Is Talking About - The Motley Fool",
+      "Nvidia Stock: The Next Dividend Aristocrat? (NASDAQ:NVDA) - Seeking Alpha",
+      "Nvidia (NVDA) Stock Forecast &amp; Price Predictions for 2026, 2027, 2028–2030, 2040 and Beyond - LiteFinance"
+    ],
+    "2026-06-27": [
+      "Where Will Nvidia Stock Be in 2030? - Yahoo Finance",
+      "NVIDIA Stock Near Crucial Support – Buy Signal? - Trefis",
+      "NVIDIA Stock Is Down 18% in 2026. Is the AI Leader Finally Cheap? - TIKR.com",
+      "There’s Another New Reason to Get Bullish on Nvidia Stock - Barchart.com",
+      "The Biggest Risk to Nvidia's Stock Price That Almost Nobody Is Talking About - The Motley Fool",
+      "NVIDIA Stock Leads 3 High ROE Picks Backed By Strong Balance Sheets - simplywall.st",
+      "With a Dominant Position in AI Infrastructure, Nvidia Stock Will Continue to Create Value - Barchart.com",
+      "Nvidia Owns This Under-the-Radar $20 Stock Poised to Disrupt a $1.8 Trillion Market - The Motley Fool"
+    ],
+    "2026-06-28": [
+      "Nvidia Stock Price Prediction: 95% of Analysts Stay Bullish - Yahoo Finance",
+      "NVIDIA Stock Near Crucial Support – Buy Signal? - Trefis",
+      "Nvidia Stock Rises Amid Signs of Strong AI Chip Demand - Barron's",
+      "NVIDIA Stock Is Down 18% in 2026. Is the AI Leader Finally Cheap? - TIKR.com",
+      "Nvidia Stock Has Underperformed the Semiconductor Sector in 2026. Will It Skyrocket in the Second Half? - The Motley Fool",
+      "NVIDIA Stock Leads 3 AI Profit Makers Investors Should Watch - simplywall.st",
+      "Is NVIDIA (NVDA) the Best Fast Growth Stock to Buy as It Targets Fully Autonomous AI for Telecom Networks? - Yahoo Finance",
+      "AMD Stock Is Crushing Nvidia's in 2026. Will That Continue? - The Motley Fool"
+    ],
+    "2026-06-29": [
+      "Nvidia stock is sagging. Here's what's behind the negative short-term trend. - Yahoo Finance",
+      "3 Reasons to Buy Nvidia Stock in July - The Motley Fool",
+      "How Nvidia Became a Chip Stock Loser—and Why It Might Stay That Way - Barron's",
+      "Nvidia Stock Is in the ‘Twilight Zone.’ These Analysts Say You Should Buy It Now Before It Breaks Free. - Barchart.com",
+      "NVIDIA Stock Is Seeing a Summer Swoon. 5 Catalysts Could Rocket It to $300 By the End of 2026. - 24/7 Wall St.",
+      "Nvidia mostly sat out the chip sector's best quarter ever. What needs to change? - CNBC",
+      "Nvidia Stock Rises Amid Signs of Strong AI Chip Demand - Barron's",
+      "Nvidia Stock Has Underperformed the Semiconductor Sector in 2026. Will It Skyrocket in the Second Half? - The Motley Fool"
+    ],
+    "2026-06-30": [
+      "Nvidia stock is sagging. Here's what's behind the negative short-term trend. - Yahoo Finance",
+      "3 Reasons to Buy Nvidia Stock in July - The Motley Fool",
+      "How Nvidia Became a Chip Stock Loser—and Why It Might Stay That Way - Barron's",
+      "NVIDIA Unlocks AI Compute at Scale, Inviting Partners to Power the AI Infrastructure Buildout - NVIDIA Blog",
+      "Nvidia Stock Is in the ‘Twilight Zone.’ These Analysts Say You Should Buy It Now Before It Breaks Free. - Barchart.com",
+      "NVIDIA Stock Is Seeing a Summer Swoon. 5 Catalysts Could Rocket It to $300 By the End of 2026. - 24/7 Wall St.",
+      "Nvidia built a nearly $5 trillion company by making people pay for their own lunch - Fortune",
+      "Nvidia Stock, Gold, and Oil: Where to Invest $100,000 Right Now - Bloomberg.com"
+    ],
+    "2026-07-01": [
+      "Price Prediction: Nvidia Falls Below $5 Trillion, This is Where It’ll End The Year - Yahoo Finance",
+      "NVIDIA Unlocks AI Compute at Scale, Inviting Partners to Power the AI Infrastructure Buildout - NVIDIA Blog",
+      "Nvidia taps AI cloud providers to expand compute access for startups - CNBC",
+      "Nvidia built a nearly $5 trillion company by making people pay for their own lunch - Fortune",
+      "Nvidia Stock, Gold, and Oil: Where to Invest $100,000 Right Now - Bloomberg.com",
+      "Price Prediction: Nvidia Could Hit $250 in 12 Months Despite AI Selloff - 24/7 Wall St.",
+      "Nvidia Partners With 'Neoclouds' Sharon AI, Firmus Technologies - Investor's Business Daily",
+      "If You'd Invested $1,000 in Nvidia 5 Years Ago, Here's How Much You'd Have Today - The Motley Fool"
+    ],
+    "2026-07-02": [
+      "Jim Cramer Explains Why You Need to Own NVIDIA Now - Yahoo Finance",
+      "Nvidia taps AI cloud providers to expand compute access for startups - CNBC",
+      "Price Prediction: Nvidia Could Hit $250 in 12 Months Despite AI Selloff - 24/7 Wall St.",
+      "Nvidia Partners With 'Neoclouds' Sharon AI, Firmus Technologies - Investor's Business Daily",
+      "Nvidia Offers Revenue Sharing Model for Aspiring AI Startups - Bloomberg.com",
+      "Apple Is About 4% Away From Overtaking Nvidia as the World's Most Valuable Company. Could It Happen This Month? - The Motley Fool",
+      "Micron, Like Nvidia, Is Losing Its Premium (NASDAQ:MU) - Seeking Alpha",
+      "CEO’s Weekly Outlook – Nvidia hits the zone - Moomoo"
+    ],
+    "2026-07-03": [
+      "Nvidia Stock Is Nearly Flat for 2026. Time to Cash Out, or Load Up on Shares? - Yahoo Finance",
+      "Nvidia Offers Revenue Sharing Model for Aspiring AI Startups - Bloomberg.com",
+      "Jim Cramer Explains Why You Need to Own NVIDIA Now - Yahoo Finance",
+      "AI Can't Thrive Without This Stock (Hint: It's Not Nvidia) - The Globe and Mail",
+      "Nvidia Stock Is Now Cheaper Than Coca-Cola. Here's the Math. - The Motley Fool",
+      "Nvidia Stock Is Now Cheaper Than Coca-Cola. Here's the Math. - Yahoo Finance",
+      "\"Big Short\" Investor Michael Burry Is Now Betting Against Micron, Nvidia, and Tesla. Should You Be Worried? - The Globe and Mail",
+      "Michael Burry Shorts Micron, Adding to His NVIDIA and Applied Materials Short Bets Against Chip Stocks - Yahoo Finance"
+    ],
+    "2026-07-04": [
+      "Nvidia Stock Is Nearly Flat for 2026. Time to Cash Out, or Load Up on Shares? - Yahoo Finance",
+      "Nvidia Stock Is Down 13% Over the Last Month. Here's Why That Could Be Good News. - Yahoo Finance",
+      "Nvidia Stock Is Now Cheaper Than Coca-Cola. Here's the Math. - The Motley Fool",
+      "Nvidia Stock Is Now Cheaper Than Coca-Cola. Here's the Math. - Yahoo Finance",
+      "Is Nvidia Undervalued or AMD Overvalued — or Both? - Yahoo Finance",
+      "AI Can't Thrive Without This Stock (Hint: It's Not Nvidia) - The Motley Fool",
+      "AMD Stock and Intel Crushed Nvidia in the First Half. Here's My Prediction for the Second Half. - Yahoo Finance",
+      "Nvidia vs. Strategy: Which Stock Has a Better Chance of Surging 10x by 2036? - The Motley Fool"
+    ],
+    "2026-07-05": [
+      "NVIDIA Falls 7% in a Month: Should You Still Hold NVDA Stock or Exit? - Yahoo Finance",
+      "Nvidia Stock Is Below $200 Per Share Again. Here's When It Could Hit $300. - The Motley Fool",
+      "Nvidia Server Delay Report Sends Asian Tech Stocks Sliding - Bloomberg.com",
+      "Nvidia Stock Is Down 13% Over the Last Month. Here's Why That Could Be Good News. - Yahoo Finance",
+      "4 stocks to watch on Monday: NVDA, AVGO, MU, UBER (SP500:) - Seeking Alpha",
+      "Is Nvidia Undervalued or AMD Overvalued — or Both? - Yahoo Finance",
+      "1 Analyst Says This Chip Stock Could Soar 625% to Join Nvidia in the $5 Trillion Club - The Motley Fool",
+      "Jim Cramer Says Buy Nvidia as Chipmaker Rejects 2028 AI Delay Claims - Yahoo Finance"
+    ],
+    "2026-07-06": [
+      "NVIDIA Falls 7% in a Month: Should You Still Hold NVDA Stock or Exit? - Yahoo Finance",
+      "Cramer says 'everything still revolves around Nvidia' despite its lagging stock - CNBC",
+      "The Biggest Risk For NVIDIA Stock Is NVIDIA Itself - Trefis",
+      "US market outlook: NVIDIA shares declined following reports ... - Moomoo",
+      "Nvidia Stock Is Below $200 Per Share Again. Here's When It Could Hit $300. - The Motley Fool",
+      "Nvidia’s Next Growth Wave May Be Just Beginning: We See a 28% Upside - 24/7 Wall St.",
+      "Jim Cramer sends strong signal to Nvidia stock investors amid rumors - thestreet.com",
+      "Nvidia Server Delay Report Sends Asian Tech Stocks Sliding - Bloomberg.com"
+    ],
+    "2026-07-07": [
+      "Nvidia market cap falls by $1 trillion as stock swoons - Yahoo Finance",
+      "Few bright spots in Wednesday's tough market — why Nvidia stock is one of them - CNBC",
+      "Nvidia’s $1 Trillion Slide Sends Valuation to Pre-AI Boom Levels - Bloomberg.com",
+      "The Biggest Risk For NVIDIA Stock Is NVIDIA Itself - Trefis",
+      "US market outlook: NVIDIA shares declined following reports ... - Moomoo",
+      "Nvidia’s Next Growth Wave May Be Just Beginning: We See a 28% Upside - 24/7 Wall St.",
+      "Where Will Nvidia Stock Be in 5 Years? - Yahoo Finance",
+      "Here are Wednesday's biggest analyst calls: Nvidia, Netflix, SpaceX, Apple, Wynn, Block, Strategy, General Motors &amp; more - CNBC"
+    ],
+    "2026-07-08": [
+      "Nvidia's nearly $1 trillion wipeout could prompt this bullish action - Yahoo Finance",
+      "Few bright spots in Wednesday's tough market — why Nvidia stock is one of them - CNBC",
+      "NVDA or NVDL? Choosing Between Stocks and 2x Leveraged Single-Stock ETFs - Moomoo",
+      "Nvidia stock flashes valuation signal for first time in 7 years - thestreet.com",
+      "Nvidia’s $1 Trillion Slide Sends Valuation to Pre-AI Boom Levels - Bloomberg.com",
+      "Nvidia Stock Has Only Gained 5% So Far in 2026. History Is Crystal Clear on Where the Stock Is Headed Next. - The Motley Fool",
+      "Nvidia market cap falls by $1 trillion as stock swoons - Yahoo Finance",
+      "Here are Wednesday's biggest analyst calls: Nvidia, Netflix, SpaceX, Apple, Wynn, Block, Strategy, General Motors &amp; more - CNBC"
+    ],
+    "2026-07-09": [
+      "Nvidia's nearly $1 trillion wipeout could prompt this bullish action - Yahoo Finance",
+      "The Real Price of NVIDIA Stock Is Three Years Away - Trefis",
+      "Jim Cramer Says NVIDIA Is the Most Proprietary Chip Company in History, and the Market Is Getting Its Valuation Wrong - 24/7 Wall St.",
+      "NVDA or NVDL? Choosing Between Stocks and 2x Leveraged Single-Stock ETFs - Moomoo",
+      "Why is NVIDIA stock rallying today? - Investing.com",
+      "Nvidia stock flashes valuation signal for first time in 7 years - thestreet.com",
+      "Nvidia Stock Has Only Gained 5% So Far in 2026. History Is Crystal Clear on Where the Stock Is Headed Next. - The Motley Fool",
+      "What's Going On With Nvidia Stock Friday - Yahoo Finance"
+    ],
+    "2026-07-10": [
+      "What's Going On With Nvidia Stock Friday - Yahoo Finance",
+      "The Real Price of NVIDIA Stock Is Three Years Away - Trefis",
+      "Jim Cramer Says NVIDIA Is the Most Proprietary Chip Company in History, and the Market Is Getting Its Valuation Wrong - 24/7 Wall St.",
+      "Why is NVIDIA stock rallying today? - Investing.com",
+      "Citi sends strong signal to Nvidia investors amid rumors - thestreet.com",
+      "Nvidia’s $1-trillion wipeout leaves AI titan trading at pre-boom prices - Los Angeles Times",
+      "Prediction: Nvidia Stock Will Hit a New High by 2027. Here’s The Target - Yahoo Finance",
+      "Nvidia Is the Cheapest It's Been Since 2019. Why Investors Should Load Up Now. - Yahoo Finance"
+    ],
+    "2026-07-11": [
+      "Nvidia Stock Is Losing to the Market in 2026. Time to Walk Away or Double Down? - Yahoo Finance",
+      "Taiwan Just Waved a Red Flag for Nvidia Stock - Barchart.com",
+      "Nvidia Stock Just Did Something for the First Time in 7 Years. Here's What History Says Happens Next. - The Motley Fool",
+      "Best Artificial Intelligence (AI) Stock: AMD, Nvidia, or Broadcom - Yahoo Finance",
+      "Nvidia Stock Is Losing to the Market in 2026. Time to Walk Away or Double Down? - The Motley Fool",
+      "Nvidia Stock Has Been Flat, But NVDA Price Targets are Higher - Shorting Puts Works - Barchart.com",
+      "Nvidia Stock Just Did Something for the First Time in 7 Years. Here's What History Says Happens Next. - Yahoo Finance",
+      "Nvidia Stock Hasn’t Been This Cheap Since Before 2019. How to Play NVDA Stock Here. - Barchart.com"
+    ],
+    "2026-07-12": [
+      "Nvidia Stock Is Losing to the Market in 2026. Time to Walk Away or Double Down? - Yahoo Finance",
+      "Taiwan Just Waved a Red Flag for Nvidia Stock - Barchart.com",
+      "Nvidia Stock Just Did Something for the First Time in 7 Years. Here's What History Says Happens Next. - The Motley Fool",
+      "What Investors Keep Asking About NVDA - Trefis",
+      "I quit my job at Nvidia because I wanted work that felt more human. Financial security isn't the same as true fulfillment. - Business Insider",
+      "Nvidia Stock Isn’t Getting the Boost It Should from Big AI Spending - Barron's",
+      "SpaceX vs Nvidia: Which Stock Will Be Worth More in 5 Years? - Yahoo Finance",
+      "Nvidia Stock Is Losing to the Market in 2026. Time to Walk Away or Double Down? - The Motley Fool"
+    ],
+    "2026-07-13": [
+      "Where Will Nvidia Stock Be in 2030? - Yahoo Finance",
+      "Cybersecurity stocks surge thanks to IBM, and Nvidia climbs on more good China news - CNBC",
+      "Prediction: This Will Be Nvidia's Stock Price Next Year (Hint: The Time to Buy Is Now) - The Motley Fool",
+      "Price Prediction: Nvidia Stock Will Double on This Date - 24/7 Wall St.",
+      "Nvidia Stock Rises Despite 'Slight Delay' in Rubin Chip Rollout - Barron's",
+      "KeyBanc raises Nvidia stock price target to $330 on strong demand - Investing.com",
+      "Bank of America sees Nvidia’s next $20 billion business - thestreet.com",
+      "Price Prediction: Nvidia Stock Will Double on This Date - Yahoo Finance"
+    ],
+    "2026-07-14": [
+      "Where Will Nvidia Stock Be in 2030? - Yahoo Finance",
+      "Here are Tuesday's biggest analyst calls: Nvidia, SK Hynix, Apple, SpaceX, Broadcom, AMD, Netflix &amp; more - CNBC",
+      "Nvidia Stock Could Still Soar 140% to Reach $500, Says Wall Street - Barchart.com",
+      "Nvidia Stock Nears Buy Point On These Positive Signs - Investor's Business Daily",
+      "Prediction: This Will Be Nvidia's Stock Price Next Year (Hint: The Time to Buy Is Now) - The Motley Fool",
+      "Price Prediction: Nvidia Stock Will Double on This Date - 24/7 Wall St.",
+      "Nvidia Stock Rises Despite 'Slight Delay' in Rubin Chip Rollout - Barron's",
+      "KeyBanc raises Nvidia stock price target to $330 on strong demand - Investing.com"
+    ],
+    "2026-07-15": [
+      "Prediction: This Will Be Nvidia's Stock Price by 2028 - Yahoo Finance",
+      "Nvidia Pushes Into a Big New AI Market That Could Rally the Stock - Barron's",
+      "Nvidia Stock Could Still Soar 140% to Reach $500, Says Wall Street - Barchart.com",
+      "Nvidia Stock Nears Buy Point On These Positive Signs - Investor's Business Daily",
+      "Bank of America Sees Nvidia's Next $20 Billion Business. Here's Where NVDA Stock Could Go - 24/7 Wall St.",
+      "Nvidia: Jensen Huang Just Blessed His Own Shares (NASDAQ:NVDA) - Seeking Alpha",
+      "Wednesday, July 15, 2026: Cramer says he likes this tech giant's stock over Nvidia - CNBC",
+      "Which Is the Better Value Stock: Microsoft or Nvidia? - The Motley Fool"
+    ],
+    "2026-07-16": [
+      "Bank of America Sees Nvidia’s Next $20 Billion Business. Here’s Where NVDA Stock Could Go - Yahoo Finance",
+      "Nvidia Pushes Into a Big New AI Market That Could Rally the Stock - Barron's",
+      "Bank of America Sees Nvidia's Next $20 Billion Business. Here's Where NVDA Stock Could Go - 24/7 Wall St.",
+      "Nvidia: Jensen Huang Just Blessed His Own Shares (NASDAQ:NVDA) - Seeking Alpha",
+      "Nvidia stock: this quiet Japan deal could unlock NVDA's next growth frontier - TradingView",
+      "Why Is NVDA Stock The Discount Option Among Its Peers? - Trefis",
+      "Nvidia-backed Fireworks hits $17.5 billion valuation as companies pursue cheaper AI models - CNBC",
+      "Will NVIDIA Stock Surge On Its New $200B CPU Ambitions? - Forbes"
+    ],
+    "2026-07-17": [
+      "Apple, Nvidia vie for title of world's most valuable company - CNBC",
+      "Nvidia Narrowly Holds Off Apple to Keep World’s Most Valuable Company Title - Barron's",
+      "Why Did Nvidia Stock Sink Today? - Yahoo Finance",
+      "Apple Becomes World’s Largest Company—Surpassing Nvidia - Forbes",
+      "The Two Radically Different Paths Priced Into NVIDIA Stock - Trefis",
+      "Nvidia Stock: Time To Buy Or Sell? What Investors Need To Know. - Investor's Business Daily",
+      "Apple unseats Nvidia to become world's most valuable company as AI bets shift - Reuters",
+      "Nvidia CEO doubles down on AI and stock market verdict - thestreet.com"
+    ],
+    "2026-07-18": [
+      "$NVDA stock fell 4% this week. Here's what we see in our data. - Quiver Quantitative",
+      "Q1 Earnings Highlights: Nvidia (NASDAQ:NVDA) Vs The Rest Of The Processors and Graphics Chips Stocks - StockStory",
+      "I Keep Buying Nvidia Because Bears Keep Shouting This False Narrative - 24/7 Wall St.",
+      "NVIDIA (NASDAQ:NVDA) Shares Lead Chip Stocks Despite Nearly $200 Billion Market Value Loss - TechStock²",
+      "Has Nvidia Become a Value Stock? - The Motley Fool",
+      "NVIDIA Has Recovered Off Its 2026 Lows as Washington Opens a New Demand Front. Here’s Where the Stock Could Go - TIKR.com",
+      "3 AI Stocks That Can Outperform Nvidia Next Year - Yahoo Finance",
+      "Nvidia Stock Price Forecast: Jensen Huang Personally Responds to Market Doubts, Can Nvidia Stock Price Still Rise in the Second Half of 2026? - TradingKey"
+    ],
+    "2026-07-19": [
+      "Can Nvidia Become a $10 Trillion Stock by 2030? - Yahoo Finance",
+      "Apple Stock Shows Why The AI Trade Is Moving Beyond Nvidia - Forbes",
+      "Reflecting On Processors and Graphics Chips Stocks’ Q1 Earnings: Nvidia (NASDAQ:NVDA) - StockStory",
+      "After Nvidia (NASDAQ:NVDA): AI Platform Stocks Poised for Upside - TechStock²",
+      "Apple stock: has Wall Street found its post-Nvidia AI trade? - TradingView",
+      "Nvidia: AI Infrastructure Hitting Physical And Financial Limits (NASDAQ:NVDA) - Seeking Alpha",
+      "Jensen Huang's $4 Trillion Artificial Intelligence (AI) Projection Could Propel Nvidia's Market Cap to $20 Trillion - Yahoo Finance",
+      "Nvidia on Edge as New Risks Emerge Ahead of Big Tech Earnings - NVIDIA (NASDAQ:NVDA) - Benzinga"
+    ],
+    "2026-07-20": [
+      "Why Nvidia Stock is Flat Since November Despite Tripling Its Net Income - Yahoo Finance",
+      "Why Nvidia briefly lost its crown as the world's most valuable company - marketplace.org",
+      "The Divergent Paths Ahead For NVIDIA Stock - Trefis",
+      "Nvidia Stock Steadies, But It Needs Help for Real Gains - Barron's",
+      "Nvidia stock: what does it need to get its mojo back - TradingView",
+      "What's Going on With NVIDIA Stock Monday? - Benzinga",
+      "Nvidia Turns to a Japanese Giant to Solve the Power Botteneck. What That Means for NVDA Stock. - Barchart.com",
+      "Down 14% since May, are the glory days over for Nvidia stock? - The Twelfth Magpie"
+    ],
+    "2026-07-21": [
+      "The Two Radically Different Futures Priced Into NVIDIA Stock - Yahoo Finance",
+      "Nebius stock surges nearly 19% as Nvidia discloses significant stake in neocloud - CNBC",
+      "Why Nvidia Stock Can ‘Lead the Charge’ This Earnings Season - Barron's",
+      "Dow Jones Banking Giant JPMorgan In A Buy Zone; Nvidia Stock Tests Key Level - Investor's Business Daily",
+      "Nvidia (NVDA) Stock Looks Reasonable On Earnings While Cash Flow Stays Key - simplywall.st",
+      "Nvidia Reveals a Big Stake in This AI Cloud Company, Sending Its Stock Soaring - Investopedia",
+      "Nebius Stock Jumps On News Of Nvidia Stake - Yahoo Finance",
+      "Wistron shares surge in Taiwan after opening of Texas AI superchip plant to supply Nvidia - CNBC"
+    ],
+    "2026-07-22": [
+      "Prediction: Nvidia Stock Will Jump Higher After August Earnings - Yahoo Finance",
+      "Nvidia: The Dividend Growth Stock Masquerading As A Growth Company (NASDAQ:NVDA) - Seeking Alpha",
+      "Nvidia Teams Up With Google on Robot Venture. The Stock Is Going Nowhere. - Barron's",
+      "Hold or sell Nvidia is a popular question, but there's a better one investors should ask - CNBC",
+      "Nvidia Stock Retail Traders Are Getting Bearish Days Ahead Of Q4 Print: What's Causing Jitters? - Stocktwits",
+      "Nvidia (NVDA) Stock Quotes, Company News And Chart Analysis - Investor's Business Daily",
+      "Intel Q2 Preview: Stock Hammers Nvidia with 7x Returns Since Dow Swap — Will Earnings Fuel Further Gains? - Benzinga",
+      "Nvidia stock jumps 3% to reach session high as AI demand keeps printing - Crypto Briefing"
+    ],
+    "2026-07-23": [
+      "Nvidia Stock Is Barely Beating the S&amp;P 500 Index in 2026 Despite Record Revenue. Here's What This Performance Might Suggest. - Yahoo Finance",
+      "Why Nvidia (NVDA) Stock Faces Sell-the-News Risk Following Its Q2 Earnings Report - Barchart.com",
+      "Why Nvidia Stock Isn’t Rallying as It Should After Alphabet Earnings - Barron's",
+      "Nvidia Stock Is Barely Beating the S&amp;P 500 Index in 2026 Despite Record Revenue. Here's What This Performance Might Suggest. - The Motley Fool",
+      "Nvidia Tests Key Level After Alphabet's Earnings Beat; Is Nvidia A Buy Or Sell Now? - Investor's Business Daily",
+      "A Chinese CEO Just Outlined the Bear Case for NVIDIA. It Should Terrify Owners of the Stock. - 24/7 Wall St.",
+      "NVIDIA stock price down 1.56% on Thursday - StockInvest.us",
+      "NVIDIA Corporation (NVD.F) Stock Price, News, Quote &amp; History - Yahoo! Finance Canada"
+    ],
+    "2026-07-24": [
+      "Nvidia Stock Has Been a Chip Stock Outperformer in July. Why Its Rally Is at Risk. - Barron's",
+      "This semi stock just struck a deal with Nvidia. UBS sees big gains ahead - CNBC",
+      "Nvidia Gets No Break Amid Big Tech Earnings Beat; Is Nvidia A Buy Or Sell Now? - Investor's Business Daily",
+      "What to Expect From NVIDIA's Q2 2027 Earnings Report - Barchart.com",
+      "Microsoft, Meta, Nvidia, and Palantir have a message for Washington - Business Insider",
+      "The Anti-Nvidia ETF: Why Contrarians Are Buying the Stocks Nobody Wants - Yahoo Finance",
+      "NVIDIA (NVDA) Stock Faces Market Discrepancies Despite AI Growth Potential - GuruFocus",
+      "NVIDIA Says Its CPU Revenue Sits Outside the $1 Trillion Forecast. Here’s Where the Stock Could Go - TIKR.com"
+    ]
+  }
+}
