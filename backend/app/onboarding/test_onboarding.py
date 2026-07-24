@@ -183,6 +183,25 @@ def test_respond_never_downgrades_stated_answers():
     assert turn.slots.risk_level == "conservative"
 
 
+def test_chat_stream_emits_deltas_then_turn():
+    with client.stream(
+        "POST",
+        "/api/onboarding/chat/stream",
+        json={"messages": [{"role": "user", "content": "Poland"}], "slots": {}},
+    ) as res:
+        assert res.status_code == 200
+        assert res.headers["content-type"].startswith("text/event-stream")
+        body = "".join(res.iter_text())
+    assert "event: delta" in body
+    assert "event: turn" in body
+    import json as _json
+
+    turn_data = [f for f in body.split("\n\n") if "event: turn" in f][0]
+    payload = _json.loads(turn_data.split("data: ", 1)[1])
+    assert payload["slots"]["market"] == "pl"
+    assert payload["reply"]
+
+
 def test_universe_endpoint_still_works():
     res = client.post("/api/onboarding/universe", json=ENVELOPE)
     assert res.status_code == 200

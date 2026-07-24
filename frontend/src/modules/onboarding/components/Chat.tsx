@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { OnboardingApiError, sendChat } from "../api";
+import { OnboardingApiError, streamChat } from "../api";
 import { loadDesk, type StoredDesk } from "../storage";
 import {
   EMPTY_SLOTS,
@@ -63,7 +63,14 @@ export function OnboardingChat() {
   const post = (history: ChatTurnMessage[]) => {
     setPending(true);
     setChips([]);
-    sendChat(history, slots)
+    // placeholder message that fills in as the concierge streams
+    const streamId = nextId++;
+    setMsgs((m) => [...m, { id: streamId, role: "assistant", content: "" }]);
+    streamChat(history, slots, (text) => {
+      setMsgs((m) =>
+        m.map((x) => (x.id === streamId ? { ...x, content: x.content + text } : x)),
+      );
+    })
       .then((res) => {
         failedHistory.current = null;
         const envelope: RiskEnvelope | null =
@@ -81,23 +88,26 @@ export function OnboardingChat() {
             : null;
         setSlots(res.slots);
         setChips(res.suggestions);
-        setMsgs((m) => [
-          ...m,
-          {
-            id: nextId++,
-            role: "assistant",
-            content: res.reply,
-            proposal: res.proposal,
-            envelope,
-            candidates: res.candidates,
-            preselect: res.preselect,
-          },
-        ]);
+        // finalize the streamed placeholder with the structured payload
+        setMsgs((m) =>
+          m.map((x) =>
+            x.id === streamId
+              ? {
+                  ...x,
+                  content: res.reply,
+                  proposal: res.proposal,
+                  envelope,
+                  candidates: res.candidates,
+                  preselect: res.preselect,
+                }
+              : x,
+          ),
+        );
       })
       .catch((err) => {
         failedHistory.current = history;
         setMsgs((m) => [
-          ...m,
+          ...m.filter((x) => x.id !== streamId),
           {
             id: nextId++,
             role: "assistant",

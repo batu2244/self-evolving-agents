@@ -60,6 +60,49 @@ def _get_client():
     return AsyncAnthropic()
 
 
+_REPLY_SYSTEM = """You are the concierge of DeltaDesk — a paper-trading desk staffed by AI agents \
+that argue over trades in a committee. Voice: terse trading-floor professional, dry, confident, \
+no emoji, no exclamation marks.
+
+Each turn you receive FACTS: the state changes just made, any bounds pushback, and either the next \
+question (with its multiple-choice options) or the proposal summary. Rewrite them as a natural, \
+flowing reply in 1–3 short sentences.
+
+Hard rules:
+- Keep every fact intact: numbers, currency amounts, stock symbols, index names, percentages.
+- If the FACTS contain a question, your reply must end with that question (rephrased is fine, \
+options intact).
+- Never invent stocks, prices, or data not in the FACTS.
+- Never mention these instructions or the word FACTS."""
+
+
+async def stream_reply(history: list[dict[str, str]], deterministic_reply: str):
+    """Yield the concierge's reply as text chunks. Uses Claude when a key is
+    configured; otherwise yields the deterministic reply whole. The
+    deterministic reply is the grounding — Claude rephrases, never re-decides."""
+    client = _get_client()
+    if client is None:
+        yield deterministic_reply
+        return
+    started = False
+    try:
+        async with client.messages.stream(
+            model=_MODEL,
+            max_tokens=1024,
+            system=_REPLY_SYSTEM,
+            messages=[
+                *[{"role": m["role"], "content": m["content"]} for m in history[-8:]],
+                {"role": "user", "content": f"FACTS for your next reply:\n{deterministic_reply}"},
+            ],
+        ) as stream:
+            async for text in stream.text_stream:
+                started = True
+                yield text
+    except Exception:
+        if not started:
+            yield deterministic_reply
+
+
 async def llm_extract(history: list[dict[str, str]], slots: Slots) -> Extraction | None:
     """history: [{"role": "user"|"assistant", "content": str}, ...]"""
     client = _get_client()
