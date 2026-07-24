@@ -1,0 +1,23 @@
+# Node
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Env & misc
+.env*
+!.env.example
+.DS_Store
+.vercel
+
+# voting module local state (Band keys, track record)
+backend/voting/data/
+.gstack/

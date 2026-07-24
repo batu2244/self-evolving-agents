@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #07090b;
+  --color-surface: #0d1114;
+  --color-raised: #131a1e;
+  --color-line: #1f282d;
+  --color-line-strong: #2d3a41;
+  --color-fg: #e9ede9;
+  --color-muted: #8d968f;
+  --color-faint: #5a635e;
+  --color-phosphor: #3df08c;
+  --color-phosphor-dim: #1d5e3d;
+  --color-loss: #ff5c5c;
+  --color-amber: #ffb454;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-fg);
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(61, 240, 140, 0.05), transparent 60%),
+      radial-gradient(900px 500px at 0% 110%, rgba(61, 240, 140, 0.03), transparent 55%),
+      var(--color-ink);
+    min-height: 100dvh;
+  }
+
+  /* hairline grid backdrop */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(233, 237, 233, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(233, 237, 233, 0.025) 1px, transparent 1px);
+    background-size: 72px 72px;
+    z-index: 0;
+  }
+
+  ::selection {
+    background: var(--color-phosphor);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-phosphor);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@utility text-data {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+@utility hairline {
+  border: 1px solid var(--color-line);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@utility animate-blink {
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@utility skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-raised) 25%,
+    var(--color-line) 50%,
+    var(--color-raised) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
