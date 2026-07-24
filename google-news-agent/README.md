@@ -261,27 +261,81 @@ key at all — so it validates the model id and reachability, *not* your key. On
 The same catalog check runs as a preflight before every batch, so a wrong `PIONEER_MODEL`
 is caught once with the list of valid encoder models, rather than as N identical failures.
 
-### Pioneer billing note
+### Two undocumented Pioneer behaviours
 
-Pioneer inference requires a paid plan. Without one, `/inference` returns HTTP 403:
+Both found by probing the live API; neither appears in the docs, and both fail *silently*
+by returning `{"categories": []}` — a 200 response with no predictions rather than an error.
+
+- **`top_k` breaks classification.** The fine-tuning guide lists `top_k` as a valid key on
+  a classification entry. Sending it returns an empty result. Omitted here.
+- **`multi_label: true` is unsupported on `gliner2-base-v1`.** Same empty result. True
+  multi-label tagging is therefore unavailable, so business units are asked as one binary
+  `"affects X" / "does not affect X"` head per unit, which does work.
+
+The real response shape is also undocumented and nests one level deeper than you would
+guess from the endpoint reference:
 
 ```json
-{"detail": {"code": "card_required", "message": "To run inference on Pioneer, subscribe to the Hobby or Pro plan...", "resolution_url": "https://agent.pioneer.ai/billing"}}
+{"result": {"data": {"sentiment": {"label": "positive", "confidence": 1.0}}}}
 ```
 
-This is an account entitlement gate, not a request-shape problem — the quickstart's own
-verbatim NER example fails identically with the same key. A useful distinction when
-debugging: an **invalid** key returns `401 Invalid API key`, while a valid-but-unentitled
-key returns `403 card_required`. Getting a 403 therefore confirms the key itself is good.
+A third issue was on our side: Google News RSS descriptions are usually the headline
+repeated with the publisher appended, so the classifier was receiving the title twice.
+That duplication alone moved one headline's significance from `minor` (0.79) to `major`
+(0.92). `classification_text()` now appends the description only when it carries text the
+title does not.
+
+### Known limitation: zero-shot classification quality
+
+Pioneer inference now works end-to-end (`pioneer_status: "ok"`), but the *quality* of
+zero-shot `gliner2-base-v1` on these abstract judgments is poor. From a live 60-article
+run:
+
+- **Significance is saturated.** Every article scored 0.998–1.000. The head answers
+  "major" to essentially everything, which makes `--min-significance` ineffective as a
+  filter.
+- **Business units over-fire.** Mean 6.9 of 9 units flagged per article. A
+  `UNIT_CONFIDENCE_FLOOR` of 0.7 barely helps — the model is confidently wrong.
+- **Categories drift.** *"Tom Holland becomes first 'Hot Ones' guest to vomit"* was
+  classified relevant to Alphabet, significance 1.0, category "Gemini and AI", 9 units
+  affected.
+
+This is expected of the model rather than a bug: the catalog describes it as *"Named
+entity recognition; zero-shot span extraction"*. NER is what it is built for, and it does
+that well — it cleanly extracted `Alphabet` and `Google Cloud` as organizations at ≥0.99.
+Multi-head abstract classification is a stretch for it without fine-tuning.
+
+The trader stage absorbs a lot of this. The Tom Holland article came back HOLD at
+confidence 1.0 with the reasoning *"entertainment news with no financial impact"* — the
+Gemini persona rejected what the classifier let through. That is defense in depth working,
+but it means the significance weighting in `signal_score` is currently carrying less
+information than it appears to.
+
+Three ways forward, in increasing order of effort:
+
+1. **Fine-tune.** Pioneer supports it (`POST /felix/training-jobs`); a few hundred labeled
+   headlines would fix significance and category directly. This is the intended path.
+2. **Narrow Pioneer's job** to relevance and entity extraction, and let Gemini assign
+   significance and category as part of the trader read.
+3. **Run `--fallback-analysis`**, whose keyword heuristic is cruder but at least produces
+   a spread of significance scores.
+
+### Pioneer billing
+
+Inference requires an active Hobby or Pro plan. Without one, `/inference` returns HTTP 403
+`card_required` for *every* request — including the quickstart's own verbatim NER example,
+so a 403 is never a sign of a malformed request. A useful distinction when debugging: an
+**invalid** key returns `401 Invalid API key`, while a valid-but-unentitled key returns
+`403 card_required`, which confirms the key itself is good.
 
 Every response carries a `pioneer_status` field recording exactly what happened
 (`ok`, `not_configured`, `preflight_failed: ...`, `inference_failed: ...`,
 `no_usable_predictions`), so a degraded run is never silently indistinguishable from a
 clean one.
 
-Use `--fallback-analysis` to keep the pipeline demonstrable in the meantime — it
-substitutes a deterministic local keyword classifier and tags the output
-`analysis_provider: "heuristic"`. Remove the flag once the Pioneer plan is active.
+`--fallback-analysis` substitutes a deterministic local keyword classifier and tags the
+output `analysis_provider: "heuristic"`, keeping the pipeline runnable when Pioneer is
+unavailable.
 
 ## Storage
 
