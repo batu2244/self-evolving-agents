@@ -320,11 +320,100 @@ def replay(symbol: str, use_llm: bool = False, news_only: bool = False,
     print("final credibility:", {a: record.credibility(a) for a in agents})
 
 
+# ------------------------------------------------------------------- push
+
+
+def push(symbol: str, api_url: str = "http://127.0.0.1:8000") -> None:
+    """Load a US example's replayed history into the running API so the
+    dashboard shows its memos, outcomes and floor conversation. Same flow as
+    voting.testset push (XTB), minus the portfolio section — the ledger has
+    a single tracker and XTB owns it; the US examples surface through the
+    memo/outcome/floor views. Idempotent per ticker."""
+    from voting.testset import _fence_payload
+    from voting.types import DecisionMemo, Direction, SizeClass, TickerDecision, Vote
+
+    m = MARKETS[symbol]
+    dump_path = TESTDATA / m.fixture.replace(".json", "_replay.json")
+    dump = json.loads(dump_path.read_text())
+    decisions = dump["decisions"]
+    times = dict(m.decisions)  # label -> "HH:MM" local
+
+    def decision_ts(pid: str) -> str:
+        d, label = pid[:10], pid[11:]
+        h, mm = map(int, times[label].split(":"))
+        y, mo, day = map(int, d.split("-"))
+        return datetime(y, mo, day, h, mm, tzinfo=m.zone).isoformat()
+
+    memos, outcomes, floor = [], [], []
+    for i, dec in enumerate(decisions):
+        ts = decision_ts(dec["id"])
+        graded_at = decision_ts(decisions[i + 1]["id"]) if i + 1 < len(decisions) else ts
+        tv = dec["verdict"]
+        fwd = dec["grading"]["forward_ret"]
+
+        sides: dict[str, str] = {}
+        cases: dict[str, str] = {}
+        for msg in dec["transcript"]:
+            floor.append(msg)
+            payload = _fence_payload(msg["text"])
+            if "STANCE" in msg["text"] and "side" in payload:
+                sides[payload["agent"]] = payload["side"]
+            elif "CASE" in msg["text"] and "argument" in payload:
+                cases[payload["agent"]] = payload["argument"]
+
+        score_by = {s["agent"]: s["score"] for s in tv["scores"]}
+        votes = []
+        for agent, side in sides.items():
+            conf = max(score_by.get(agent, 0.5), 0.05)
+            votes.append(Vote(
+                analyst=agent, ticker=symbol, direction=Direction(side),
+                signal=conf if side == "buy" else -conf, confidence=conf,
+                size_class=SizeClass.HALF, rationale=cases.get(agent, ""),
+            ))
+        memos.append(DecisionMemo(
+            cycle_id=dec["id"], as_of=ts,
+            decisions=[TickerDecision(
+                ticker=symbol, direction=Direction(tv["decision"]),
+                size_factor=tv["conviction"], vote_share=tv["conviction"],
+                unanimous=tv["unanimous"], votes=votes,
+            )],
+            weights=tv["contributions"],
+            narrative=f"Desk decision: {tv['decision'].upper()} {symbol} "
+                      f"at {tv['conviction']:.0%} conviction.",
+        ).model_dump(mode="json"))
+
+        for agent, side in sides.items():
+            d = 1 if side == "buy" else -1
+            outcomes.append({
+                "agent": agent, "score": max(-1.0, min(1.0, d * fwd / 0.004)),
+                "ticker": symbol,
+                "credibility": dec["credibility_after"].get(agent, 0.55),
+                "ts": graded_at,
+            })
+
+    record_state = {
+        agent: {"ew_score": ((cred - 0.1) / 0.9) * 2 - 1, "executions": len(decisions)}
+        for agent, cred in decisions[-1]["credibility_after"].items()
+    }
+
+    with httpx.Client(base_url=api_url, timeout=60.0) as client:
+        r = client.post("/api/voting/replay/load", json={
+            "memos": memos, "outcomes": outcomes, "floor": floor,
+            "record": record_state,
+        })
+        r.raise_for_status()
+        print(f"pushed {symbol} to {api_url}:", r.json())
+
+
 def main() -> None:
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     cmd = args[0] if args else "build"
     symbol = (args[1] if len(args) > 1 else "ALL").upper()
 
+    if cmd == "push":
+        for sym in (list(MARKETS) if symbol == "ALL" else [symbol]):
+            push(sym)
+        return
     if cmd == "build":
         for sym in (list(MARKETS) if symbol == "ALL" else [symbol]):
             fx = build(sym)
@@ -341,7 +430,7 @@ def main() -> None:
                 dump="--dump" in sys.argv,
             )
     else:
-        sys.exit(f"unknown command: {cmd} (use build|replay [SYMBOL|all])")
+        sys.exit(f"unknown command: {cmd} (use build|replay|push [SYMBOL|all])")
 
 
 if __name__ == "__main__":
