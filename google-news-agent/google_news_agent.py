@@ -88,6 +88,10 @@ SIGNIFICANCE_LABELS: dict[str, float] = {
 
 SENTIMENT_LABELS = ["negative", "neutral", "positive"]
 
+# A binary "affects <unit>" head must clear this to count. Measured against live output:
+# below ~0.7 the model tags nearly every unit on any sufficiently long headline.
+UNIT_CONFIDENCE_FLOOR = 0.7
+
 HTTP_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
 MAX_RETRIES = 3
 PIONEER_CONCURRENCY = 4
@@ -257,48 +261,90 @@ async def collect_articles(hours: int) -> list[Article]:
 # --------------------------------------------------------------------------
 
 
+def classification_text(article: Article) -> str:
+    """Text sent to the classifier.
+
+    Google News RSS descriptions are usually just the headline repeated with the
+    publisher appended. Feeding that back verbatim doubles the headline, and the
+    duplication measurably skews the model -- one live example moved significance from
+    "minor" (0.79) to "major" (0.92) on nothing but the repeat. So the description is
+    only appended when it actually carries text the title does not.
+    """
+    title = article.title.strip()
+    desc = (article.description or "").strip()
+    if not desc:
+        return title
+
+    key = lambda s: re.sub(r"[^a-z0-9]+", "", s.lower())  # noqa: E731
+    title_key, desc_key = key(title), key(desc)
+    # The description is redundant if it is the title, or the title plus a publisher tag.
+    if not desc_key or desc_key in title_key or title_key in desc_key:
+        return title
+    return f"{title}\n\n{desc}"
+
+
+def _unit_task(unit: str) -> str:
+    return "unit_" + re.sub(r"[^a-z0-9]+", "_", unit.lower()).strip("_")
+
+
+# Task name -> business unit, for decoding the per-unit binary heads.
+UNIT_TASKS: dict[str, str] = {_unit_task(u): u for u in BUSINESS_UNITS}
+
+
 def _pioneer_schema() -> dict[str, Any]:
-    """Unified encoder schema per https://docs.pioneer.ai/api-reference/inference/pioneer."""
-    return {
-        "classifications": [
-            {
-                "task": "alphabet_relevance",
-                "labels": ["relevant to Alphabet", "not relevant to Alphabet"],
-                "multi_label": False,
-                "top_k": 1,
-            },
-            {
-                "task": "significance",
-                "labels": list(SIGNIFICANCE_LABELS.keys()),
-                "multi_label": False,
-                "top_k": 1,
-            },
-            {
-                "task": "sentiment",
-                "labels": SENTIMENT_LABELS,
-                "multi_label": False,
-                "top_k": 1,
-            },
-            {
-                "task": "category",
-                "labels": CATEGORIES,
-                "multi_label": False,
-                "top_k": 1,
-            },
-            {
-                "task": "affected_business_units",
-                "labels": BUSINESS_UNITS,
-                "multi_label": True,
-            },
-        ]
-    }
+    """Unified encoder schema per https://docs.pioneer.ai/api-reference/inference/pioneer.
+
+    Two behaviours of fastino/gliner2-base-v1 shape this, both verified against the live
+    API and neither documented:
+
+    * ``top_k`` makes the response come back as an empty ``{"categories": []}``. Omitted.
+    * ``multi_label: true`` does the same, so true multi-label tagging is unavailable on
+      the base model. Business units are therefore asked as one binary head per unit,
+      which does work and preserves multi-unit answers.
+    """
+    classifications: list[dict[str, Any]] = [
+        {
+            "task": "alphabet_relevance",
+            "labels": ["relevant to Alphabet", "not relevant to Alphabet"],
+            "multi_label": False,
+        },
+        {
+            "task": "significance",
+            "labels": list(SIGNIFICANCE_LABELS.keys()),
+            "multi_label": False,
+        },
+        {
+            "task": "sentiment",
+            "labels": SENTIMENT_LABELS,
+            "multi_label": False,
+        },
+        {
+            "task": "category",
+            "labels": CATEGORIES,
+            "multi_label": False,
+        },
+    ]
+    classifications.extend(
+        {
+            "task": task,
+            "labels": [f"affects {unit}", f"does not affect {unit}"],
+            "multi_label": False,
+        }
+        for task, unit in UNIT_TASKS.items()
+    )
+    return {"classifications": classifications}
 
 
 def _iter_predictions(result: Any) -> dict[str, list[tuple[str, float]]]:
     """Normalize Pioneer's encoder `result` into {task: [(label, score), ...]}.
 
-    The response shape for classification heads is not pinned down in the public
-    docs, so accept the plausible variants rather than guessing one.
+    The live shape from fastino/gliner2-base-v1 is::
+
+        {"request_id": ..., "created_at": ...,
+         "data": {"<task>": {"label": "positive", "confidence": 1.0}, "entities": {...}}}
+
+    which is what the primary path below handles. The other branches remain because the
+    response shape is not documented and differs across model families.
     """
     heads: dict[str, list[tuple[str, float]]] = {}
 
@@ -310,6 +356,13 @@ def _iter_predictions(result: Any) -> dict[str, list[tuple[str, float]]]:
         except (TypeError, ValueError):
             value = 1.0
         heads.setdefault(task, []).append((label, value))
+
+    def absorb_entry(task: str, payload: Any) -> None:
+        """A single head's payload: {"label", "confidence"} in the live shape."""
+        if isinstance(payload, dict) and "label" in payload:
+            add(task, payload["label"], payload.get("confidence", payload.get("score", 1.0)))
+        else:
+            absorb(task, payload)
 
     def absorb(task: str, payload: Any) -> None:
         if isinstance(payload, str):
@@ -328,6 +381,16 @@ def _iter_predictions(result: Any) -> dict[str, list[tuple[str, float]]]:
         result = result[0] if result else {}
     if not isinstance(result, dict):
         return heads
+
+    # Primary path: heads live under result["data"], keyed by task name.
+    data = result.get("data")
+    if isinstance(data, dict):
+        for task, payload in data.items():
+            if task in {"entities", "structures", "relations"}:
+                continue
+            absorb_entry(task, payload)
+        if heads:
+            return heads
 
     node = result.get("classifications", result)
     if isinstance(node, dict):
@@ -368,8 +431,18 @@ def _to_analysis(heads: dict[str, list[tuple[str, float]]]) -> PioneerAnalysis:
     category_label, _ = _top(heads, "category")
     category = category_label if category_label in CATEGORIES else "Other"
 
-    units = [label for label, _ in sorted(heads.get("affected_business_units", []), key=lambda p: p[1], reverse=True)]
-    units = [u for u in dict.fromkeys(units) if u in BUSINESS_UNITS]
+    # One binary head per unit: "affects X" / "does not affect X". Zero-shot GLiNER says
+    # "affects" far too readily on long headlines, so a weak yes is treated as a no.
+    scored_units: list[tuple[str, float]] = []
+    for task, unit in UNIT_TASKS.items():
+        label, conf = _top(heads, task)
+        if label and label.startswith("affects ") and conf >= UNIT_CONFIDENCE_FLOOR:
+            scored_units.append((unit, conf))
+    units = [unit for unit, _ in sorted(scored_units, key=lambda p: p[1], reverse=True)]
+
+    if not units:  # older/other shapes may still answer as one multi-label head
+        legacy = sorted(heads.get("affected_business_units", []), key=lambda p: p[1], reverse=True)
+        units = [u for u, _ in legacy if u in BUSINESS_UNITS]
 
     return PioneerAnalysis(
         is_relevant=is_relevant,
@@ -471,7 +544,7 @@ async def analyze_with_pioneer(
 
     payload = {
         "model_id": model,
-        "text": f"{article.title}\n\n{article.description}".strip(),
+        "text": classification_text(article),
         "schema": _pioneer_schema(),
         "threshold": 0.3,
     }
@@ -1068,9 +1141,7 @@ async def check_pioneer() -> int:
         probe = {
             "model_id": model,
             "text": "Alphabet reported quarterly earnings above expectations.",
-            "schema": {"classifications": [{"task": "sentiment",
-                                            "labels": ["negative", "neutral", "positive"],
-                                            "multi_label": False, "top_k": 1}]},
+            "schema": _pioneer_schema(),
             "threshold": 0.3,
         }
         try:
@@ -1147,6 +1218,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Diagnose the Pioneer key, model, and inference access, then exit",
     )
+    parser.add_argument(
+        "--store",
+        action="store_true",
+        help="Persist the run to Actian VectorAI (articles, decision, run log)",
+    )
+    parser.add_argument(
+        "--actian-url",
+        help="Actian VectorAI gRPC endpoint (default: ACTIAN_VECTORAI_URL or localhost:6574)",
+    )
     parser.add_argument("--verbose", action="store_true", help="Debug logging on stderr")
     return parser.parse_args(argv)
 
@@ -1174,6 +1254,14 @@ def main(argv: list[str] | None = None) -> int:
         json.dump(_empty_result(args.hours, f"Agent run failed: {exc}"), sys.stdout, indent=2)
         sys.stdout.write("\n")
         return 1
+
+    if args.store:
+        # Storage is best-effort: a database problem must not cost us the run's
+        # output, so the receipt (including any failure) rides along in the JSON.
+        from actian_store import store_result_safe
+
+        results["storage"] = store_result_safe(results, url=args.actian_url)
+
     json.dump(results, sys.stdout, indent=2, ensure_ascii=False)
     sys.stdout.write("\n")
     return 0

@@ -82,9 +82,53 @@ Requires Python 3.11+.
 | `PIONEER_API_KEY`  | Pioneer API key (`pio_sk_...`)                     | *(required for analysis)*   |
 | `PIONEER_MODEL`    | Pioneer model id or fine-tuned job id              | `fastino/gliner2-base-v1`   |
 | `PIONEER_BASE_URL` | Pioneer API base URL                               | `https://api.pioneer.ai`    |
+| `ACTIAN_VECTORAI_URL`     | Actian VectorAI gRPC endpoint               | `localhost:6574`            |
+| `ACTIAN_VECTORAI_API_KEY` | Actian API key, if auth is enabled          | *(none)*                    |
+| `ACTIAN_EMBED_MODEL`      | Embedding model for stored records          | `gemini-embedding-001`      |
 
 Credentials are read from the environment or `.env` only — nothing is hardcoded. `.env` is
 gitignored; keep it that way.
+
+### Actian VectorAI
+
+Persistence is Actian VectorAI, run locally in Docker:
+
+```bash
+docker pull actian/vectorai:latest
+docker run -d --name vectorai \
+  -v "$(git rev-parse --show-toplevel 2>/dev/null || pwd)/local_data:/var/lib/actian-vectorai" \
+  -p 6573-6575:6573-6575 \
+  -e ACTIAN_VECTORAI_ACCEPT_EULA=YES \
+  actian/vectorai:latest
+```
+
+REST is on 6573, gRPC on 6574 (what the client uses), the local UI on 6575. Database
+files land in `local_data/` in the project root, which is gitignored.
+
+> The vendor quickstart mounts `/var/lib/vectorai`. That is not the path the server
+> writes to — it uses `/var/lib/actian-vectorai`, as above. With the quickstart path the
+> volume is silently ignored and the data lives only inside the container.
+
+```bash
+python actian_store.py health     # verify the connection and create collections
+```
+
+The client needs `grpcio>=1.81.0`; the version pinned in `requirements.txt` covers it.
+
+### Known limitation: restarts drop stored points
+
+VectorAI 1.0.2 does not recover collections across a server restart. After
+`docker restart`, `collections.list()` still returns the collections and `get_info`
+still reports the right `vectors_count`, but every point operation — `count`, `scroll`,
+`search`, even `upsert` — fails with `CollectionNotFoundError`. This reproduces on a
+bare four-dimensional collection with a Docker named volume, so it is the server, not
+this project's schema or mount.
+
+`ensure_collections()` therefore probes each collection and recreates any that cannot
+serve point operations, logging a warning and listing them in the storage receipt under
+`repaired_collections`. That keeps the agent working across restarts, at the cost of the
+points that collection was holding. Treat the store as durable within a server lifetime,
+not across restarts, and re-run the agent to repopulate.
 
 ## Run
 
@@ -104,6 +148,8 @@ python google_news_agent.py --hours 24 --limit 10
 | `--print-system-prompt`  | Print the system prompt to stderr and exit                                     | off     |
 | `--check-pioneer`        | Diagnose Pioneer key, model, and inference access, then exit                    | off     |
 | `--fallback-analysis`    | If Pioneer returns nothing, classify locally with a keyword heuristic (opt-in) | off     |
+| `--store`                | Persist the run to Actian VectorAI                                             | off     |
+| `--actian-url`           | Override the VectorAI endpoint                                                 | —       |
 | `--verbose`              | Debug logging on stderr                                                        | off     |
 
 A 24-hour run collects roughly 800 articles and ~590 after deduplication. Since Pioneer
@@ -215,27 +261,132 @@ key at all — so it validates the model id and reachability, *not* your key. On
 The same catalog check runs as a preflight before every batch, so a wrong `PIONEER_MODEL`
 is caught once with the list of valid encoder models, rather than as N identical failures.
 
-### Pioneer billing note
+### Two undocumented Pioneer behaviours
 
-Pioneer inference requires a paid plan. Without one, `/inference` returns HTTP 403:
+Both found by probing the live API; neither appears in the docs, and both fail *silently*
+by returning `{"categories": []}` — a 200 response with no predictions rather than an error.
+
+- **`top_k` breaks classification.** The fine-tuning guide lists `top_k` as a valid key on
+  a classification entry. Sending it returns an empty result. Omitted here.
+- **`multi_label: true` is unsupported on `gliner2-base-v1`.** Same empty result. True
+  multi-label tagging is therefore unavailable, so business units are asked as one binary
+  `"affects X" / "does not affect X"` head per unit, which does work.
+
+The real response shape is also undocumented and nests one level deeper than you would
+guess from the endpoint reference:
 
 ```json
-{"detail": {"code": "card_required", "message": "To run inference on Pioneer, subscribe to the Hobby or Pro plan...", "resolution_url": "https://agent.pioneer.ai/billing"}}
+{"result": {"data": {"sentiment": {"label": "positive", "confidence": 1.0}}}}
 ```
 
-This is an account entitlement gate, not a request-shape problem — the quickstart's own
-verbatim NER example fails identically with the same key. A useful distinction when
-debugging: an **invalid** key returns `401 Invalid API key`, while a valid-but-unentitled
-key returns `403 card_required`. Getting a 403 therefore confirms the key itself is good.
+A third issue was on our side: Google News RSS descriptions are usually the headline
+repeated with the publisher appended, so the classifier was receiving the title twice.
+That duplication alone moved one headline's significance from `minor` (0.79) to `major`
+(0.92). `classification_text()` now appends the description only when it carries text the
+title does not.
+
+### Known limitation: zero-shot classification quality
+
+Pioneer inference now works end-to-end (`pioneer_status: "ok"`), but the *quality* of
+zero-shot `gliner2-base-v1` on these abstract judgments is poor. From a live 60-article
+run:
+
+- **Significance is saturated.** Every article scored 0.998–1.000. The head answers
+  "major" to essentially everything, which makes `--min-significance` ineffective as a
+  filter.
+- **Business units over-fire.** Mean 6.9 of 9 units flagged per article. A
+  `UNIT_CONFIDENCE_FLOOR` of 0.7 barely helps — the model is confidently wrong.
+- **Categories drift.** *"Tom Holland becomes first 'Hot Ones' guest to vomit"* was
+  classified relevant to Alphabet, significance 1.0, category "Gemini and AI", 9 units
+  affected.
+
+This is expected of the model rather than a bug: the catalog describes it as *"Named
+entity recognition; zero-shot span extraction"*. NER is what it is built for, and it does
+that well — it cleanly extracted `Alphabet` and `Google Cloud` as organizations at ≥0.99.
+Multi-head abstract classification is a stretch for it without fine-tuning.
+
+The trader stage absorbs a lot of this. The Tom Holland article came back HOLD at
+confidence 1.0 with the reasoning *"entertainment news with no financial impact"* — the
+Gemini persona rejected what the classifier let through. That is defense in depth working,
+but it means the significance weighting in `signal_score` is currently carrying less
+information than it appears to.
+
+Three ways forward, in increasing order of effort:
+
+1. **Fine-tune.** Pioneer supports it (`POST /felix/training-jobs`); a few hundred labeled
+   headlines would fix significance and category directly. This is the intended path.
+2. **Narrow Pioneer's job** to relevance and entity extraction, and let Gemini assign
+   significance and category as part of the trader read.
+3. **Run `--fallback-analysis`**, whose keyword heuristic is cruder but at least produces
+   a spread of significance scores.
+
+### Pioneer billing
+
+Inference requires an active Hobby or Pro plan. Without one, `/inference` returns HTTP 403
+`card_required` for *every* request — including the quickstart's own verbatim NER example,
+so a 403 is never a sign of a malformed request. A useful distinction when debugging: an
+**invalid** key returns `401 Invalid API key`, while a valid-but-unentitled key returns
+`403 card_required`, which confirms the key itself is good.
 
 Every response carries a `pioneer_status` field recording exactly what happened
 (`ok`, `not_configured`, `preflight_failed: ...`, `inference_failed: ...`,
 `no_usable_predictions`), so a degraded run is never silently indistinguishable from a
 clean one.
 
-Use `--fallback-analysis` to keep the pipeline demonstrable in the meantime — it
-substitutes a deterministic local keyword classifier and tags the output
-`analysis_provider: "heuristic"`. Remove the flag once the Pioneer plan is active.
+`--fallback-analysis` substitutes a deterministic local keyword classifier and tags the
+output `analysis_provider: "heuristic"`, keeping the pipeline runnable when Pioneer is
+unavailable.
+
+## Storage
+
+`--store` writes the run to Actian VectorAI. Three collections, all 768-dimensional with
+cosine distance:
+
+| Collection            | One point per            | Point ID                                     |
+| --------------------- | ------------------------ | -------------------------------------------- |
+| `deltadesk_articles`  | analyzed article         | UUIDv5 of the canonical article URL           |
+| `deltadesk_decisions` | run's desk decision      | UUIDv5 of ticker + `as_of` + window           |
+| `deltadesk_runs`      | run log entry            | UUIDv5 of the run id                          |
+
+IDs are derived from content, not generated, so a re-run updates the existing record
+rather than duplicating it. Article URLs are canonicalized (lowercased host, query string
+and fragment stripped) before hashing, so `?utm_source=` variants of one story collapse
+into a single point.
+
+Each decision point stores the deterministic `signal_score` alongside the model's
+narrative, so any call can be audited back to the numbers that produced it. Every point
+also records `embedding_provider`, so records written with the offline fallback embedder
+are never mistaken for the real model's output.
+
+Storage is best-effort and never costs you a run: if the database is unreachable, the
+agent still prints its JSON, with the failure reported in a `storage` field.
+
+```bash
+python google_news_agent.py --hours 24 --limit 10 --store
+
+python actian_store.py health
+python actian_store.py store sample_output.json
+python actian_store.py search "antitrust ruling" --collection deltadesk_articles
+python actian_store.py recent
+```
+
+### Embeddings
+
+VectorAI stores and retrieves vectors; it does not produce them. Text is embedded with
+Gemini `gemini-embedding-001` at 768 dimensions when `GEMINI_API_KEY` is set. Without a
+key the store falls back to a deterministic local hash embedding — stable and offline, so
+the storage path stays testable, but weak semantically. The provider used is recorded on
+every point.
+
+## Tests
+
+```bash
+python -m pytest test_actian_store.py -v
+```
+
+The pure-logic tests (ID derivation, embedding determinism, failure handling) always run.
+The round-trip tests need a live VectorAI and skip cleanly when one is not reachable. They
+use the hash embedder, so they require no API key and cost nothing.
 
 ## Constraints
 
@@ -260,7 +411,9 @@ substitutes a deterministic local keyword classifier and tags the output
 
 ```text
 google-news-agent/
-├── google_news_agent.py
+├── google_news_agent.py     # collect -> analyze -> read -> decide -> JSON
+├── actian_store.py          # Actian VectorAI persistence + query CLI
+├── test_actian_store.py
 ├── requirements.txt
 ├── .env.example
 └── README.md
