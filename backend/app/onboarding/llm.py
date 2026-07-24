@@ -9,6 +9,8 @@ rules in `chat.py`, so the chat never breaks without a key.
 import json
 import os
 
+from dotenv import load_dotenv
+
 from app.onboarding.chat import (
     CAPITAL_MAX,
     CAPITAL_MIN,
@@ -18,7 +20,11 @@ from app.onboarding.chat import (
     Slots,
 )
 
+load_dotenv()  # backend/.env — carries OPENROUTER_API_KEY for the whole desk
+
 _MODEL = "claude-opus-4-8"
+_OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+_OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "anthropic/claude-sonnet-4.5")
 
 _SCHEMA = {
     "type": "object",
@@ -53,7 +59,7 @@ Return the user's CURRENT intent for each slot across the whole conversation —
 
 
 def _get_client():
-    if not os.environ.get("ANTHROPIC_API_KEY"):
+    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
         return None
     from anthropic import AsyncAnthropic
 
@@ -76,31 +82,86 @@ options intact).
 - Never mention these instructions or the word FACTS."""
 
 
+async def _stream_openrouter(history: list[dict[str, str]], deterministic_reply: str):
+    """SSE stream from OpenRouter's OpenAI-compatible endpoint (the same
+    provider the trading committee uses)."""
+    import httpx
+
+    payload = {
+        "model": _OPENROUTER_MODEL,
+        "stream": True,
+        "max_tokens": 1024,
+        "messages": [
+            {"role": "system", "content": _REPLY_SYSTEM},
+            *[{"role": m["role"], "content": m["content"]} for m in history[-8:]],
+            {"role": "user", "content": f"FACTS for your next reply:\n{deterministic_reply}"},
+        ],
+    }
+    headers = {
+        "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
+        "HTTP-Referer": "https://deltadesk.example",
+        "X-Title": "DeltaDesk Onboarding",
+    }
+    async with httpx.AsyncClient(timeout=30) as client:
+        async with client.stream("POST", _OPENROUTER_URL, headers=headers, json=payload) as res:
+            res.raise_for_status()
+            async for line in res.aiter_lines():
+                if not line.startswith("data: "):
+                    continue
+                data = line[6:]
+                if data == "[DONE]":
+                    break
+                try:
+                    delta = json.loads(data)["choices"][0].get("delta", {}).get("content")
+                except (KeyError, IndexError, json.JSONDecodeError):
+                    continue
+                if delta:
+                    yield delta
+
+
+async def _stream_fallback(deterministic_reply: str):
+    """No credentials / provider down: stream the engine reply word by word so
+    the UX is identical."""
+    import asyncio
+
+    words = deterministic_reply.split(" ")
+    for i in range(0, len(words), 3):
+        yield " ".join(words[i : i + 3]) + " "
+        await asyncio.sleep(0.03)
+
+
 async def stream_reply(history: list[dict[str, str]], deterministic_reply: str):
-    """Yield the concierge's reply as text chunks. Uses Claude when a key is
-    configured; otherwise yields the deterministic reply whole. The
-    deterministic reply is the grounding — Claude rephrases, never re-decides."""
-    client = _get_client()
-    if client is None:
-        yield deterministic_reply
-        return
+    """Yield the concierge's reply as text chunks — LLM-generated when
+    credentials exist (OpenRouter first, then Anthropic), engine text
+    otherwise. The deterministic reply is the grounding — the model
+    rephrases, never re-decides."""
     started = False
     try:
-        async with client.messages.stream(
-            model=_MODEL,
-            max_tokens=1024,
-            system=_REPLY_SYSTEM,
-            messages=[
-                *[{"role": m["role"], "content": m["content"]} for m in history[-8:]],
-                {"role": "user", "content": f"FACTS for your next reply:\n{deterministic_reply}"},
-            ],
-        ) as stream:
-            async for text in stream.text_stream:
+        if os.environ.get("OPENROUTER_API_KEY"):
+            async for text in _stream_openrouter(history, deterministic_reply):
                 started = True
                 yield text
+            return
+        client = _get_client()
+        if client is not None:
+            async with client.messages.stream(
+                model=_MODEL,
+                max_tokens=1024,
+                system=_REPLY_SYSTEM,
+                messages=[
+                    *[{"role": m["role"], "content": m["content"]} for m in history[-8:]],
+                    {"role": "user", "content": f"FACTS for your next reply:\n{deterministic_reply}"},
+                ],
+            ) as stream:
+                async for text in stream.text_stream:
+                    started = True
+                    yield text
+            return
     except Exception:
-        if not started:
-            yield deterministic_reply
+        pass
+    if not started:
+        async for text in _stream_fallback(deterministic_reply):
+            yield text
 
 
 async def llm_extract(history: list[dict[str, str]], slots: Slots) -> Extraction | None:

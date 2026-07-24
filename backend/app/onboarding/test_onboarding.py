@@ -11,6 +11,7 @@ from app.onboarding.chat import Slots, respond, rule_extract
 from app.onboarding.router import get_committee_mandates, router
 
 os.environ.pop("ANTHROPIC_API_KEY", None)  # force the deterministic path
+os.environ.pop("OPENROUTER_API_KEY", None)  # keep tests offline
 
 app = FastAPI()
 app.include_router(router)
