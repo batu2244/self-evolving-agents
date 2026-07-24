@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "guild": {
+      "command": "guild",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}
