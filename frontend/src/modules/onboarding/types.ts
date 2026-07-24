@@ -21,6 +21,10 @@ export interface EnvelopeSlots {
   targetReturnPct: number | null;
   capitalUsd: number | null;
   market: Market | null;
+  /** sector label the user zoomed into, e.g. "Financials" */
+  sector: string | null;
+  /** stocks picked in chat — pre-checked in the proposal */
+  picks: string[];
 }
 
 export const EMPTY_SLOTS: EnvelopeSlots = {
@@ -28,6 +32,8 @@ export const EMPTY_SLOTS: EnvelopeSlots = {
   targetReturnPct: null,
   capitalUsd: null,
   market: null,
+  sector: null,
+  picks: [],
 };
 
 export interface UniverseAsset {
@@ -74,6 +80,7 @@ export interface ChatResponse {
   proposal: UniverseProposal | null;
   done: boolean;
   candidates: RadarItem[];
+  preselect: string[];
 }
 
 export const MARKET_LABEL: Record<Market, string> = {

@@ -14,17 +14,11 @@ import {
 import { ProposalCard } from "./ProposalCard";
 
 const GREETING =
-  "Welcome to the floor. I staff a desk of trading agents around your risk envelope — " +
-  "four questions max, then you pick the stock the committee trades. " +
-  "Most-watched right now: NVDA, TSLA, XTB, BTC, KO. " +
-  "If you had to buy one today, which would it be?";
+  "Welcome to the floor. Four questions max, then the committee trades the stock you pick. " +
+  "Most-watched today: NVDA (US), ASML (EU), XTB (Warsaw), BTC (crypto), KO (US). " +
+  "Which market do you want to trade?";
 
-const GREETING_CHIPS = [
-  "NVDA and TSLA",
-  "Something safe like KO",
-  "XTB on the Warsaw exchange",
-  "Just pick for me",
-];
+const GREETING_CHIPS = ["US equities", "EU equities", "Warsaw (GPW)", "Crypto"];
 
 const GREETING_RADAR: RadarItem[] = [
   { symbol: "NVDA", name: "NVIDIA" },
@@ -41,6 +35,7 @@ interface Msg {
   proposal?: UniverseProposal | null;
   envelope?: RiskEnvelope | null;
   candidates?: RadarItem[];
+  preselect?: string[];
   error?: boolean;
 }
 
@@ -95,6 +90,7 @@ export function OnboardingChat() {
             proposal: res.proposal,
             envelope,
             candidates: res.candidates,
+            preselect: res.preselect,
           },
         ]);
       })
@@ -218,6 +214,7 @@ export function OnboardingChat() {
                 <ProposalCard
                   envelope={msg.envelope}
                   proposal={msg.proposal}
+                  preselect={msg.preselect}
                   onRatified={onRatified}
                 />
               )}
@@ -301,10 +298,10 @@ export function OnboardingChat() {
 
 function SlotTracker({ slots }: { slots: EnvelopeSlots }) {
   const cells: [string, string | null][] = [
-    ["Risk", slots.riskLevel],
     ["Market", slots.market ? MARKET_LABEL[slots.market] : null],
+    ["Sector", slots.sector],
+    ["Stock", slots.picks.length > 0 ? slots.picks.join(", ") : null],
     ["Capital", slots.capitalUsd !== null ? `$${slots.capitalUsd.toLocaleString("en-US")}` : null],
-    ["Target", slots.targetReturnPct !== null ? `+${slots.targetReturnPct}%/qtr` : null],
   ];
   return (
     <dl className="grid grid-cols-4 gap-px border border-line bg-line" aria-label="Risk envelope so far">

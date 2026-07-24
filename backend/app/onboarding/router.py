@@ -41,6 +41,8 @@ class PartialEnvelope(BaseModel):
     target_return_pct: float | None = Field(default=None, alias="targetReturnPct")
     capital_usd: float | None = Field(default=None, alias="capitalUsd")
     market: Market | None = None
+    sector: str | None = None
+    picks: list[str] = []
 
     model_config = {"populate_by_name": True}
 
@@ -58,6 +60,8 @@ class ChatResponse(BaseModel):
     done: bool
     # stocks on the radar for the current partial envelope ({symbol, name})
     candidates: list[dict[str, str]] = []
+    # symbols to pre-check in the proposal table (the user's chat picks)
+    preselect: list[str] = []
 
 
 class RatifyRequest(BaseModel):
@@ -79,6 +83,8 @@ async def chat(body: ChatRequest) -> ChatResponse:
         target_return_pct=body.slots.target_return_pct,
         capital_usd=body.slots.capital_usd,
         market=body.slots.market,
+        sector=body.slots.sector,
+        picks=list(body.slots.picks),
     )
     # Claude extraction when a key is configured; deterministic rules otherwise.
     extraction = await llm_extract([m.model_dump() for m in body.messages], slots)
@@ -107,11 +113,14 @@ async def chat(body: ChatRequest) -> ChatResponse:
             target_return_pct=turn.slots.target_return_pct,
             capital_usd=turn.slots.capital_usd,
             market=turn.slots.market,
+            sector=turn.slots.sector,
+            picks=turn.slots.picks,
         ),
         suggestions=turn.suggestions,
         proposal=turn.proposal,
         done=turn.done,
         candidates=turn.candidates,
+        preselect=turn.preselect,
     )
 
 

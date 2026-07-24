@@ -32,10 +32,47 @@ def _chat(messages, slots=None):
 
 def test_chat_learns_from_popular_tickers():
     body = _chat([{"role": "user", "content": "I'd buy NVDA and Tesla if I had to pick today"}])
-    assert body["slots"]["riskLevel"] == "aggressive"
     assert body["slots"]["market"] == "us"
+    assert set(body["slots"]["picks"]) >= {"NVDA", "TSLA"}
     assert not body["done"]
     assert body["suggestions"]  # asks the next question with quick replies
+
+
+def test_chat_demo_funnel_poland_finance_xtb():
+    # Q1 (greeting asked market): Poland
+    body = _chat([{"role": "assistant", "content": "g"}, {"role": "user", "content": "Poland"}])
+    assert body["slots"]["market"] == "pl"
+    assert "Financials" in body["suggestions"]  # Q2 asks the sector
+    slots = body["slots"]
+
+    # Q2: something in finance -> stock question with XTB on the radar
+    body = _chat(
+        [{"role": "assistant", "content": "q"}, {"role": "user", "content": "maybe something in finance"}],
+        slots,
+    )
+    assert body["slots"]["sector"] == "Financials"
+    assert "XTB" in body["suggestions"]  # Q3 offers concrete stocks
+    assert "XTB" in [c["symbol"] for c in body["candidates"]]
+    slots = body["slots"]
+
+    # Q3: pick XTB -> Q4 asks for the money
+    body = _chat(
+        [{"role": "assistant", "content": "q"}, {"role": "user", "content": "XTB"}],
+        slots,
+    )
+    assert body["slots"]["picks"] == ["XTB"]
+    assert "How much money" in body["reply"]
+    slots = body["slots"]
+
+    # Q4: capital -> proposal with XTB pre-checked
+    body = _chat(
+        [{"role": "assistant", "content": "q"}, {"role": "user", "content": "$20,000"}],
+        slots,
+    )
+    assert body["done"]
+    assert body["preselect"] == ["XTB"]
+    assert body["proposal"]["trackerSymbol"] == "WIG20"
+    assert "XTB" in [a["symbol"] for a in body["proposal"]["universe"]]
 
 
 def test_chat_full_conversation_reaches_proposal():

@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass, field
 
 from app.onboarding.schemas import Market, RiskEnvelope, RiskLevel, UniverseProposal
-from app.onboarding.universe import propose_universe
+from app.onboarding.universe import _CATALOG, _ELIGIBLE_BANDS, _with_history, propose_universe
 
 CAPITAL_MIN = 1_000
 CAPITAL_MAX = 10_000_000
@@ -87,6 +87,31 @@ MARKET_LABEL: dict[Market, str] = {
     "crypto": "crypto",
 }
 
+# display label -> (regex, catalog sector names it covers)
+SECTORS: dict[str, tuple[str, set[str]]] = {
+    "Financials": (r"financ|bank|broker|insur|fintech", {"Financials", "Insurance"}),
+    "Technology": (r"\btech|software|semiconductor|chip", {"Technology"}),
+    "Energy": (r"energy|oil|gas|utilit", {"Energy", "Utilities"}),
+    "Gaming": (r"gam(?:e|ing)|esports", {"Gaming"}),
+    "Consumer": (r"consumer|retail|shop|staples|food", {"Consumer Staples", "Consumer Discretionary"}),
+    "Healthcare": (r"health|pharma|medic", {"Healthcare"}),
+    "Materials": (r"material|mining|metal|copper", {"Materials"}),
+    "Communication": (r"telecom|communicat|media", {"Communication"}),
+}
+
+# symbol -> (name, market, vol band) across every floor, for picking stocks in chat
+SYMBOL_INDEX: dict[str, tuple[str, Market, str]] = {
+    a.symbol: (a.name, market, a.vol_band)
+    for market, assets in _CATALOG.items()
+    for a in assets
+}
+
+_BAND_TO_RISK: dict[str, RiskLevel] = {
+    "low": "conservative",
+    "medium": "balanced",
+    "high": "aggressive",
+}
+
 
 @dataclass
 class Slots:
@@ -94,15 +119,27 @@ class Slots:
     target_return_pct: float | None = None
     capital_usd: float | None = None
     market: Market | None = None
+    sector: str | None = None  # display label from SECTORS
+    picks: list[str] = field(default_factory=list)  # symbols chosen in chat
 
     def complete(self) -> bool:
-        return None not in (self.risk_level, self.capital_usd, self.market)
+        # risk/target default at proposal time; sector and picks are optional
+        return None not in (self.capital_usd, self.market)
+
+    def resolved_risk(self) -> RiskLevel:
+        if self.risk_level:
+            return self.risk_level
+        bands = [SYMBOL_INDEX[p][2] for p in self.picks if p in SYMBOL_INDEX]
+        if bands:
+            return _BAND_TO_RISK[max(set(bands), key=bands.count)]
+        return "balanced"
 
     def to_envelope(self) -> RiskEnvelope:
-        assert self.risk_level and self.capital_usd and self.market
-        target = self.target_return_pct or DEFAULT_TARGET[self.risk_level]
+        assert self.capital_usd and self.market
+        risk = self.resolved_risk()
+        target = self.target_return_pct or DEFAULT_TARGET[risk]
         return RiskEnvelope(
-            risk_level=self.risk_level,
+            risk_level=risk,
             target_return_pct=target,
             capital_usd=self.capital_usd,
             market=self.market,
@@ -115,7 +152,8 @@ class Extraction:
     target_return_pct: float | None = None
     capital_usd: float | None = None
     market: Market | None = None
-    tickers: list[str] = field(default_factory=list)  # POPULAR symbols mentioned
+    sector: str | None = None
+    tickers: list[str] = field(default_factory=list)  # catalog symbols mentioned
     inferred_risk: RiskLevel | None = None
     inferred_market: Market | None = None
     defaults_requested: bool = False
@@ -127,18 +165,38 @@ def rule_extract(text: str) -> Extraction:
     ex = Extraction()
     lowered = text.lower()
 
-    # tickers first — they power the "learn from what you'd buy" inference
-    for symbol in POPULAR:
-        if re.search(rf"\b{symbol}\b", text, re.IGNORECASE):
+    # tickers first — they power the "learn from what you'd buy" inference.
+    # Any symbol or name from the catalogs counts as a pick.
+    for symbol, (name, _mkt, _band) in SYMBOL_INDEX.items():
+        token = re.escape(symbol.split("/")[0])
+        if re.search(rf"\b{token}\b", text, re.IGNORECASE):
+            ex.tickers.append(symbol)
+        elif len(name) > 3 and name.lower() in lowered:
             ex.tickers.append(symbol)
     for alias, symbol in _NAME_ALIASES.items():
-        if symbol not in ex.tickers and alias in lowered:
+        resolved = symbol if symbol in SYMBOL_INDEX else f"{symbol}/USD"
+        if resolved in SYMBOL_INDEX and resolved not in ex.tickers and alias in lowered:
+            ex.tickers.append(resolved)
+    for symbol in POPULAR:
+        if symbol in SYMBOL_INDEX:
+            continue
+        if re.search(rf"\b{re.escape(symbol)}\b", text, re.IGNORECASE):
             ex.tickers.append(symbol)
     if ex.tickers:
-        markets = [POPULAR[s][1] for s in ex.tickers]
-        tilts = [POPULAR[s][2] for s in ex.tickers]
+        markets = [
+            SYMBOL_INDEX[s][1] if s in SYMBOL_INDEX else POPULAR[s][1] for s in ex.tickers
+        ]
         ex.inferred_market = max(set(markets), key=markets.count)
+        tilts = [
+            _BAND_TO_RISK[SYMBOL_INDEX[s][2]] if s in SYMBOL_INDEX else POPULAR[s][2]
+            for s in ex.tickers
+        ]
         ex.inferred_risk = max(set(tilts), key=tilts.count)
+
+    for label, (pattern, _names) in SECTORS.items():
+        if re.search(pattern, lowered):
+            ex.sector = label
+            break
 
     for level, pattern in _RISK_PATTERNS:
         if re.search(pattern, lowered):
@@ -205,23 +263,33 @@ def _extract_capital(lowered: str) -> float | None:
 
 def apply_extraction(slots: Slots, ex: Extraction) -> Slots:
     new = Slots(**vars(slots))
+    new.picks = list(slots.picks)
     if ex.risk_level:
         new.risk_level = ex.risk_level
     if ex.market:
         new.market = ex.market
+    if ex.sector:
+        new.sector = ex.sector
     if ex.capital_usd is not None:
         new.capital_usd = ex.capital_usd
     elif ex.capital_multiplier is not None and slots.capital_usd is not None:
         new.capital_usd = min(max(slots.capital_usd * ex.capital_multiplier, CAPITAL_MIN), CAPITAL_MAX)
     if ex.target_return_pct is not None:
         new.target_return_pct = ex.target_return_pct
-    # inference from tickers only fills gaps, never overrides a stated answer
+    # mentioned stocks become picks; inference fills gaps, never overrides answers
+    for s in ex.tickers:
+        if s in SYMBOL_INDEX and s not in new.picks:
+            new.picks.append(s)
     if new.market is None and ex.inferred_market:
         new.market = ex.inferred_market
     if new.risk_level is None and ex.inferred_risk:
         new.risk_level = ex.inferred_risk
+    # picks from another floor than a previously assumed market move the desk there
+    if new.picks:
+        pick_market = SYMBOL_INDEX[new.picks[-1]][1]
+        if ex.market is None and slots.market is None:
+            new.market = pick_market
     if ex.defaults_requested:
-        new.risk_level = new.risk_level or "balanced"
         new.market = new.market or "us"
         new.capital_usd = new.capital_usd or 10_000
     return new
@@ -235,6 +303,7 @@ class Turn:
     proposal: UniverseProposal | None
     done: bool
     candidates: list[dict[str, str]] = field(default_factory=list)
+    preselect: list[str] = field(default_factory=list)  # picks to pre-check in the proposal
 
 
 # The concierge asks at most this many questions before proposing with defaults.
@@ -243,18 +312,52 @@ MAX_QUESTIONS = 4
 
 def radar(slots: Slots) -> list[dict[str, str]]:
     """Stocks on the radar for the current partial envelope — shown at every
-    stage so the user is always looking at concrete names."""
-    from app.onboarding.universe import _CATALOG, _ELIGIBLE_BANDS  # local import to avoid a cycle
-
+    stage so the user is always looking at concrete names. Narrows with each
+    answer: market → sector → risk."""
     if slots.market:
         pool = _CATALOG[slots.market]
+        if slots.sector and slots.sector in SECTORS:
+            names = SECTORS[slots.sector][1]
+            filtered = [a for a in pool if a.sector in names]
+            pool = filtered or pool
         if slots.risk_level:
             bands = _ELIGIBLE_BANDS[slots.risk_level]
-            pool = [a for a in pool if a.vol_band in bands]
+            filtered = [a for a in pool if a.vol_band in bands]
+            pool = filtered or pool
         return [{"symbol": a.symbol, "name": a.name} for a in pool[:5]]
     # market unknown — one flavour of each floor
-    picks = ["NVDA", "ASML", "XTB", "KO", "BTC"]
-    return [{"symbol": s, "name": POPULAR[s][0]} for s in picks if s in POPULAR]
+    picks = ["NVDA", "ASML", "XTB", "KO"]
+    out = [{"symbol": s, "name": SYMBOL_INDEX[s][0]} for s in picks if s in SYMBOL_INDEX]
+    out.append({"symbol": "BTC/USD", "name": "Bitcoin"})
+    return out
+
+
+def _sector_chips(market: Market) -> list[str]:
+    """Sector labels for the market, most-represented first."""
+    counts: dict[str, int] = {}
+    for a in _CATALOG[market]:
+        for label, (_p, names) in SECTORS.items():
+            if a.sector in names:
+                counts[label] = counts.get(label, 0) + 1
+    ordered = sorted(counts, key=counts.get, reverse=True)  # type: ignore[arg-type]
+    return ordered[:4]
+
+
+def _sector_aware_proposal(envelope: RiskEnvelope, slots: Slots) -> UniverseProposal:
+    """Standard screened universe, reordered so the chosen sector leads and
+    the user's picks are always present."""
+    proposal = propose_universe(envelope)
+    universe = list(proposal.universe)
+    if slots.sector and slots.sector in SECTORS:
+        names = SECTORS[slots.sector][1]
+        universe.sort(key=lambda a: a.sector not in names)  # stable: sector first
+    present = {a.symbol for a in universe}
+    missing = [p for p in slots.picks if p in SYMBOL_INDEX and p not in present]
+    for symbol in reversed(missing):
+        market = SYMBOL_INDEX[symbol][1]
+        asset = next(a for a in _CATALOG[market] if a.symbol == symbol)
+        universe.insert(0, _with_history(asset))
+    return proposal.model_copy(update={"universe": universe[:8]})
 
 
 def respond(
@@ -268,23 +371,22 @@ def respond(
     parts: list[str] = []
 
     if force_complete and not new.complete():
-        new.risk_level = new.risk_level or "balanced"
         new.market = new.market or "us"
         new.capital_usd = new.capital_usd or 10_000
         parts.append("Four questions is my cap — I filled the rest with desk defaults.")
 
-    if ex.tickers:
-        names = ", ".join(f"{s} ({POPULAR[s][0]})" for s in ex.tickers[:4])
-        flavor = ""
-        if slots.risk_level is None and ex.inferred_risk and not ex.risk_level:
-            flavor = f" — reads {ex.inferred_risk} to me"
-        parts.append(f"{names}{flavor}.")
+    new_picks = [p for p in new.picks if p not in slots.picks]
+    if new_picks:
+        names = ", ".join(f"{s} ({SYMBOL_INDEX[s][0]})" for s in new_picks[:4])
+        parts.append(f"{names} — noted, the committee will focus there.")
 
-    if new.risk_level and new.risk_level != slots.risk_level:
-        parts.append(f"I'll run the desk {new.risk_level}.")
     if new.market and new.market != slots.market:
         extra = " — trades 24/7, the desk never sleeps" if new.market == "crypto" else ""
         parts.append(f"Trading {MARKET_LABEL[new.market]}{extra}.")
+    if new.sector and new.sector != slots.sector:
+        parts.append(f"Scanning {new.sector} names.")
+    if new.risk_level and new.risk_level != slots.risk_level and ex.risk_level:
+        parts.append(f"I'll run the desk {new.risk_level}.")
     if new.capital_usd and new.capital_usd != slots.capital_usd:
         parts.append(f"${new.capital_usd:,.0f} committed — paper only, nothing real moves.")
     if new.target_return_pct and new.target_return_pct != slots.target_return_pct:
@@ -292,8 +394,13 @@ def respond(
     parts.extend(ex.notes)
 
     if new.complete():
+        if new.risk_level is None:
+            risk = new.resolved_risk()
+            if new.picks:
+                parts.append(f"Your picks read {risk} — position rules follow.")
+            new.risk_level = risk
         envelope = new.to_envelope()
-        proposal = propose_universe(envelope)
+        proposal = _sector_aware_proposal(envelope, new)
         if new.target_return_pct is None:
             new.target_return_pct = envelope.target_return_pct
             article = "an" if envelope.risk_level == "aggressive" else "a"
@@ -301,13 +408,17 @@ def respond(
                 f"I set the bar at tracker +{envelope.target_return_pct:g}%/quarter "
                 f"(standard for {article} {envelope.risk_level} desk) — give me a number to change it."
             )
+        preselect = [p for p in new.picks if p in {a.symbol for a in proposal.universe}]
+        confirm = (
+            f"{', '.join(preselect)} is pre-checked — confirm or adjust, then ratify."
+            if preselect
+            else "Pick the stock you want to trade — each pick goes to the committee to argue over daily — then ratify."
+        )
         parts.append(
-            f"Here's the desk I'd staff: {len(proposal.universe)} names screened against "
+            f"Here's the desk: {len(proposal.universe)} names screened against "
             f"{proposal.tracker_symbol} ({proposal.tracker_name}), max position "
             f"{proposal.rules.max_position_pct:g}%, daily drawdown capped at "
-            f"{proposal.rules.max_daily_drawdown_pct:g}%. Pick the stock you want to trade — "
-            f"each pick goes to the committee to argue over daily — then ratify. "
-            f"Or tell me what to change."
+            f"{proposal.rules.max_daily_drawdown_pct:g}%. {confirm}"
         )
         return Turn(
             reply=" ".join(parts),
@@ -315,6 +426,7 @@ def respond(
             suggestions=["Make it more aggressive", "Double the capital", "Switch to Warsaw (GPW)"],
             proposal=proposal,
             done=True,
+            preselect=preselect,
         )
 
     if not parts:
@@ -332,17 +444,27 @@ def respond(
 
 
 def _next_question(slots: Slots) -> tuple[str, list[str]]:
-    if slots.risk_level is None:
-        return (
-            "How much risk can you stomach — keep it safe, balanced, or chase the delta?",
-            ["Keep it safe", "Balanced", "Chase the delta"],
-        )
+    """The funnel: market → sector → stock → capital. At most 4 questions."""
     if slots.market is None:
         return (
-            "Where should the desk trade — US equities, EU equities, Warsaw (GPW), or crypto (24/7)?",
+            "Which floor do you want to trade — US equities, EU equities, Warsaw (GPW), or crypto (24/7)?",
             ["US equities", "EU equities", "Warsaw (GPW)", "Crypto"],
         )
+    if not slots.picks:
+        if slots.sector is None:
+            chips = _sector_chips(slots.market)
+            return (
+                f"Which corner of the {MARKET_LABEL[slots.market]} floor — "
+                f"{', '.join(chips)}, or something else?",
+                chips,
+            )
+        names = radar(slots)
+        listed = ", ".join(f"{c['symbol']} ({c['name']})" for c in names[:4])
+        return (
+            f"These catch the floor's eye: {listed}. Which one should the committee focus on?",
+            [c["symbol"] for c in names[:4]],
+        )
     return (
-        "How much paper capital should the desk run? Anywhere from $1,000 to $10,000,000.",
+        "How much money should the desk put in? Anywhere from $1,000 to $10,000,000 — paper only.",
         ["$10,000", "$25,000", "$100,000"],
     )

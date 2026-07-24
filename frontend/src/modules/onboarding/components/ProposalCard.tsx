@@ -52,12 +52,14 @@ function fmtPrice(v: number): string {
 export function ProposalCard(props: {
   envelope: RiskEnvelope;
   proposal: UniverseProposal;
+  /** symbols picked during the chat — pre-checked here */
+  preselect?: string[];
   onRatified: (desk: StoredDesk) => void;
 }) {
   const { proposal } = props;
-  // starts empty on purpose: the user actively picks the stock(s) the
-  // committee will trade
-  const [selected, setSelected] = useState<Set<string>>(() => new Set());
+  // only the stocks actively picked in chat start checked; otherwise the
+  // user picks here
+  const [selected, setSelected] = useState<Set<string>>(() => new Set(props.preselect ?? []));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ratified, setRatified] = useState(false);
