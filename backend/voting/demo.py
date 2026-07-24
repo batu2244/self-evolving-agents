@@ -1,26 +1,24 @@
-"""Scripted deliberation cycle on the in-memory floor — the demo's 30 seconds.
+"""Scripted binary-vote deliberation on the in-memory floor.
 
-Each agent enters with just the position change it wants on ETH/USD:
-sentiment wants to flip short while realtime and historical want to add.
-They argue, the conflicting pair trade rebuttals, and the evaluation agent
-blends the proposals weighted by argument quality × track-record
-credibility. Realtime enters with a losing streak on record, so its thin
-"price is up" case moves the desk far less than it wants.
+Sentiment votes SELL ETH while realtime and historical vote BUY; the
+conflicting pairs trade rebuttals and the evaluation agent settles it with
+argument scores × track-record credibility. Realtime enters with a losing
+streak on record, so its thin "price is up" case carries little weight.
 
     python -m voting.demo
 """
 
-from voting.deliberation import Case, PositionChange, run_deliberation
-from voting.judge import default_judge
+from voting.deliberation import Case, Side, Stance, run_deliberation
+from voting.judge import HeuristicJudge
 from voting.track_record import TrackRecord
 from voting.transport import InMemoryFloor
 
-PROPOSALS = [
-    PositionChange(agent="sentiment", ticker="ETH/USD", current=0.5, target=-0.25),
-    PositionChange(agent="realtime", ticker="ETH/USD", current=0.5, target=1.0),
-    PositionChange(agent="historical", ticker="ETH/USD", current=0.5, target=0.75),
-    PositionChange(agent="sentiment", ticker="BTC/USD", current=0.25, target=0.5),
-    PositionChange(agent="realtime", ticker="BTC/USD", current=0.25, target=0.5),
+STANCES = [
+    Stance(agent="sentiment", ticker="ETH/USD", side=Side.SELL),
+    Stance(agent="realtime", ticker="ETH/USD", side=Side.BUY),
+    Stance(agent="historical", ticker="ETH/USD", side=Side.BUY),
+    Stance(agent="sentiment", ticker="BTC/USD", side=Side.BUY),
+    Stance(agent="realtime", ticker="BTC/USD", side=Side.BUY),
 ]
 
 CASES = {
@@ -32,9 +30,9 @@ CASES = {
         "Price is up 1.4% since open and holding above VWAP. Momentum is momentum.",
     ("historical", "ETH/USD"):
         "Mean-reversion setup: 3 consecutive red days historically bounce 62% of the "
-        "time in the following two sessions; sizing up modestly fits the pattern.",
+        "time in the following two sessions.",
     ("sentiment", "BTC/USD"):
-        "ETF inflow coverage net-positive, 24h news flow clean; modest add is justified.",
+        "ETF inflow coverage net-positive, 24h news flow clean; BUY is justified.",
     ("realtime", "BTC/USD"):
         "Up 1.2% vs open on 1.8x average volume with tracker momentum confirming.",
 }
@@ -44,10 +42,10 @@ class ScriptedAgent:
     def __init__(self, name: str):
         self.name = name
 
-    def make_case(self, own: PositionChange, others) -> str:
+    def make_case(self, own: Stance, others) -> str:
         return CASES[(self.name, own.ticker)]
 
-    def rebut(self, own: PositionChange, opposing_case: Case) -> str:
+    def rebut(self, own: Stance, opposing_case: Case) -> str:
         if self.name == "sentiment":
             return (
                 "Momentum without volume-confirmed news support faded 4 of the last "
@@ -67,7 +65,7 @@ def main() -> None:
 
     room = InMemoryFloor()
     agents = {n: ScriptedAgent(n) for n in ("sentiment", "realtime", "historical")}
-    verdict = run_deliberation("demo-001", PROPOSALS, agents, default_judge(), record, room)
+    verdict = run_deliberation("demo-001", STANCES, agents, HeuristicJudge(), record, room)
 
     print("=" * 72)
     print("TRADING FLOOR TRANSCRIPT")
@@ -83,7 +81,8 @@ def main() -> None:
     print("credibility going in:", {a: record.credibility(a) for a in agents})
     for tv in verdict.verdicts:
         shares = ", ".join(f"{a}={w:.0%}" for a, w in sorted(tv.contributions.items()))
-        print(f"{tv.ticker}: final position {tv.final_target:+.2f}  ({shares})")
+        flag = " UNANIMOUS" if tv.unanimous else ""
+        print(f"{tv.ticker}: {tv.decision.value.upper()} at {tv.conviction:.0%} conviction{flag}  ({shares})")
     print(verdict.narrative)
 
 

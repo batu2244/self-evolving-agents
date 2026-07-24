@@ -1,9 +1,14 @@
 """Argument judges for the deliberation verdict.
 
-ClaudeJudge: an LLM evaluation agent reads the whole debate — every
-position, case, and rebuttal — and scores each case's argument quality
-0..1 via structured output. HeuristicJudge is the deterministic fallback
-(no API key, tests, replay harness), so the desk never blocks on an LLM.
+The LLM evaluation agent reads the whole debate — every stance, case, and
+rebuttal — and scores each case's argument quality 0..1. Two backends:
+
+  OpenRouterJudge  foundation-model research endpoint (OPENROUTER_API_KEY,
+                   OpenAI-compatible chat completions) — the desk's default
+  ClaudeJudge      direct Anthropic API (ANTHROPIC_API_KEY)
+
+HeuristicJudge is the deterministic fallback (no keys, tests, replay
+harness), so the desk never blocks on an LLM.
 
 Argument score is deliberately separate from credibility: the judge grades
 *this debate's* reasoning; the track record (track_record.py) grades the
@@ -12,27 +17,48 @@ agent's history. The verdict multiplies the two.
 
 from __future__ import annotations
 
+import json
 import os
 import re
 
+import httpx
 from pydantic import BaseModel, Field
 
-from .deliberation import ArgumentScore, Case, PositionChange, RebuttalMsg
+from .deliberation import ArgumentScore, Case, RebuttalMsg, Stance
 
-JUDGE_MODEL = "claude-opus-4-8"
+def _load_env_file() -> None:
+    """Pick up backend/.env (gitignored) without a python-dotenv dependency."""
+    from pathlib import Path
+
+    env_path = Path(__file__).parent.parent / ".env"
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            if "=" in line and not line.lstrip().startswith("#"):
+                k, _, v = line.partition("=")
+                os.environ.setdefault(k.strip(), v.strip())
+
+
+_load_env_file()
+
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "anthropic/claude-sonnet-4.5")
+ANTHROPIC_MODEL = "claude-opus-4-8"
 
 JUDGE_SYSTEM = """\
 You are the evaluation agent on an autonomous paper-trading desk. Analyst
-agents have proposed position changes and argued for them. Score each case's
-ARGUMENT QUALITY from 0.0 to 1.0. Judge only the reasoning in this debate —
-not the agent's history (the desk weighs that separately) and not whether
-you personally agree with the trade.
+agents have each taken a binary stance — BUY or SELL a ticker — and argued
+for it. Score each case's ARGUMENT QUALITY from 0.0 to 1.0. Judge only the
+reasoning in this debate — not the agent's history (the desk weighs that
+separately) and not which side you would personally take.
 
 Reward: specific, falsifiable evidence; correct use of data; arguments that
 survive the rebuttals filed against them; acknowledging risk.
 Punish: vague hype, circular reasoning, claims contradicted by a rebuttal
 left unanswered, overconfidence without evidence.
-Score every (agent, ticker) case exactly once."""
+Score every (agent, ticker) case exactly once.
+
+Respond with ONLY a JSON object, no prose, in this exact shape:
+{"scores": [{"agent": "...", "ticker": "...", "score": 0.0, "reasoning": "..."}]}"""
 
 
 class _ScoreSheet(BaseModel):
@@ -40,11 +66,11 @@ class _ScoreSheet(BaseModel):
 
 
 def _debate_transcript(
-    proposals: list[PositionChange], cases: list[Case], rebuttals: list[RebuttalMsg]
+    stances: list[Stance], cases: list[Case], rebuttals: list[RebuttalMsg]
 ) -> str:
-    lines = ["## Proposed position changes"]
-    for p in proposals:
-        lines.append(f"- {p.agent} on {p.ticker}: {p.current:+.2f} -> {p.target:+.2f}")
+    lines = ["## Stances"]
+    for s in stances:
+        lines.append(f"- {s.agent}: {s.side.value.upper()} {s.ticker}")
     lines.append("\n## Cases")
     for c in cases:
         lines.append(f"### {c.agent} on {c.ticker}\n{c.argument}")
@@ -55,8 +81,43 @@ def _debate_transcript(
     return "\n".join(lines)
 
 
+class OpenRouterJudge:
+    """LLM judge over OpenRouter's OpenAI-compatible endpoint."""
+
+    def __init__(self, model: str = OPENROUTER_MODEL, api_key: str | None = None) -> None:
+        self._model = model
+        self._key = api_key or os.environ["OPENROUTER_API_KEY"]
+
+    def score(
+        self,
+        stances: list[Stance],
+        cases: list[Case],
+        rebuttals: list[RebuttalMsg],
+    ) -> list[ArgumentScore]:
+        r = httpx.post(
+            OPENROUTER_URL,
+            headers={"Authorization": f"Bearer {self._key}"},
+            json={
+                "model": self._model,
+                "max_tokens": 2000,
+                "response_format": {"type": "json_object"},
+                "messages": [
+                    {"role": "system", "content": JUDGE_SYSTEM},
+                    {"role": "user", "content": _debate_transcript(stances, cases, rebuttals)},
+                ],
+            },
+            timeout=60.0,
+        )
+        r.raise_for_status()
+        content = r.json()["choices"][0]["message"]["content"]
+        # Tolerate a stray code fence around the JSON.
+        m = re.search(r"\{.*\}", content, re.DOTALL)
+        sheet = _ScoreSheet.model_validate(json.loads(m.group(0) if m else content))
+        return sheet.scores
+
+
 class ClaudeJudge:
-    def __init__(self, model: str = JUDGE_MODEL) -> None:
+    def __init__(self, model: str = ANTHROPIC_MODEL) -> None:
         import anthropic
 
         self._client = anthropic.Anthropic()
@@ -64,7 +125,7 @@ class ClaudeJudge:
 
     def score(
         self,
-        proposals: list[PositionChange],
+        stances: list[Stance],
         cases: list[Case],
         rebuttals: list[RebuttalMsg],
     ) -> list[ArgumentScore]:
@@ -74,7 +135,7 @@ class ClaudeJudge:
             thinking={"type": "adaptive"},
             system=JUDGE_SYSTEM,
             messages=[
-                {"role": "user", "content": _debate_transcript(proposals, cases, rebuttals)}
+                {"role": "user", "content": _debate_transcript(stances, cases, rebuttals)}
             ],
             output_format=_ScoreSheet,
         )
@@ -88,7 +149,7 @@ class HeuristicJudge:
 
     def score(
         self,
-        proposals: list[PositionChange],
+        stances: list[Stance],
         cases: list[Case],
         rebuttals: list[RebuttalMsg],
     ) -> list[ArgumentScore]:
@@ -114,10 +175,15 @@ class HeuristicJudge:
 
 
 def default_judge():
-    """ClaudeJudge when a key is configured, heuristic otherwise."""
+    """OpenRouter when configured, then direct Anthropic, else heuristic."""
+    if os.environ.get("OPENROUTER_API_KEY"):
+        try:
+            return OpenRouterJudge()
+        except Exception:
+            pass
     if os.environ.get("ANTHROPIC_API_KEY"):
         try:
             return ClaudeJudge()
         except Exception:
-            return HeuristicJudge()
+            pass
     return HeuristicJudge()

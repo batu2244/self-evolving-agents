@@ -26,6 +26,7 @@ keys to run through a live Band room.
 from __future__ import annotations
 
 import os
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, FastAPI, HTTPException
@@ -37,8 +38,8 @@ from .deliberation import (
     Case,
     DeliberationSession,
     Phase,
-    PositionChange,
     RebuttalMsg,
+    Stance,
     Verdict,
 )
 from .floor import run_vote_cycle
@@ -60,6 +61,8 @@ class _State:
     room: RoomTransport | None = None
     sessions: dict[str, DeliberationSession] = {}
     last_memo: DecisionMemo | None = None
+    memos: list[DecisionMemo] = []
+    outcomes: list[dict] = []
     weights: dict[AnalystId, float] = {a: 1 / 3 for a in AnalystId}
 
     @classmethod
@@ -127,26 +130,26 @@ def _session(sid: str) -> DeliberationSession:
     return s
 
 
-@router.post("/deliberations/{sid}/position")
-def submit_position(sid: str, p: PositionChange) -> dict:
-    """The entry point for each agent: the position change it wants. Nothing more."""
+@router.post("/deliberations/{sid}/stance")
+def submit_stance(sid: str, stance: Stance) -> dict:
+    """The entry point for each agent: BUY or SELL the ticker. Nothing more."""
     s = _session(sid)
     if s.phase != Phase.OPEN:
-        raise HTTPException(409, f"positions closed (phase={s.phase})")
-    s.proposals.append(p)
-    delib.post_position(_State.get_room(), p)
-    return {"phase": s.phase, "proposals": len(s.proposals)}
+        raise HTTPException(409, f"stances closed (phase={s.phase})")
+    s.stances.append(stance)
+    delib.post_stance(_State.get_room(), stance)
+    return {"phase": s.phase, "stances": len(s.stances)}
 
 
 @router.post("/deliberations/{sid}/case")
 def submit_case(sid: str, c: Case) -> dict:
     s = _session(sid)
     if s.phase == Phase.OPEN:
-        s.phase = Phase.CASES  # first case closes the position window
+        s.phase = Phase.CASES  # first case closes the stance window
     if s.phase != Phase.CASES:
         raise HTTPException(409, f"cases closed (phase={s.phase})")
-    if not any(p.agent == c.agent and p.ticker == c.ticker for p in s.proposals):
-        raise HTTPException(400, "file a position before arguing it")
+    if not any(p.agent == c.agent and p.ticker == c.ticker for p in s.stances):
+        raise HTTPException(400, "file a stance before arguing it")
     s.cases.append(c)
     delib.post_case(_State.get_room(), c)
     return {"phase": s.phase, "cases": len(s.cases)}
@@ -167,12 +170,12 @@ def submit_rebuttal(sid: str, r: RebuttalMsg) -> dict:
 @router.post("/deliberations/{sid}/verdict", response_model=Verdict)
 def close_and_judge(sid: str) -> Verdict:
     """PM calls this to end the debate: judge scores the cases, credibility
-    weighs the agents, proposals blend into the desk's final positions."""
+    weighs the agents, and each ticker resolves to a binary BUY or SELL."""
     s = _session(sid)
     if s.phase == Phase.CLOSED:
         return s.verdict  # idempotent
-    if not s.proposals:
-        raise HTTPException(400, "no positions were filed")
+    if not s.stances:
+        raise HTTPException(400, "no stances were filed")
     return delib.decide(s, _State.judge, _State.record, _State.get_room())
 
 
@@ -195,7 +198,21 @@ def report_outcome(req: OutcomeReport) -> dict:
     """The evaluator reports each agent's realized outcome after the window;
     poor performance lowers the credibility used in future verdicts."""
     cred = _State.record.record_outcome(req.agent, req.score)
+    _State.outcomes.append(
+        {
+            "agent": req.agent,
+            "score": req.score,
+            "credibility": cred,
+            "ts": datetime.now(timezone.utc).isoformat(),
+        }
+    )
     return {"agent": req.agent, "credibility": cred}
+
+
+@router.get("/outcomes")
+def outcome_history() -> list[dict]:
+    """Every graded outcome in report order — each agent's delta trail."""
+    return _State.outcomes
 
 
 @router.get("/credibility")
@@ -255,6 +272,7 @@ def run_cycle(req: CycleRequest) -> DecisionMemo:
         config=req.config,
     )
     _State.last_memo = memo
+    _State.memos.append(memo)
     return memo
 
 
@@ -263,6 +281,12 @@ def latest_memo() -> DecisionMemo:
     if _State.last_memo is None:
         raise HTTPException(404, "no cycle has run yet")
     return _State.last_memo
+
+
+@router.get("/memos", response_model=list[DecisionMemo])
+def memo_history() -> list[DecisionMemo]:
+    """All decision memos this session, oldest first."""
+    return _State.memos
 
 
 def create_app() -> FastAPI:
