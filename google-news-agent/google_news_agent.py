@@ -31,6 +31,13 @@ log = logging.getLogger("google_news_agent")
 
 GOOGLE_NEWS_RSS = "https://news.google.com/rss/search"
 
+TICKER = "GOOGL"
+
+DISCLAIMER = (
+    "Paper-trading research output. News-sentiment signal only -- no order execution, "
+    "no position sizing, and not investment advice."
+)
+
 QUERIES: list[str] = [
     "Alphabet",
     "Google stock",
@@ -110,9 +117,28 @@ class PioneerAnalysis(BaseModel):
     affected_business_units: list[str] = Field(default_factory=list)
 
 
-class GeminiSummary(BaseModel):
-    summary: str
-    why_it_matters: str
+class TraderRead(BaseModel):
+    """The desk's read on a single article."""
+
+    summary: str = Field(description="Two to three sentence factual summary of the article")
+    why_it_matters: str = Field(description="Why this development could matter to Alphabet's business")
+    signal: str = Field(description="BUY, SELL, or HOLD")
+    signal_strength: float = Field(ge=-1.0, le=1.0, description="-1.0 maximally bearish to +1.0 maximally bullish")
+    confidence: float = Field(ge=0.0, le=1.0, description="Confidence in this read given evidence quality")
+    time_horizon: str = Field(description="intraday, swing, or position")
+    reasoning: str = Field(description="Brief trading rationale grounded in the article")
+
+
+class DeskDecision(BaseModel):
+    """The consolidated position across the whole news window."""
+
+    action: str = Field(description="BUY, SELL, or HOLD")
+    conviction: float = Field(ge=0.0, le=1.0, description="Conviction in the consolidated call")
+    time_horizon: str = Field(description="intraday, swing, or position")
+    thesis: str = Field(description="The consolidated read on the news flow")
+    key_drivers: list[str] = Field(default_factory=list, description="Stories or themes driving the call")
+    risks: list[str] = Field(default_factory=list, description="What argues against this call")
+    what_would_change_my_mind: str = Field(description="Concrete developments that would flip the call")
 
 
 # --------------------------------------------------------------------------
@@ -485,59 +511,105 @@ def heuristic_analysis(article: Article) -> PioneerAnalysis:
 # Step 3: summarize with Gemini
 # --------------------------------------------------------------------------
 
-GEMINI_SYSTEM = (
-    "You are a factual financial news summarizer for a paper-trading research project. "
-    "Summarize only what the provided article title and description state. "
-    "Never give buy, sell, or hold recommendations. Never predict prices or guarantee market outcomes. "
-    "Never state facts that are not supported by the provided text. "
-    "If the provided text is thin, say plainly what is and is not known."
-)
+TRADER_SYSTEM_PROMPT = """\
+You are the News Analyst sub-agent on a systematic paper-trading desk. You cover a single \
+name: Alphabet Inc. (GOOGL). You are not a summarizer -- you are the desk's read on what \
+the news flow means for the position, and you are expected to take a side.
+
+HOW YOU THINK
+- You trade the reaction, not the headline. Ask what is genuinely new information versus \
+already priced in. A well-telegraphed event that lands in line is not a catalyst.
+- You separate durable business impact from noise. An antitrust remedy that changes \
+distribution economics matters; a think-piece about AI competition usually does not.
+- You size conviction by how directly the news touches Alphabet's revenue engines: \
+Search and Ads first, then Cloud, YouTube, then Other Bets and Waymo.
+- Opinion pieces, "is this stock a buy" content, and analyst-rating recaps are weak \
+evidence. Primary events -- earnings figures, court rulings, guidance, executive changes, \
+product shipping -- are strong evidence.
+- You are comfortable saying HOLD. Most individual news items do not justify a trade.
+
+YOUR CALL
+- signal: BUY if the news supports adding exposure, SELL if it supports reducing or \
+shorting, HOLD if it does not justify acting.
+- signal_strength: -1.0 (maximally bearish) to +1.0 (maximally bullish).
+- confidence: 0.0 to 1.0, reflecting evidence quality, not how strong the move might be. \
+Thin sourcing or a headline-only article caps confidence low.
+- time_horizon: "intraday", "swing" (days to weeks), or "position" (months).
+
+HARD RULES
+- Ground every claim in the supplied title and description. If the text is thin, say so \
+and lower confidence -- never invent figures, rulings, or quotes.
+- No price targets, no percentage move predictions, no guaranteed outcomes.
+- This is paper-trading research output, not investment advice for anyone else.
+- State reasoning plainly and briefly. No hedging boilerplate, no disclaimers in the \
+reasoning field.\
+"""
+
+DESK_SYNTHESIS_PROMPT = """\
+You are the same News Analyst sub-agent, now closing the session. You have read every \
+significant Alphabet story in the window and issued a per-article call on each. Produce \
+the desk's single consolidated position on GOOGL for this window.
+
+- Weigh stories by significance and evidence quality, not by count. Four opinion columns \
+do not outweigh one earnings print or court ruling.
+- Look for a coherent theme across the flow. Note when the flow is genuinely mixed rather \
+than forcing a directional call.
+- Explicitly name what would change your mind.
+- Same hard rules: grounded in the supplied articles, no price targets, no predicted \
+percentage moves, no guarantees. Paper-trading research only.\
+"""
+
+SIGNALS = ("BUY", "SELL", "HOLD")
+HORIZONS = ("intraday", "swing", "position")
 
 
-def _gemini_prompt(article: Article, analysis: PioneerAnalysis) -> str:
+def _trader_prompt(article: Article, analysis: PioneerAnalysis) -> str:
     return (
-        f"Title: {article.title}\n"
-        f"Source: {article.source}\n"
+        f"Ticker under coverage: GOOGL (Alphabet Inc.)\n\n"
+        f"Headline: {article.title}\n"
+        f"Publisher: {article.source}\n"
         f"Published (UTC): {article.published_at.isoformat()}\n"
-        f"Description: {article.description or '(none provided)'}\n\n"
-        "Prior classification:\n"
+        f"Body available: {article.description or '(headline only -- no description supplied)'}\n\n"
+        "Upstream classifier read:\n"
         f"- category: {analysis.category}\n"
-        f"- sentiment: {analysis.sentiment} ({analysis.sentiment_score})\n"
-        f"- significance: {analysis.significance_score}\n"
-        f"- affected business units: {', '.join(analysis.affected_business_units) or 'unspecified'}\n\n"
-        "Write a two-to-three-sentence factual summary, and a short explanation of why this "
-        "development could matter to Alphabet's business. No recommendations, no price targets."
+        f"- sentiment: {analysis.sentiment} ({analysis.sentiment_score:+.2f})\n"
+        f"- significance: {analysis.significance_score:.2f}\n"
+        f"- business units touched: {', '.join(analysis.affected_business_units) or 'unspecified'}\n\n"
+        "Give the desk your read on this story: a two-to-three-sentence factual summary, "
+        "why it matters to Alphabet's business, and your call."
     )
 
 
-async def summarize_with_gemini(
+async def read_article_as_trader(
     genai_client: Any,
     article: Article,
     analysis: PioneerAnalysis,
     model: str,
-) -> GeminiSummary | None:
+    system_prompt: str,
+) -> TraderRead | None:
     from google.genai import types
 
     config = types.GenerateContentConfig(
-        system_instruction=GEMINI_SYSTEM,
+        system_instruction=system_prompt,
         response_mime_type="application/json",
-        response_schema=GeminiSummary,
-        temperature=0.2,
+        response_schema=TraderRead,
+        temperature=0.3,
     )
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             resp = await genai_client.aio.models.generate_content(
                 model=model,
-                contents=_gemini_prompt(article, analysis),
+                contents=_trader_prompt(article, analysis),
                 config=config,
             )
             parsed = getattr(resp, "parsed", None)
-            if isinstance(parsed, GeminiSummary):
-                return parsed
-            if resp.text:
-                return GeminiSummary.model_validate_json(resp.text)
-            raise ValueError("empty Gemini response")
-        except Exception as exc:  # noqa: BLE001 - fall back to the RSS description
+            read = parsed if isinstance(parsed, TraderRead) else None
+            if read is None and resp.text:
+                read = TraderRead.model_validate_json(resp.text)
+            if read is None:
+                raise ValueError("empty Gemini response")
+            return _normalize_read(read)
+        except Exception as exc:  # noqa: BLE001 - fall back to the classifier-only read
             log.warning("Gemini failed for %r (attempt %d/%d): %s", article.title[:60], attempt, MAX_RETRIES, exc)
             if attempt == MAX_RETRIES:
                 return None
@@ -545,15 +617,162 @@ async def summarize_with_gemini(
     return None
 
 
-def fallback_summary(article: Article, analysis: PioneerAnalysis) -> GeminiSummary:
+def _normalize_read(read: TraderRead) -> TraderRead:
+    """Clamp model output into the documented ranges."""
+    read.signal = read.signal.upper() if read.signal.upper() in SIGNALS else "HOLD"
+    read.time_horizon = read.time_horizon.lower() if read.time_horizon.lower() in HORIZONS else "swing"
+    read.signal_strength = max(-1.0, min(1.0, read.signal_strength))
+    read.confidence = max(0.0, min(1.0, read.confidence))
+    return read
+
+
+def fallback_read(article: Article, analysis: PioneerAnalysis) -> TraderRead:
+    """Classifier-only read used when Gemini is unavailable for an article."""
+    strength = analysis.sentiment_score * analysis.significance_score
+    if strength >= 0.25:
+        signal = "BUY"
+    elif strength <= -0.25:
+        signal = "SELL"
+    else:
+        signal = "HOLD"
     units = ", ".join(analysis.affected_business_units) or "Alphabet overall"
-    return GeminiSummary(
+    return TraderRead(
         summary=article.description or article.title,
         why_it_matters=(
-            f"Classified as {analysis.category} with {analysis.sentiment} sentiment; "
-            f"potentially relevant to {units}. Summary unavailable, so this reflects "
-            "the classification only."
+            f"Classified as {analysis.category} with {analysis.sentiment} sentiment, "
+            f"touching {units}."
         ),
+        signal=signal,
+        signal_strength=round(max(-1.0, min(1.0, strength)), 3),
+        confidence=0.2,
+        time_horizon="swing",
+        reasoning=(
+            "Narrative read unavailable; this call is derived from the classifier's "
+            "sentiment and significance scores alone, so confidence is low."
+        ),
+    )
+
+
+# --------------------------------------------------------------------------
+# Step 4: consolidate into one desk decision
+# --------------------------------------------------------------------------
+
+
+def compute_signal_score(
+    items: list[tuple[Article, PioneerAnalysis, str, TraderRead]],
+    buy_threshold: float,
+) -> dict[str, Any]:
+    """Deterministic weighted aggregate, computed independently of the model.
+
+    Each article contributes its trader signal_strength weighted by significance and
+    confidence, so a high-conviction read on a major story outweighs a hedge on a
+    think-piece. This is the auditable backbone behind the narrative call.
+    """
+    numerator = 0.0
+    denominator = 0.0
+    for _, analysis, _, read in items:
+        weight = analysis.significance_score * max(0.05, read.confidence)
+        numerator += read.signal_strength * weight
+        denominator += weight
+
+    score = round(numerator / denominator, 4) if denominator else 0.0
+    if score >= buy_threshold:
+        action = "BUY"
+    elif score <= -buy_threshold:
+        action = "SELL"
+    else:
+        action = "HOLD"
+
+    tally = {"BUY": 0, "SELL": 0, "HOLD": 0}
+    for _, _, _, read in items:
+        tally[read.signal] = tally.get(read.signal, 0) + 1
+
+    return {
+        "weighted_score": score,
+        "implied_action": action,
+        "article_signals": tally,
+        "articles_scored": len(items),
+        "total_weight": round(denominator, 4),
+    }
+
+
+def _digest(items: list[tuple[Article, PioneerAnalysis, str, TraderRead]]) -> str:
+    lines = []
+    for idx, (article, analysis, _, read) in enumerate(items, 1):
+        lines.append(
+            f"[{idx}] {article.title}\n"
+            f"    publisher={article.source} | published={article.published_at.isoformat()}\n"
+            f"    category={analysis.category} | significance={analysis.significance_score:.2f}\n"
+            f"    call={read.signal} strength={read.signal_strength:+.2f} "
+            f"confidence={read.confidence:.2f} horizon={read.time_horizon}\n"
+            f"    reasoning={read.reasoning}"
+        )
+    return "\n".join(lines)
+
+
+async def synthesize_decision(
+    genai_client: Any,
+    items: list[tuple[Article, PioneerAnalysis, str, TraderRead]],
+    quant: dict[str, Any],
+    model: str,
+    hours: int,
+) -> DeskDecision | None:
+    from google.genai import types
+
+    prompt = (
+        f"Coverage window: last {hours} hours. Significant stories reviewed: {len(items)}.\n\n"
+        f"Your per-article calls:\n{_digest(items)}\n\n"
+        "Mechanical aggregate of those calls (significance x confidence weighted):\n"
+        f"- weighted score: {quant['weighted_score']:+.3f} on a -1 to +1 scale\n"
+        f"- implied action: {quant['implied_action']}\n"
+        f"- signal tally: {quant['article_signals']}\n\n"
+        "Give the desk's consolidated position on GOOGL. You may disagree with the "
+        "mechanical aggregate, but if you do, say why in the thesis."
+    )
+    config = types.GenerateContentConfig(
+        system_instruction=DESK_SYNTHESIS_PROMPT,
+        response_mime_type="application/json",
+        response_schema=DeskDecision,
+        temperature=0.3,
+    )
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            resp = await genai_client.aio.models.generate_content(
+                model=model, contents=prompt, config=config
+            )
+            parsed = getattr(resp, "parsed", None)
+            decision = parsed if isinstance(parsed, DeskDecision) else None
+            if decision is None and resp.text:
+                decision = DeskDecision.model_validate_json(resp.text)
+            if decision is None:
+                raise ValueError("empty Gemini response")
+            decision.action = decision.action.upper() if decision.action.upper() in SIGNALS else "HOLD"
+            decision.time_horizon = (
+                decision.time_horizon.lower() if decision.time_horizon.lower() in HORIZONS else "swing"
+            )
+            decision.conviction = max(0.0, min(1.0, decision.conviction))
+            return decision
+        except Exception as exc:  # noqa: BLE001 - fall back to the mechanical aggregate
+            log.warning("Gemini synthesis failed (attempt %d/%d): %s", attempt, MAX_RETRIES, exc)
+            if attempt == MAX_RETRIES:
+                return None
+            await asyncio.sleep(1.5 * attempt)
+    return None
+
+
+def fallback_decision(quant: dict[str, Any]) -> DeskDecision:
+    return DeskDecision(
+        action=quant["implied_action"],
+        conviction=round(min(1.0, abs(quant["weighted_score"]) * 1.5), 3),
+        time_horizon="swing",
+        thesis=(
+            "Narrative synthesis unavailable. This call is the mechanical "
+            f"significance-weighted aggregate of {quant['articles_scored']} article signals "
+            f"(score {quant['weighted_score']:+.3f})."
+        ),
+        key_drivers=[],
+        risks=["Synthesis step failed, so no qualitative cross-check was applied."],
+        what_would_change_my_mind="A successful synthesis run over the same article set.",
     )
 
 
@@ -562,17 +781,49 @@ def fallback_summary(article: Article, analysis: PioneerAnalysis) -> GeminiSumma
 # --------------------------------------------------------------------------
 
 
-async def process(args: argparse.Namespace) -> list[dict[str, Any]]:
+def _empty_result(hours: int, reason: str) -> dict[str, Any]:
+    return {
+        "ticker": TICKER,
+        "as_of": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "window_hours": hours,
+        "mode": "paper-trading-research",
+        "decision": {
+            "action": "HOLD",
+            "conviction": 0.0,
+            "time_horizon": "swing",
+            "thesis": reason,
+            "key_drivers": [],
+            "risks": [],
+            "what_would_change_my_mind": "Significant Alphabet news entering the coverage window.",
+        },
+        "signal_score": {
+            "weighted_score": 0.0,
+            "implied_action": "HOLD",
+            "article_signals": {"BUY": 0, "SELL": 0, "HOLD": 0},
+            "articles_scored": 0,
+            "total_weight": 0.0,
+        },
+        "articles": [],
+        "disclaimer": DISCLAIMER,
+    }
+
+
+async def process(args: argparse.Namespace) -> dict[str, Any]:
     pioneer_key = os.getenv("PIONEER_API_KEY", "").strip()
     pioneer_model = os.getenv("PIONEER_MODEL", "fastino/gliner2-base-v1").strip()
     pioneer_base = os.getenv("PIONEER_BASE_URL", "https://api.pioneer.ai").strip()
     gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
     gemini_model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
 
+    system_prompt = TRADER_SYSTEM_PROMPT
+    if args.system_prompt_file:
+        system_prompt = open(args.system_prompt_file, encoding="utf-8").read().strip()
+        log.info("Using custom system prompt from %s", args.system_prompt_file)
+
     articles = await collect_articles(args.hours)
     if not articles:
         log.info("No articles collected")
-        return []
+        return _empty_result(args.hours, "No Alphabet news collected in the coverage window.")
 
     if args.max_analyze > 0 and len(articles) > args.max_analyze:
         # One analysis call per article, so cap the batch; newest articles win.
@@ -610,52 +861,95 @@ async def process(args: argparse.Namespace) -> list[dict[str, Any]]:
     ]
     log.info("analyzed=%d kept=%d", len(analyses), len(kept))
     if not kept:
-        return []
+        return _empty_result(
+            args.hours,
+            "No article cleared the relevance and significance filters, so there is "
+            "no news-driven reason to act.",
+        )
 
     kept.sort(key=lambda item: (item[1].significance_score, item[0].published_at), reverse=True)
     kept = kept[: args.limit]
 
-    # --- Step 3: Gemini summaries -----------------------------------------
-    summaries: list[tuple[GeminiSummary, str]] = []
+    # --- Step 3: per-article trader reads ---------------------------------
+    genai_client = None
+    reads: list[tuple[TraderRead, str]] = []
     if gemini_key:
         from google import genai
 
         genai_client = genai.Client(api_key=gemini_key)
         semaphore = asyncio.Semaphore(GEMINI_CONCURRENCY)
 
-        async def run_summary(article: Article, analysis: PioneerAnalysis) -> tuple[GeminiSummary, str]:
+        async def run_read(article: Article, analysis: PioneerAnalysis) -> tuple[TraderRead, str]:
             async with semaphore:
-                result = await summarize_with_gemini(genai_client, article, analysis, gemini_model)
+                result = await read_article_as_trader(
+                    genai_client, article, analysis, gemini_model, system_prompt
+                )
             if result is None:
-                return fallback_summary(article, analysis), "fallback"
+                return fallback_read(article, analysis), "fallback"
             return result, "gemini"
 
-        summaries = list(await asyncio.gather(*(run_summary(a, an) for a, an, _ in kept)))
+        reads = list(await asyncio.gather(*(run_read(a, an) for a, an, _ in kept)))
     else:
-        log.warning("GEMINI_API_KEY not set; using RSS descriptions as summaries")
-        summaries = [(fallback_summary(a, an), "fallback") for a, an, _ in kept]
+        log.warning("GEMINI_API_KEY not set; deriving calls from the classifier only")
+        reads = [(fallback_read(a, an), "fallback") for a, an, _ in kept]
 
-    output: list[dict[str, Any]] = []
-    for (article, analysis, analysis_provider), (summary, summary_provider) in zip(kept, summaries):
-        output.append(
+    items = [(a, an, prov, read) for (a, an, prov), (read, _) in zip(kept, reads)]
+
+    # --- Step 4: consolidate ----------------------------------------------
+    quant = compute_signal_score(items, args.buy_threshold)
+    decision, decision_provider = None, "fallback"
+    if genai_client is not None:
+        decision = await synthesize_decision(genai_client, items, quant, gemini_model, args.hours)
+        decision_provider = "gemini" if decision is not None else "fallback"
+    if decision is None:
+        decision = fallback_decision(quant)
+    log.info(
+        "decision=%s conviction=%.2f weighted_score=%+.3f tally=%s",
+        decision.action, decision.conviction, quant["weighted_score"], quant["article_signals"],
+    )
+
+    return {
+        "ticker": TICKER,
+        "as_of": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "window_hours": args.hours,
+        "mode": "paper-trading-research",
+        "decision": {
+            "action": decision.action,
+            "conviction": round(decision.conviction, 3),
+            "time_horizon": decision.time_horizon,
+            "thesis": decision.thesis,
+            "key_drivers": decision.key_drivers,
+            "risks": decision.risks,
+            "what_would_change_my_mind": decision.what_would_change_my_mind,
+            "decision_provider": decision_provider,
+        },
+        "signal_score": quant,
+        "articles": [
             {
                 "title": article.title,
                 "source": article.source,
                 "published_at": article.published_at.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
                 "url": article.url,
                 "query": article.query,
-                "summary": summary.summary,
-                "why_it_matters": summary.why_it_matters,
+                "summary": read.summary,
+                "why_it_matters": read.why_it_matters,
+                "signal": read.signal,
+                "signal_strength": round(read.signal_strength, 3),
+                "confidence": round(read.confidence, 3),
+                "time_horizon": read.time_horizon,
+                "reasoning": read.reasoning,
                 "significance_score": analysis.significance_score,
                 "sentiment": analysis.sentiment,
                 "sentiment_score": analysis.sentiment_score,
                 "category": analysis.category,
                 "affected_business_units": analysis.affected_business_units,
                 "analysis_provider": analysis_provider,
-                "summary_provider": summary_provider,
+                "read_provider": provider,
             }
-        )
-    return output
+            for (article, analysis, analysis_provider, read), (_, provider) in zip(items, reads)
+        ],
+        "disclaimer": DISCLAIMER,
+    }
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -679,6 +973,21 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="If Pioneer returns nothing, use a local keyword heuristic (output is tagged analysis_provider=heuristic)",
     )
+    parser.add_argument(
+        "--buy-threshold",
+        type=float,
+        default=0.25,
+        help="Weighted score magnitude required for a BUY or SELL rather than HOLD (default: 0.25)",
+    )
+    parser.add_argument(
+        "--system-prompt-file",
+        help="Path to a file overriding the built-in trader system prompt",
+    )
+    parser.add_argument(
+        "--print-system-prompt",
+        action="store_true",
+        help="Print the trader system prompt to stderr and exit",
+    )
     parser.add_argument("--verbose", action="store_true", help="Debug logging on stderr")
     return parser.parse_args(argv)
 
@@ -691,11 +1000,17 @@ def main(argv: list[str] | None = None) -> int:
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
     load_dotenv()
+
+    if args.print_system_prompt:
+        print(TRADER_SYSTEM_PROMPT, file=sys.stderr)
+        return 0
+
     try:
         results = asyncio.run(process(args))
     except Exception as exc:  # noqa: BLE001 - stdout must stay valid JSON
         log.error("Agent failed: %s", exc, exc_info=True)
-        print("[]")
+        json.dump(_empty_result(args.hours, f"Agent run failed: {exc}"), sys.stdout, indent=2)
+        sys.stdout.write("\n")
         return 1
     json.dump(results, sys.stdout, indent=2, ensure_ascii=False)
     sys.stdout.write("\n")
