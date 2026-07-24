@@ -1,0 +1,2676 @@
+{
+  "symbol": "GOOGL",
+  "exchange": "Nasdaq",
+  "currency": "USD",
+  "heartbeat": "twice daily: 10:30 (open+1h) and 15:00 (close-1h) America/New_York",
+  "window_days": 59,
+  "generated_at": "2026-07-24T18:25:23.234760-04:00",
+  "buy_and_hold_ret": -0.184904,
+  "decision_points": [
+    {
+      "id": "2026-05-27-open+1h",
+      "date": "2026-05-27",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 391.77,
+      "features": {
+        "ret_last_hour": 0.003638,
+        "ret_since_open": 0.013203,
+        "gap_open": -0.005696,
+        "prev_day_ret": 0.015432,
+        "ret_5d": -0.020305,
+        "ret_20d": 0.110007,
+        "volume_ratio": 1.067
+      },
+      "news_window": {
+        "start": "2026-05-24",
+        "end": "2026-05-26"
+      },
+      "outcome": {
+        "forward_ret": -0.002374,
+        "next_point": "2026-05-27-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-05-27-close-1h",
+      "date": "2026-05-27",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 390.84,
+      "features": {
+        "ret_last_hour": -0.004521,
+        "ret_since_open": 0.010797,
+        "gap_open": -0.005696,
+        "prev_day_ret": 0.015432,
+        "ret_5d": -0.020305,
+        "ret_20d": 0.110007,
+        "volume_ratio": 0.474
+      },
+      "news_window": {
+        "start": "2026-05-24",
+        "end": "2026-05-27"
+      },
+      "outcome": {
+        "forward_ret": -0.002917,
+        "next_point": "2026-05-28-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-05-28-open+1h",
+      "date": "2026-05-28",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 389.7,
+      "features": {
+        "ret_last_hour": 0.006197,
+        "ret_since_open": 0.004498,
+        "gap_open": -0.00225,
+        "prev_day_ret": -0.000129,
+        "ret_5d": 0.003018,
+        "ret_20d": 0.111642,
+        "volume_ratio": 0.973
+      },
+      "news_window": {
+        "start": "2026-05-25",
+        "end": "2026-05-27"
+      },
+      "outcome": {
+        "forward_ret": 0.002271,
+        "next_point": "2026-05-28-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-05-28-close-1h",
+      "date": "2026-05-28",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 390.585,
+      "features": {
+        "ret_last_hour": 0.000115,
+        "ret_since_open": 0.006779,
+        "gap_open": -0.00225,
+        "prev_day_ret": -0.000129,
+        "ret_5d": 0.003018,
+        "ret_20d": 0.111642,
+        "volume_ratio": 0.411
+      },
+      "news_window": {
+        "start": "2026-05-25",
+        "end": "2026-05-28"
+      },
+      "outcome": {
+        "forward_ret": -0.018344,
+        "next_point": "2026-05-29-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-05-29-open+1h",
+      "date": "2026-05-29",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 383.42,
+      "features": {
+        "ret_last_hour": -0.004156,
+        "ret_since_open": -0.004724,
+        "gap_open": -0.012534,
+        "prev_day_ret": 0.003343,
+        "ret_5d": 0.003137,
+        "ret_20d": 0.114848,
+        "volume_ratio": 1.321
+      },
+      "news_window": {
+        "start": "2026-05-26",
+        "end": "2026-05-28"
+      },
+      "outcome": {
+        "forward_ret": -0.004642,
+        "next_point": "2026-05-29-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-05-29-close-1h",
+      "date": "2026-05-29",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 381.64,
+      "features": {
+        "ret_last_hour": -0.003226,
+        "ret_since_open": -0.009345,
+        "gap_open": -0.012534,
+        "prev_day_ret": 0.003343,
+        "ret_5d": 0.003137,
+        "ret_20d": 0.114848,
+        "volume_ratio": 0.478
+      },
+      "news_window": {
+        "start": "2026-05-26",
+        "end": "2026-05-29"
+      },
+      "outcome": {
+        "forward_ret": -0.015512,
+        "next_point": "2026-06-01-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-01-open+1h",
+      "date": "2026-06-01",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 375.72,
+      "features": {
+        "ret_last_hour": 0.001973,
+        "ret_since_open": -0.002337,
+        "gap_open": -0.009833,
+        "prev_day_ret": -0.025094,
+        "ret_5d": -0.018883,
+        "ret_20d": -0.01159,
+        "volume_ratio": 1.026
+      },
+      "news_window": {
+        "start": "2026-05-29",
+        "end": "2026-05-29"
+      },
+      "outcome": {
+        "forward_ret": 0.005696,
+        "next_point": "2026-06-01-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-01-close-1h",
+      "date": "2026-06-01",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 377.86,
+      "features": {
+        "ret_last_hour": 0.001365,
+        "ret_since_open": 0.003346,
+        "gap_open": -0.009833,
+        "prev_day_ret": -0.025094,
+        "ret_5d": -0.018883,
+        "ret_20d": -0.01159,
+        "volume_ratio": 0.312
+      },
+      "news_window": {
+        "start": "2026-05-29",
+        "end": "2026-06-01"
+      },
+      "outcome": {
+        "forward_ret": -0.019743,
+        "next_point": "2026-06-02-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-02-open+1h",
+      "date": "2026-06-02",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 370.4,
+      "features": {
+        "ret_last_hour": 0.018352,
+        "ret_since_open": 0.010228,
+        "gap_open": -0.025826,
+        "prev_day_ret": -0.010438,
+        "ret_5d": -0.017234,
+        "ret_20d": -0.024165,
+        "volume_ratio": 2.527
+      },
+      "news_window": {
+        "start": "2026-05-30",
+        "end": "2026-06-01"
+      },
+      "outcome": {
+        "forward_ret": -0.017414,
+        "next_point": "2026-06-02-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-02-close-1h",
+      "date": "2026-06-02",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 363.95,
+      "features": {
+        "ret_last_hour": -0.001125,
+        "ret_since_open": -0.007364,
+        "gap_open": -0.025826,
+        "prev_day_ret": -0.010438,
+        "ret_5d": -0.017234,
+        "ret_20d": -0.024165,
+        "volume_ratio": 0.831
+      },
+      "news_window": {
+        "start": "2026-05-30",
+        "end": "2026-06-02"
+      },
+      "outcome": {
+        "forward_ret": -0.006791,
+        "next_point": "2026-06-03-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-03-open+1h",
+      "date": "2026-06-03",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 361.4783,
+      "features": {
+        "ret_last_hour": -0.007432,
+        "ret_since_open": -0.001524,
+        "gap_open": 0.000497,
+        "prev_day_ret": -0.038579,
+        "ret_5d": -0.069507,
+        "ret_20d": -0.055838,
+        "volume_ratio": 2.087
+      },
+      "news_window": {
+        "start": "2026-05-31",
+        "end": "2026-06-02"
+      },
+      "outcome": {
+        "forward_ret": -0.002499,
+        "next_point": "2026-06-03-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-03-close-1h",
+      "date": "2026-06-03",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 360.575,
+      "features": {
+        "ret_last_hour": 0.002739,
+        "ret_since_open": -0.004019,
+        "gap_open": 0.000497,
+        "prev_day_ret": -0.038579,
+        "ret_5d": -0.069507,
+        "ret_20d": -0.055838,
+        "volume_ratio": 0.886
+      },
+      "news_window": {
+        "start": "2026-05-31",
+        "end": "2026-06-03"
+      },
+      "outcome": {
+        "forward_ret": 0.021119,
+        "next_point": "2026-06-04-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-04-open+1h",
+      "date": "2026-06-04",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 368.19,
+      "features": {
+        "ret_last_hour": 0.005832,
+        "ret_since_open": 0.026028,
+        "gap_open": -0.00039,
+        "prev_day_ret": -0.007904,
+        "ret_5d": -0.076743,
+        "ret_20d": -0.075792,
+        "volume_ratio": 2.019
+      },
+      "news_window": {
+        "start": "2026-06-01",
+        "end": "2026-06-03"
+      },
+      "outcome": {
+        "forward_ret": 0.009777,
+        "next_point": "2026-06-04-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-04-close-1h",
+      "date": "2026-06-04",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 371.7899,
+      "features": {
+        "ret_last_hour": -0.00275,
+        "ret_since_open": 0.036059,
+        "gap_open": -0.00039,
+        "prev_day_ret": -0.007904,
+        "ret_5d": -0.076743,
+        "ret_20d": -0.075792,
+        "volume_ratio": 0.644
+      },
+      "news_window": {
+        "start": "2026-06-01",
+        "end": "2026-06-04"
+      },
+      "outcome": {
+        "forward_ret": -0.003994,
+        "next_point": "2026-06-05-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-05-open+1h",
+      "date": "2026-06-05",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 370.305,
+      "features": {
+        "ret_last_hour": 0.001704,
+        "ret_since_open": 0.010823,
+        "gap_open": -0.015718,
+        "prev_day_ret": 0.03677,
+        "ret_5d": -0.045985,
+        "ret_20d": -0.064943,
+        "volume_ratio": 1.441
+      },
+      "news_window": {
+        "start": "2026-06-02",
+        "end": "2026-06-04"
+      },
+      "outcome": {
+        "forward_ret": -0.009155,
+        "next_point": "2026-06-05-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-05-close-1h",
+      "date": "2026-06-05",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 366.915,
+      "features": {
+        "ret_last_hour": -0.001374,
+        "ret_since_open": 0.00157,
+        "gap_open": -0.015718,
+        "prev_day_ret": 0.03677,
+        "ret_5d": -0.045985,
+        "ret_20d": -0.064943,
+        "volume_ratio": 1.145
+      },
+      "news_window": {
+        "start": "2026-06-02",
+        "end": "2026-06-05"
+      },
+      "outcome": {
+        "forward_ret": -0.014458,
+        "next_point": "2026-06-08-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-08-open+1h",
+      "date": "2026-06-08",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 361.61,
+      "features": {
+        "ret_last_hour": -0.002455,
+        "ret_since_open": -0.009749,
+        "gap_open": -0.009117,
+        "prev_day_ret": -0.009834,
+        "ret_5d": -0.031051,
+        "ret_20d": -0.074022,
+        "volume_ratio": 1.394
+      },
+      "news_window": {
+        "start": "2026-06-05",
+        "end": "2026-06-05"
+      },
+      "outcome": {
+        "forward_ret": 0.005946,
+        "next_point": "2026-06-08-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-08-close-1h",
+      "date": "2026-06-08",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 363.76,
+      "features": {
+        "ret_last_hour": -0.002359,
+        "ret_since_open": -0.003861,
+        "gap_open": -0.009117,
+        "prev_day_ret": -0.009834,
+        "ret_5d": -0.031051,
+        "ret_20d": -0.074022,
+        "volume_ratio": 0.465
+      },
+      "news_window": {
+        "start": "2026-06-05",
+        "end": "2026-06-08"
+      },
+      "outcome": {
+        "forward_ret": 0.011065,
+        "next_point": "2026-06-09-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-09-open+1h",
+      "date": "2026-06-09",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 367.785,
+      "features": {
+        "ret_last_hour": -0.00448,
+        "ret_since_open": 0.001893,
+        "gap_open": 0.010404,
+        "prev_day_ret": -0.014164,
+        "ret_5d": -0.0347,
+        "ret_20d": -0.093538,
+        "volume_ratio": 1.032
+      },
+      "news_window": {
+        "start": "2026-06-06",
+        "end": "2026-06-08"
+      },
+      "outcome": {
+        "forward_ret": -0.005071,
+        "next_point": "2026-06-09-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-09-close-1h",
+      "date": "2026-06-09",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 365.92,
+      "features": {
+        "ret_last_hour": 0.000465,
+        "ret_since_open": -0.003187,
+        "gap_open": 0.010404,
+        "prev_day_ret": -0.014164,
+        "ret_5d": -0.0347,
+        "ret_20d": -0.093538,
+        "volume_ratio": 0.556
+      },
+      "news_window": {
+        "start": "2026-06-06",
+        "end": "2026-06-09"
+      },
+      "outcome": {
+        "forward_ret": 0.0044,
+        "next_point": "2026-06-10-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-10-open+1h",
+      "date": "2026-06-10",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 367.53,
+      "features": {
+        "ret_last_hour": 0.003522,
+        "ret_since_open": 0.012521,
+        "gap_open": -0.0035,
+        "prev_day_ret": 0.002615,
+        "ret_5d": 0.00666,
+        "ret_20d": -0.062732,
+        "volume_ratio": 1.289
+      },
+      "news_window": {
+        "start": "2026-06-07",
+        "end": "2026-06-09"
+      },
+      "outcome": {
+        "forward_ret": -0.030392,
+        "next_point": "2026-06-10-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-10-close-1h",
+      "date": "2026-06-10",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 356.36,
+      "features": {
+        "ret_last_hour": 0.000561,
+        "ret_since_open": -0.018251,
+        "gap_open": -0.0035,
+        "prev_day_ret": 0.002615,
+        "ret_5d": 0.00666,
+        "ret_20d": -0.062732,
+        "volume_ratio": 0.818
+      },
+      "news_window": {
+        "start": "2026-06-07",
+        "end": "2026-06-10"
+      },
+      "outcome": {
+        "forward_ret": -0.02374,
+        "next_point": "2026-06-11-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-11-open+1h",
+      "date": "2026-06-11",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 347.9,
+      "features": {
+        "ret_last_hour": -0.000661,
+        "ret_since_open": -0.022547,
+        "gap_open": -0.001277,
+        "prev_day_ret": -0.021633,
+        "ret_5d": -0.00727,
+        "ret_20d": -0.079954,
+        "volume_ratio": 1.535
+      },
+      "news_window": {
+        "start": "2026-06-08",
+        "end": "2026-06-10"
+      },
+      "outcome": {
+        "forward_ret": 0.019029,
+        "next_point": "2026-06-11-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-11-close-1h",
+      "date": "2026-06-11",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 354.5201,
+      "features": {
+        "ret_last_hour": 0.00351,
+        "ret_since_open": -0.003947,
+        "gap_open": -0.001277,
+        "prev_day_ret": -0.021633,
+        "ret_5d": -0.00727,
+        "ret_20d": -0.079954,
+        "volume_ratio": 0.58
+      },
+      "news_window": {
+        "start": "2026-06-08",
+        "end": "2026-06-11"
+      },
+      "outcome": {
+        "forward_ret": 0.020802,
+        "next_point": "2026-06-12-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-12-open+1h",
+      "date": "2026-06-12",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 361.895,
+      "features": {
+        "ret_last_hour": 0.009498,
+        "ret_since_open": -0.001999,
+        "gap_open": 0.013556,
+        "prev_day_ret": 0.0039,
+        "ret_5d": -0.038744,
+        "ret_20d": -0.111395,
+        "volume_ratio": 0.911
+      },
+      "news_window": {
+        "start": "2026-06-09",
+        "end": "2026-06-11"
+      },
+      "outcome": {
+        "forward_ret": -0.003012,
+        "next_point": "2026-06-12-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-12-close-1h",
+      "date": "2026-06-12",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 360.805,
+      "features": {
+        "ret_last_hour": -0.001094,
+        "ret_since_open": -0.005005,
+        "gap_open": 0.013556,
+        "prev_day_ret": 0.0039,
+        "ret_5d": -0.038744,
+        "ret_20d": -0.111395,
+        "volume_ratio": 0.343
+      },
+      "news_window": {
+        "start": "2026-06-09",
+        "end": "2026-06-12"
+      },
+      "outcome": {
+        "forward_ret": 0.023004,
+        "next_point": "2026-06-15-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-15-open+1h",
+      "date": "2026-06-15",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 369.105,
+      "features": {
+        "ret_last_hour": -0.000311,
+        "ret_since_open": 0.003125,
+        "gap_open": 0.023007,
+        "prev_day_ret": 0.005339,
+        "ret_5d": -0.024014,
+        "ret_20d": -0.103199,
+        "volume_ratio": 1.36
+      },
+      "news_window": {
+        "start": "2026-06-12",
+        "end": "2026-06-12"
+      },
+      "outcome": {
+        "forward_ret": 0.005947,
+        "next_point": "2026-06-15-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-15-close-1h",
+      "date": "2026-06-15",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 371.3,
+      "features": {
+        "ret_last_hour": -0.000404,
+        "ret_since_open": 0.009091,
+        "gap_open": 0.023007,
+        "prev_day_ret": 0.005339,
+        "ret_5d": -0.024014,
+        "ret_20d": -0.103199,
+        "volume_ratio": 0.297
+      },
+      "news_window": {
+        "start": "2026-06-12",
+        "end": "2026-06-15"
+      },
+      "outcome": {
+        "forward_ret": -0.002316,
+        "next_point": "2026-06-16-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-16-open+1h",
+      "date": "2026-06-16",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 370.44,
+      "features": {
+        "ret_last_hour": 0.006302,
+        "ret_since_open": 0.002056,
+        "gap_open": 0.000893,
+        "prev_day_ret": 0.026885,
+        "ret_5d": 0.016625,
+        "ret_20d": -0.069131,
+        "volume_ratio": 1.004
+      },
+      "news_window": {
+        "start": "2026-06-13",
+        "end": "2026-06-15"
+      },
+      "outcome": {
+        "forward_ret": 0.008773,
+        "next_point": "2026-06-16-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-16-close-1h",
+      "date": "2026-06-16",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 373.69,
+      "features": {
+        "ret_last_hour": 0.003626,
+        "ret_since_open": 0.010847,
+        "gap_open": 0.000893,
+        "prev_day_ret": 0.026885,
+        "ret_5d": 0.016625,
+        "ret_20d": -0.069131,
+        "volume_ratio": 0.382
+      },
+      "news_window": {
+        "start": "2026-06-13",
+        "end": "2026-06-16"
+      },
+      "outcome": {
+        "forward_ret": -0.018384,
+        "next_point": "2026-06-17-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-17-open+1h",
+      "date": "2026-06-17",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 366.82,
+      "features": {
+        "ret_last_hour": 0.001707,
+        "ret_since_open": -0.006244,
+        "gap_open": -0.011052,
+        "prev_day_ret": 0.010559,
+        "ret_5d": 0.02468,
+        "ret_20d": -0.059682,
+        "volume_ratio": 0.969
+      },
+      "news_window": {
+        "start": "2026-06-14",
+        "end": "2026-06-16"
+      },
+      "outcome": {
+        "forward_ret": -0.00657,
+        "next_point": "2026-06-17-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-17-close-1h",
+      "date": "2026-06-17",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 364.41,
+      "features": {
+        "ret_last_hour": -0.003405,
+        "ret_since_open": -0.012773,
+        "gap_open": -0.011052,
+        "prev_day_ret": 0.010559,
+        "ret_5d": 0.02468,
+        "ret_20d": -0.059682,
+        "volume_ratio": 0.686
+      },
+      "news_window": {
+        "start": "2026-06-14",
+        "end": "2026-06-17"
+      },
+      "outcome": {
+        "forward_ret": -0.007011,
+        "next_point": "2026-06-18-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-18-open+1h",
+      "date": "2026-06-18",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 361.855,
+      "features": {
+        "ret_last_hour": 0.003898,
+        "ret_since_open": -0.010649,
+        "gap_open": 0.005388,
+        "prev_day_ret": -0.025345,
+        "ret_5d": 0.020792,
+        "ret_20d": -0.061575,
+        "volume_ratio": 0.884
+      },
+      "news_window": {
+        "start": "2026-06-15",
+        "end": "2026-06-17"
+      },
+      "outcome": {
+        "forward_ret": 0.018032,
+        "next_point": "2026-06-18-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-18-close-1h",
+      "date": "2026-06-18",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 368.3801,
+      "features": {
+        "ret_last_hour": 0.001877,
+        "ret_since_open": 0.007191,
+        "gap_open": 0.005388,
+        "prev_day_ret": -0.025345,
+        "ret_5d": 0.020792,
+        "ret_20d": -0.061575,
+        "volume_ratio": 0.385
+      },
+      "news_window": {
+        "start": "2026-06-15",
+        "end": "2026-06-18"
+      },
+      "outcome": {
+        "forward_ret": -0.05307,
+        "next_point": "2026-06-22-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-22-open+1h",
+      "date": "2026-06-22",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 348.83,
+      "features": {
+        "ret_last_hour": -0.014952,
+        "ret_since_open": -0.025274,
+        "gap_open": -0.027593,
+        "prev_day_ret": 0.011655,
+        "ret_5d": 0.028678,
+        "ret_20d": -0.053689,
+        "volume_ratio": 2.117
+      },
+      "news_window": {
+        "start": "2026-06-19",
+        "end": "2026-06-18"
+      },
+      "outcome": {
+        "forward_ret": -0.004056,
+        "next_point": "2026-06-22-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-22-close-1h",
+      "date": "2026-06-22",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 347.415,
+      "features": {
+        "ret_last_hour": -0.001882,
+        "ret_since_open": -0.029228,
+        "gap_open": -0.027593,
+        "prev_day_ret": 0.011655,
+        "ret_5d": 0.028678,
+        "ret_20d": -0.053689,
+        "volume_ratio": 0.751
+      },
+      "news_window": {
+        "start": "2026-06-19",
+        "end": "2026-06-22"
+      },
+      "outcome": {
+        "forward_ret": 0.002288,
+        "next_point": "2026-06-23-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-23-open+1h",
+      "date": "2026-06-23",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 348.21,
+      "features": {
+        "ret_last_hour": 0.000144,
+        "ret_since_open": 0.022118,
+        "gap_open": -0.025752,
+        "prev_day_ret": -0.04986,
+        "ret_5d": -0.027802,
+        "ret_20d": -0.097972,
+        "volume_ratio": 1.185
+      },
+      "news_window": {
+        "start": "2026-06-20",
+        "end": "2026-06-22"
+      },
+      "outcome": {
+        "forward_ret": -0.004179,
+        "next_point": "2026-06-23-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-23-close-1h",
+      "date": "2026-06-23",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 346.755,
+      "features": {
+        "ret_last_hour": 0.001864,
+        "ret_since_open": 0.017847,
+        "gap_open": -0.025752,
+        "prev_day_ret": -0.04986,
+        "ret_5d": -0.027802,
+        "ret_20d": -0.097972,
+        "volume_ratio": 0.52
+      },
+      "news_window": {
+        "start": "2026-06-20",
+        "end": "2026-06-23"
+      },
+      "outcome": {
+        "forward_ret": 0.010324,
+        "next_point": "2026-06-24-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-24-open+1h",
+      "date": "2026-06-24",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 350.335,
+      "features": {
+        "ret_last_hour": 0.0001,
+        "ret_since_open": 0.003926,
+        "gap_open": 0.008191,
+        "prev_day_ret": -0.010152,
+        "ret_5d": -0.062867,
+        "ret_20d": -0.096196,
+        "volume_ratio": 0.917
+      },
+      "news_window": {
+        "start": "2026-06-21",
+        "end": "2026-06-23"
+      },
+      "outcome": {
+        "forward_ret": -0.02078,
+        "next_point": "2026-06-24-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-24-close-1h",
+      "date": "2026-06-24",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 343.055,
+      "features": {
+        "ret_last_hour": -0.005811,
+        "ret_since_open": -0.016936,
+        "gap_open": 0.008191,
+        "prev_day_ret": -0.010152,
+        "ret_5d": -0.062867,
+        "ret_20d": -0.096196,
+        "volume_ratio": 1.857
+      },
+      "news_window": {
+        "start": "2026-06-21",
+        "end": "2026-06-24"
+      },
+      "outcome": {
+        "forward_ret": -0.008206,
+        "next_point": "2026-06-25-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-25-open+1h",
+      "date": "2026-06-25",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 340.24,
+      "features": {
+        "ret_last_hour": 0.003332,
+        "ret_since_open": 0.010454,
+        "gap_open": -0.02482,
+        "prev_day_ret": -0.002427,
+        "ret_5d": -0.07491,
+        "ret_20d": -0.112091,
+        "volume_ratio": 1.425
+      },
+      "news_window": {
+        "start": "2026-06-22",
+        "end": "2026-06-24"
+      },
+      "outcome": {
+        "forward_ret": 0.008171,
+        "next_point": "2026-06-25-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-25-close-1h",
+      "date": "2026-06-25",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 343.02,
+      "features": {
+        "ret_last_hour": 0.00054,
+        "ret_since_open": 0.01871,
+        "gap_open": -0.02482,
+        "prev_day_ret": -0.002427,
+        "ret_5d": -0.07491,
+        "ret_20d": -0.112091,
+        "volume_ratio": 1.015
+      },
+      "news_window": {
+        "start": "2026-06-22",
+        "end": "2026-06-25"
+      },
+      "outcome": {
+        "forward_ret": -0.01223,
+        "next_point": "2026-06-26-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-26-open+1h",
+      "date": "2026-06-26",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 338.825,
+      "features": {
+        "ret_last_hour": 0.001345,
+        "ret_since_open": -0.011163,
+        "gap_open": -0.003084,
+        "prev_day_ret": -0.004576,
+        "ret_5d": -0.055197,
+        "ret_20d": -0.11604,
+        "volume_ratio": 1.317
+      },
+      "news_window": {
+        "start": "2026-06-23",
+        "end": "2026-06-25"
+      },
+      "outcome": {
+        "forward_ret": 0.008485,
+        "next_point": "2026-06-26-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-26-close-1h",
+      "date": "2026-06-26",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 341.7,
+      "features": {
+        "ret_last_hour": 0.002185,
+        "ret_since_open": -0.002772,
+        "gap_open": -0.003084,
+        "prev_day_ret": -0.004576,
+        "ret_5d": -0.055197,
+        "ret_20d": -0.11604,
+        "volume_ratio": 0.714
+      },
+      "news_window": {
+        "start": "2026-06-23",
+        "end": "2026-06-26"
+      },
+      "outcome": {
+        "forward_ret": 0.022754,
+        "next_point": "2026-06-29-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-29-open+1h",
+      "date": "2026-06-29",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 349.475,
+      "features": {
+        "ret_last_hour": 0.004037,
+        "ret_since_open": 0.02238,
+        "gap_open": 0.013145,
+        "prev_day_ret": -0.018388,
+        "ret_5d": -0.083254,
+        "ret_20d": -0.135186,
+        "volume_ratio": 1.624
+      },
+      "news_window": {
+        "start": "2026-06-26",
+        "end": "2026-06-26"
+      },
+      "outcome": {
+        "forward_ret": 0.008341,
+        "next_point": "2026-06-29-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-29-close-1h",
+      "date": "2026-06-29",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 352.39,
+      "features": {
+        "ret_last_hour": -0.001049,
+        "ret_since_open": 0.030908,
+        "gap_open": 0.013145,
+        "prev_day_ret": -0.018388,
+        "ret_5d": -0.083254,
+        "ret_20d": -0.135186,
+        "volume_ratio": 0.489
+      },
+      "news_window": {
+        "start": "2026-06-26",
+        "end": "2026-06-29"
+      },
+      "outcome": {
+        "forward_ret": 0.0021,
+        "next_point": "2026-06-30-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-30-open+1h",
+      "date": "2026-06-30",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 353.13,
+      "features": {
+        "ret_last_hour": 0.003752,
+        "ret_since_open": -0.002049,
+        "gap_open": 0.00058,
+        "prev_day_ret": 0.048193,
+        "ret_5d": 0.011353,
+        "ret_20d": -0.070174,
+        "volume_ratio": 0.784
+      },
+      "news_window": {
+        "start": "2026-06-27",
+        "end": "2026-06-29"
+      },
+      "outcome": {
+        "forward_ret": 0.009812,
+        "next_point": "2026-06-30-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-30-close-1h",
+      "date": "2026-06-30",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 356.595,
+      "features": {
+        "ret_last_hour": -0.001498,
+        "ret_since_open": 0.007743,
+        "gap_open": 0.00058,
+        "prev_day_ret": 0.048193,
+        "ret_5d": 0.011353,
+        "ret_20d": -0.070174,
+        "volume_ratio": 0.448
+      },
+      "news_window": {
+        "start": "2026-06-27",
+        "end": "2026-06-30"
+      },
+      "outcome": {
+        "forward_ret": 0.009549,
+        "next_point": "2026-07-01-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-01-open+1h",
+      "date": "2026-07-01",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 360.0,
+      "features": {
+        "ret_last_hour": 0.004184,
+        "ret_since_open": 0.004913,
+        "gap_open": 0.002434,
+        "prev_day_ret": 0.010519,
+        "ret_5d": 0.032473,
+        "ret_20d": -0.050482,
+        "volume_ratio": 0.782
+      },
+      "news_window": {
+        "start": "2026-06-28",
+        "end": "2026-06-30"
+      },
+      "outcome": {
+        "forward_ret": 0.000472,
+        "next_point": "2026-07-01-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-01-close-1h",
+      "date": "2026-07-01",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 360.17,
+      "features": {
+        "ret_last_hour": 0.002324,
+        "ret_since_open": 0.005388,
+        "gap_open": 0.002434,
+        "prev_day_ret": 0.010519,
+        "ret_5d": 0.032473,
+        "ret_20d": -0.050482,
+        "volume_ratio": 0.67
+      },
+      "news_window": {
+        "start": "2026-06-28",
+        "end": "2026-07-01"
+      },
+      "outcome": {
+        "forward_ret": 0.005275,
+        "next_point": "2026-07-02-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-02-open+1h",
+      "date": "2026-07-02",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 362.07,
+      "features": {
+        "ret_last_hour": -0.00182,
+        "ret_since_open": 0.007205,
+        "gap_open": -0.004789,
+        "prev_day_ret": 0.010745,
+        "ret_5d": 0.046106,
+        "ret_20d": -0.001769,
+        "volume_ratio": 0.848
+      },
+      "news_window": {
+        "start": "2026-06-29",
+        "end": "2026-07-01"
+      },
+      "outcome": {
+        "forward_ret": -0.010909,
+        "next_point": "2026-07-02-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-02-close-1h",
+      "date": "2026-07-02",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 358.12,
+      "features": {
+        "ret_last_hour": -0.000586,
+        "ret_since_open": -0.003783,
+        "gap_open": -0.004789,
+        "prev_day_ret": 0.010745,
+        "ret_5d": 0.046106,
+        "ret_20d": -0.001769,
+        "volume_ratio": 0.493
+      },
+      "news_window": {
+        "start": "2026-06-29",
+        "end": "2026-07-02"
+      },
+      "outcome": {
+        "forward_ret": 0.008056,
+        "next_point": "2026-07-06-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-06-open+1h",
+      "date": "2026-07-06",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 361.005,
+      "features": {
+        "ret_last_hour": 0.008929,
+        "ret_since_open": -0.002556,
+        "gap_open": 0.005612,
+        "prev_day_ret": -0.003599,
+        "ret_5d": 0.047133,
+        "ret_20d": 0.002563,
+        "volume_ratio": 0.856
+      },
+      "news_window": {
+        "start": "2026-07-03",
+        "end": "2026-07-02"
+      },
+      "outcome": {
+        "forward_ret": 0.015055,
+        "next_point": "2026-07-06-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-06-close-1h",
+      "date": "2026-07-06",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 366.44,
+      "features": {
+        "ret_last_hour": 0.005116,
+        "ret_since_open": 0.012461,
+        "gap_open": 0.005612,
+        "prev_day_ret": -0.003599,
+        "ret_5d": 0.047133,
+        "ret_20d": 0.002563,
+        "volume_ratio": 0.787
+      },
+      "news_window": {
+        "start": "2026-07-03",
+        "end": "2026-07-06"
+      },
+      "outcome": {
+        "forward_ret": 0.012389,
+        "next_point": "2026-07-07-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-07-open+1h",
+      "date": "2026-07-07",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 370.98,
+      "features": {
+        "ret_last_hour": -0.000673,
+        "ret_since_open": 0.006648,
+        "gap_open": 0.005649,
+        "prev_day_ret": 0.018199,
+        "ret_5d": 0.086161,
+        "ret_20d": -0.015395,
+        "volume_ratio": 0.981
+      },
+      "news_window": {
+        "start": "2026-07-04",
+        "end": "2026-07-06"
+      },
+      "outcome": {
+        "forward_ret": -0.006362,
+        "next_point": "2026-07-07-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-07-close-1h",
+      "date": "2026-07-07",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 368.62,
+      "features": {
+        "ret_last_hour": -0.002166,
+        "ret_since_open": 0.000244,
+        "gap_open": 0.005649,
+        "prev_day_ret": 0.018199,
+        "ret_5d": 0.086161,
+        "ret_20d": -0.015395,
+        "volume_ratio": 0.484
+      },
+      "news_window": {
+        "start": "2026-07-04",
+        "end": "2026-07-07"
+      },
+      "outcome": {
+        "forward_ret": -0.018338,
+        "next_point": "2026-07-08-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-08-open+1h",
+      "date": "2026-07-08",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 361.8601,
+      "features": {
+        "ret_last_hour": -0.00149,
+        "ret_since_open": -0.008745,
+        "gap_open": -0.005388,
+        "prev_day_ret": 0.001555,
+        "ret_5d": 0.037834,
+        "ret_20d": -0.00407,
+        "volume_ratio": 0.545
+      },
+      "news_window": {
+        "start": "2026-07-05",
+        "end": "2026-07-07"
+      },
+      "outcome": {
+        "forward_ret": -0.007628,
+        "next_point": "2026-07-08-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-08-close-1h",
+      "date": "2026-07-08",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 359.1,
+      "features": {
+        "ret_last_hour": 0.001283,
+        "ret_since_open": -0.016306,
+        "gap_open": -0.005388,
+        "prev_day_ret": 0.001555,
+        "ret_5d": 0.037834,
+        "ret_20d": -0.00407,
+        "volume_ratio": 0.476
+      },
+      "news_window": {
+        "start": "2026-07-05",
+        "end": "2026-07-08"
+      },
+      "outcome": {
+        "forward_ret": -0.01462,
+        "next_point": "2026-07-09-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-09-open+1h",
+      "date": "2026-07-09",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 353.85,
+      "features": {
+        "ret_last_hour": -0.007906,
+        "ret_since_open": -0.000858,
+        "gap_open": -0.021458,
+        "prev_day_ret": -0.013923,
+        "ret_5d": 0.012732,
+        "ret_20d": -0.003826,
+        "volume_ratio": 1.753
+      },
+      "news_window": {
+        "start": "2026-07-06",
+        "end": "2026-07-08"
+      },
+      "outcome": {
+        "forward_ret": 0.008704,
+        "next_point": "2026-07-09-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-09-close-1h",
+      "date": "2026-07-09",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 356.93,
+      "features": {
+        "ret_last_hour": 0.000476,
+        "ret_since_open": 0.007838,
+        "gap_open": -0.021458,
+        "prev_day_ret": -0.013923,
+        "ret_5d": 0.012732,
+        "ret_20d": -0.003826,
+        "volume_ratio": 0.432
+      },
+      "news_window": {
+        "start": "2026-07-06",
+        "end": "2026-07-09"
+      },
+      "outcome": {
+        "forward_ret": -0.004483,
+        "next_point": "2026-07-10-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-10-open+1h",
+      "date": "2026-07-10",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 355.33,
+      "features": {
+        "ret_last_hour": -0.003338,
+        "ret_since_open": -0.006139,
+        "gap_open": -0.003803,
+        "prev_day_ret": -0.008372,
+        "ret_5d": -0.006423,
+        "ret_20d": -0.014742,
+        "volume_ratio": 0.756
+      },
+      "news_window": {
+        "start": "2026-07-07",
+        "end": "2026-07-09"
+      },
+      "outcome": {
+        "forward_ret": 0.000478,
+        "next_point": "2026-07-10-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-10-close-1h",
+      "date": "2026-07-10",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 355.5,
+      "features": {
+        "ret_last_hour": -0.000955,
+        "ret_since_open": -0.005664,
+        "gap_open": -0.003803,
+        "prev_day_ret": -0.008372,
+        "ret_5d": -0.006423,
+        "ret_20d": -0.014742,
+        "volume_ratio": 0.388
+      },
+      "news_window": {
+        "start": "2026-07-07",
+        "end": "2026-07-10"
+      },
+      "outcome": {
+        "forward_ret": 2.8e-05,
+        "next_point": "2026-07-13-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-13-open+1h",
+      "date": "2026-07-13",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 355.5099,
+      "features": {
+        "ret_last_hour": -0.004369,
+        "ret_since_open": -0.001937,
+        "gap_open": -0.002744,
+        "prev_day_ret": -0.004765,
+        "ret_5d": -0.007585,
+        "ret_20d": 0.002245,
+        "volume_ratio": 0.465
+      },
+      "news_window": {
+        "start": "2026-07-10",
+        "end": "2026-07-10"
+      },
+      "outcome": {
+        "forward_ret": -0.001814,
+        "next_point": "2026-07-13-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-13-close-1h",
+      "date": "2026-07-13",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 354.865,
+      "features": {
+        "ret_last_hour": -0.002319,
+        "ret_since_open": -0.003748,
+        "gap_open": -0.002744,
+        "prev_day_ret": -0.004765,
+        "ret_5d": -0.007585,
+        "ret_20d": 0.002245,
+        "volume_ratio": 0.338
+      },
+      "news_window": {
+        "start": "2026-07-10",
+        "end": "2026-07-13"
+      },
+      "outcome": {
+        "forward_ret": 0.003565,
+        "next_point": "2026-07-14-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-14-open+1h",
+      "date": "2026-07-14",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 356.13,
+      "features": {
+        "ret_last_hour": 0.005775,
+        "ret_since_open": 0.014355,
+        "gap_open": -0.004028,
+        "prev_day_ret": -0.013075,
+        "ret_5d": -0.038067,
+        "ret_20d": -0.014702,
+        "volume_ratio": 0.603
+      },
+      "news_window": {
+        "start": "2026-07-11",
+        "end": "2026-07-13"
+      },
+      "outcome": {
+        "forward_ret": 0.00702,
+        "next_point": "2026-07-14-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-14-close-1h",
+      "date": "2026-07-14",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 358.63,
+      "features": {
+        "ret_last_hour": 0.002152,
+        "ret_since_open": 0.021476,
+        "gap_open": -0.004028,
+        "prev_day_ret": -0.013075,
+        "ret_5d": -0.038067,
+        "ret_20d": -0.014702,
+        "volume_ratio": 0.337
+      },
+      "news_window": {
+        "start": "2026-07-11",
+        "end": "2026-07-14"
+      },
+      "outcome": {
+        "forward_ret": 0.021638,
+        "next_point": "2026-07-15-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-15-open+1h",
+      "date": "2026-07-15",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 366.39,
+      "features": {
+        "ret_last_hour": 0.007119,
+        "ret_since_open": 0.023007,
+        "gap_open": -0.003783,
+        "prev_day_ret": 0.019858,
+        "ret_5d": -0.020489,
+        "ret_20d": -0.000473,
+        "volume_ratio": 1.114
+      },
+      "news_window": {
+        "start": "2026-07-12",
+        "end": "2026-07-14"
+      },
+      "outcome": {
+        "forward_ret": 0.010563,
+        "next_point": "2026-07-15-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-15-close-1h",
+      "date": "2026-07-15",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 370.26,
+      "features": {
+        "ret_last_hour": -0.005025,
+        "ret_since_open": 0.033813,
+        "gap_open": -0.003783,
+        "prev_day_ret": 0.019858,
+        "ret_5d": -0.020489,
+        "ret_20d": -0.000473,
+        "volume_ratio": 0.433
+      },
+      "news_window": {
+        "start": "2026-07-12",
+        "end": "2026-07-15"
+      },
+      "outcome": {
+        "forward_ret": 0.006239,
+        "next_point": "2026-07-16-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-16-open+1h",
+      "date": "2026-07-16",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 372.57,
+      "features": {
+        "ret_last_hour": 0.004855,
+        "ret_since_open": -0.001675,
+        "gap_open": 0.006133,
+        "prev_day_ret": 0.031738,
+        "ret_5d": 0.024867,
+        "ret_20d": 0.004251,
+        "volume_ratio": 0.9
+      },
+      "news_window": {
+        "start": "2026-07-13",
+        "end": "2026-07-15"
+      },
+      "outcome": {
+        "forward_ret": -0.042918,
+        "next_point": "2026-07-16-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-16-close-1h",
+      "date": "2026-07-16",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 356.58,
+      "features": {
+        "ret_last_hour": -0.012599,
+        "ret_since_open": -0.044521,
+        "gap_open": 0.006133,
+        "prev_day_ret": 0.031738,
+        "ret_5d": 0.024867,
+        "ret_20d": 0.004251,
+        "volume_ratio": 1.675
+      },
+      "news_window": {
+        "start": "2026-07-13",
+        "end": "2026-07-16"
+      },
+      "outcome": {
+        "forward_ret": -0.03141,
+        "next_point": "2026-07-17-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-17-open+1h",
+      "date": "2026-07-17",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 345.38,
+      "features": {
+        "ret_last_hour": -0.003865,
+        "ret_since_open": -0.001777,
+        "gap_open": -0.023881,
+        "prev_day_ret": -0.044376,
+        "ret_5d": -0.012344,
+        "ret_20d": -0.050342,
+        "volume_ratio": 1.116
+      },
+      "news_window": {
+        "start": "2026-07-14",
+        "end": "2026-07-16"
+      },
+      "outcome": {
+        "forward_ret": -0.000405,
+        "next_point": "2026-07-17-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-17-close-1h",
+      "date": "2026-07-17",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 345.24,
+      "features": {
+        "ret_last_hour": 0.002527,
+        "ret_since_open": -0.002182,
+        "gap_open": -0.023881,
+        "prev_day_ret": -0.044376,
+        "ret_5d": -0.012344,
+        "ret_20d": -0.050342,
+        "volume_ratio": 0.503
+      },
+      "news_window": {
+        "start": "2026-07-14",
+        "end": "2026-07-17"
+      },
+      "outcome": {
+        "forward_ret": 0.03864,
+        "next_point": "2026-07-20-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-20-open+1h",
+      "date": "2026-07-20",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 358.58,
+      "features": {
+        "ret_last_hour": 0.000795,
+        "ret_since_open": 0.021159,
+        "gap_open": 0.012631,
+        "prev_day_ret": -0.021695,
+        "ret_5d": -0.029145,
+        "ret_20d": -0.046785,
+        "volume_ratio": 0.953
+      },
+      "news_window": {
+        "start": "2026-07-17",
+        "end": "2026-07-17"
+      },
+      "outcome": {
+        "forward_ret": -0.019131,
+        "next_point": "2026-07-20-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-20-close-1h",
+      "date": "2026-07-20",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 351.72,
+      "features": {
+        "ret_last_hour": -0.000909,
+        "ret_since_open": 0.001623,
+        "gap_open": 0.012631,
+        "prev_day_ret": -0.021695,
+        "ret_5d": -0.029145,
+        "ret_20d": -0.046785,
+        "volume_ratio": 0.693
+      },
+      "news_window": {
+        "start": "2026-07-17",
+        "end": "2026-07-20"
+      },
+      "outcome": {
+        "forward_ret": -0.006227,
+        "next_point": "2026-07-21-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-21-open+1h",
+      "date": "2026-07-21",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 349.53,
+      "features": {
+        "ret_last_hour": -0.000943,
+        "ret_since_open": -0.003705,
+        "gap_open": -0.003296,
+        "prev_day_ret": 0.015053,
+        "ret_5d": -0.001475,
+        "ret_20d": -0.043583,
+        "volume_ratio": 0.772
+      },
+      "news_window": {
+        "start": "2026-07-18",
+        "end": "2026-07-20"
+      },
+      "outcome": {
+        "forward_ret": -0.002661,
+        "next_point": "2026-07-21-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-21-close-1h",
+      "date": "2026-07-21",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 348.6,
+      "features": {
+        "ret_last_hour": -0.000602,
+        "ret_since_open": -0.006356,
+        "gap_open": -0.003296,
+        "prev_day_ret": 0.015053,
+        "ret_5d": -0.001475,
+        "ret_20d": -0.043583,
+        "volume_ratio": 0.499
+      },
+      "news_window": {
+        "start": "2026-07-18",
+        "end": "2026-07-21"
+      },
+      "outcome": {
+        "forward_ret": -0.002266,
+        "next_point": "2026-07-22-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-22-open+1h",
+      "date": "2026-07-22",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 347.81,
+      "features": {
+        "ret_last_hour": -0.001278,
+        "ret_since_open": -0.000991,
+        "gap_open": 0.002895,
+        "prev_day_ret": -0.01375,
+        "ret_5d": -0.03438,
+        "ret_20d": -0.007235,
+        "volume_ratio": 0.966
+      },
+      "news_window": {
+        "start": "2026-07-19",
+        "end": "2026-07-21"
+      },
+      "outcome": {
+        "forward_ret": -0.004744,
+        "next_point": "2026-07-22-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-22-close-1h",
+      "date": "2026-07-22",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 346.16,
+      "features": {
+        "ret_last_hour": -0.000924,
+        "ret_since_open": -0.00573,
+        "gap_open": 0.002895,
+        "prev_day_ret": -0.01375,
+        "ret_5d": -0.03438,
+        "ret_20d": -0.007235,
+        "volume_ratio": 0.504
+      },
+      "news_window": {
+        "start": "2026-07-19",
+        "end": "2026-07-22"
+      },
+      "outcome": {
+        "forward_ret": -0.079602,
+        "next_point": "2026-07-23-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-23-open+1h",
+      "date": "2026-07-23",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 318.605,
+      "features": {
+        "ret_last_hour": -0.007677,
+        "ret_since_open": -0.007863,
+        "gap_open": -0.06127,
+        "prev_day_ret": -0.014576,
+        "ret_5d": -0.077726,
+        "ret_20d": -0.011672,
+        "volume_ratio": 3.482
+      },
+      "news_window": {
+        "start": "2026-07-20",
+        "end": "2026-07-22"
+      },
+      "outcome": {
+        "forward_ret": 0.000486,
+        "next_point": "2026-07-23-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-23-close-1h",
+      "date": "2026-07-23",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 318.76,
+      "features": {
+        "ret_last_hour": -0.002878,
+        "ret_since_open": -0.00738,
+        "gap_open": -0.06127,
+        "prev_day_ret": -0.014576,
+        "ret_5d": -0.077726,
+        "ret_20d": -0.011672,
+        "volume_ratio": 1.124
+      },
+      "news_window": {
+        "start": "2026-07-20",
+        "end": "2026-07-23"
+      },
+      "outcome": {
+        "forward_ret": 0.003357,
+        "next_point": "2026-07-24-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-24-open+1h",
+      "date": "2026-07-24",
+      "label": "open+1h",
+      "time_local": "10:30",
+      "price": 319.83,
+      "features": {
+        "ret_last_hour": -0.008479,
+        "ret_since_open": 0.004759,
+        "gap_open": 0.001967,
+        "prev_day_ret": -0.071326,
+        "ret_5d": -0.103735,
+        "ret_20d": -0.079933,
+        "volume_ratio": 1.22
+      },
+      "news_window": {
+        "start": "2026-07-21",
+        "end": "2026-07-23"
+      },
+      "outcome": {
+        "forward_ret": -0.001563,
+        "next_point": "2026-07-24-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-24-close-1h",
+      "date": "2026-07-24",
+      "label": "close-1h",
+      "time_local": "15:00",
+      "price": 319.33,
+      "features": {
+        "ret_last_hour": -0.002016,
+        "ret_since_open": 0.003189,
+        "gap_open": 0.001967,
+        "prev_day_ret": -0.071326,
+        "ret_5d": -0.103735,
+        "ret_20d": -0.079933,
+        "volume_ratio": 0.637
+      },
+      "news_window": {
+        "start": "2026-07-21",
+        "end": "2026-07-24"
+      },
+      "outcome": null
+    }
+  ],
+  "headlines": {
+    "2026-05-24": [
+      "Is Alphabet Stock Still a Bargain? - The Motley Fool",
+      "Move Over, AST SpaceMobile: Alphabet Has a Surprising New No. 1 Holding... and It's From the Financial Sector - Yahoo Finance",
+      "Prediction: Alphabet Stock Is a Buy Before June 2026 - The Globe and Mail",
+      "SMCI vs. GOOGL: Which Stock is a Safer Bet in the AI Ecosystem? - TradingView",
+      "Google Just Launched a $1 Billion AI Price War. Here’s What It Means for GOOGL in 2026 - TIKR.com",
+      "As Alphabet Makes Agentic AI Push, Is the Stock a Buy? - The Motley Fool",
+      "Billionaire Stanley Druckenmiller Just Dumped Alphabet (Google) and Picked Up 2 Stocks That Are Direct Bets on Agentic AI - The Motley Fool",
+      "Google Just Shared Bad News for Nvidia, and Even Worse News For CoreWeave and Nebius - The Motley Fool"
+    ],
+    "2026-05-25": [
+      "Prediction: Alphabet Stock Will Reach The $5 Trillion Club on This Date - Yahoo Finance",
+      "Prediction: Alphabet Stock Is a Buy Before June 2026 - The Motley Fool",
+      "Alphabet Stock (GOOG) Opinions on Recent Price Forecasts and Market Performance - Quiver Quantitative",
+      "Alphabet Just Unveiled Its Most Ambitious AI Lineup Yet - MarketBeat",
+      "Alphabet net income 2011-2025 - Statista",
+      "Is Alphabet Stock an Undervalued Stock to Buy? - The Globe and Mail",
+      "Google stock price edges up to $381 in early trading, up 0.5% as investors eye AI competition - eciks.org",
+      "SMCI vs. GOOGL: Which Stock is a Safer Bet in the AI Ecosystem? - TradingView"
+    ],
+    "2026-05-26": [
+      "Prediction: Alphabet Stock Will Reach The $5 Trillion Club on This Date - Yahoo Finance",
+      "GOOGL Stock: The Math Behind The Upside - Trefis",
+      "Alphabet Stock (GOOG) Opinions on Recent Price Forecasts and Market Performance - Quiver Quantitative",
+      "Is Alphabet Stock an Undervalued Stock to Buy? - The Motley Fool",
+      "Alphabet: The Outperformance Opportunity Has Moved To A New Mag 7 Company (NASDAQ:GOOGL) - Seeking Alpha",
+      "Alphabet Just Unveiled Its Most Ambitious AI Lineup Yet - MarketBeat",
+      "Alphabet net income 2011-2025 - Statista",
+      "Is Alphabet Stock an Undervalued Stock to Buy? - The Globe and Mail"
+    ],
+    "2026-05-27": [
+      "Alphabet (GOOGL): The Best Strong Buy Stock to Buy and Hold for the Next 5 Years - Yahoo Finance",
+      "GOOGL Stock: The Math Behind The Upside - Trefis",
+      "Alphabet: The Outperformance Opportunity Has Moved To A New Mag 7 Company (NASDAQ:GOOGL) - Seeking Alpha",
+      "Google Gemini 3.5 Looks Like a Legit Flex, Yet Alphabet Stock Keeps Slipping — Is This a Glorious Buying Opportunity? - 24/7 Wall St.",
+      "Is Alphabet Stock Outperforming the Dow? - Yahoo Finance",
+      "Why Traders Are Watching Bull Call Spreads on GOOGL - Barchart.com",
+      "Meta vs. Alphabet: Which Stock Is The Better Buy Today - 24/7 Wall St.",
+      "Famed Investor Stanley Druckenmiller Sold Every Share of Alphabet. He Just Bought 5 AI Hardware Stocks Instead. - The Motley Fool"
+    ],
+    "2026-05-28": [
+      "Alphabet (GOOGL) Stock Falls Amid Market Uptick: What Investors Need to Know - Yahoo Finance",
+      "Meta vs. Alphabet: Which Stock Is The Better Buy Today - 24/7 Wall St.",
+      "Alphabet (GOOGL): The Best Strong Buy Stock to Buy and Hold for the Next 5 Years - Yahoo Finance",
+      "Here are Friday's biggest analyst calls: Nvidia, Dell, Costco, Amazon, Alphabet, Snowflake, Xpeng &amp; more - CNBC",
+      "Is Alphabet Stock Outperforming the Dow? - Yahoo Finance",
+      "Alphabet Inc. (GOOG) Stock Dips While Market Gains: Key Facts - Yahoo Finance",
+      "Famed Investor Stanley Druckenmiller Sold Every Share of Alphabet. He Just Bought 5 AI Hardware Stocks Instead. - The Motley Fool",
+      "Jim Cramer Says Alphabet (GOOGL) Is A “Crucial Position” - Yahoo Finance"
+    ],
+    "2026-05-29": [
+      "Alphabet (GOOGL) Stock Falls Amid Market Uptick: What Investors Need to Know - Yahoo Finance",
+      "Alphabet Inc. (GOOG) Stock Dips While Market Gains: Key Facts - Yahoo Finance",
+      "Here are Friday's biggest analyst calls: Nvidia, Dell, Costco, Amazon, Alphabet, Snowflake, Xpeng &amp; more - CNBC",
+      "GOOGL Rides on Surging Google Cloud Demand: More Upside Ahead? - Zacks Investment Research",
+      "Stanley Druckenmiller just sold Google shares to load up on five AI hardware stocks - TradingView",
+      "Alphabet Inc (GOOGL) Shares Fall 2.7% -- What GF Score of 94 Tel - GuruFocus",
+      "Alphabet (GOOG) Among Most Expensive U.S. Stocks by Valuation Gr - GuruFocus",
+      "Why Is Alphabet (GOOGL) Up 1.4% Since Last Earnings Report? - Yahoo Finance"
+    ],
+    "2026-05-30": [
+      "Alphabet Stock Investors Just Got Great News From a Wall Street Analyst. It's Bad News for Nvidia. - Yahoo Finance",
+      "Stanley Druckenmiller just sold Google shares to load up on five AI hardware stocks - TradingView",
+      "Alphabet Inc. Class C stock (US02079K1079): GOOG edges lower ahead of June dividend record date - AD HOC NEWS",
+      "GOOGL vs AMZN: Which AI Stock Is the Better Buy, According to Analysts? - TipRanks",
+      "Meta vs Google Stock 2026: Which Tech Titan Is the Better Buy in AI Era? - International Business Times Australia"
+    ],
+    "2026-05-31": [
+      "Alphabet Inc. (GOOGL): One of the Premier Stock Picks of Jeff Bezos - Yahoo Finance",
+      "Alphabet plans to raise $80 billion from stock sales to fund AI build-out - CNBC",
+      "Alphabet unveils plan to sell $80B in shares to fund ongoing AI infrastructure buildout - SiliconANGLE",
+      "GOOGL: Alphabet Stock Slips After $80 Billion Equity Raise. Berkshire Adds to Stake. - TradingView",
+      "Alphabet Stock Slides On AI-Fueled Capital Raise That Includes Additional Berkshire Investment - Benzinga",
+      "Alphabet Stock Investors Just Got Great News From a Wall Street Analyst. It's Bad News for Nvidia. - The Motley Fool",
+      "Alphabet Raises $80 Billion for AI Expansion as Berkshire Hathaway Increases Stake by $10 Billion - Quiver Quantitative",
+      "Alphabet to sell $80bn in stock to fund AI spending spree - Financial Times"
+    ],
+    "2026-06-01": [
+      "Why Alphabet Stock Fell Today - Yahoo Finance",
+      "Alphabet: We See the Equity Raise as a Further Vote of Confidence in AI Monetization and Returns - Morningstar",
+      "Alphabet unveils plan to sell $80B in shares to fund ongoing AI infrastructure buildout - SiliconANGLE",
+      "Google owner Alphabet to sell $80bn in stock to fund AI spending spree - The Guardian",
+      "Alphabet plans to raise $80 billion from stock sales to fund AI build-out - CNBC",
+      "Why Alphabet Stock Fell Today - The Motley Fool",
+      "Alphabet plans $80 billion stock sale as AI spending surges - dw.com",
+      "Google parent Alphabet to sell $80bn in stock to fund AI plans - Al Jazeera"
+    ],
+    "2026-06-02": [
+      "Why Alphabet Stock Fell Today - Yahoo Finance",
+      "Alphabet: We See the Equity Raise as a Further Vote of Confidence in AI Monetization and Returns - Morningstar",
+      "Google owner Alphabet to sell $80bn in stock to fund AI spending spree - The Guardian",
+      "Alphabet's stock sale, Iran negotiations, Anthropic's IPO plans and more in Morning Squawk - CNBC",
+      "Why Alphabet Stock Fell Today - The Motley Fool",
+      "Alphabet plans $80 billion stock sale as AI spending surges - dw.com",
+      "Google parent Alphabet to sell $80bn in stock to fund AI plans - Al Jazeera",
+      "GOOGL Stock Rises Overnight: Cathie Wood's ARK Buys $96M While Trimming AMD, BIDU Stakes - Yahoo Finance"
+    ],
+    "2026-06-03": [
+      "GOOGL Stock Rises Overnight: Cathie Wood's ARK Buys $96M While Trimming AMD, BIDU Stakes - Yahoo Finance",
+      "Alphabet: We See the Equity Raise as a Further Vote of Confidence in AI Monetization and Returns - Morningstar",
+      "Is Alphabet Stock Underperforming the Nasdaq? - Barchart.com",
+      "Why Alphabet Pivoted to Massive $80 Billion Stock Sale to Fund AI Build-Out – With Berkshire’s Help - MarketWise",
+      "Does Alphabet Stock Have More Upside? - Trefis",
+      "Massive News for Alphabet Stock Investors! - The Motley Fool",
+      "Why Alphabet Stock Popped Today - Yahoo Finance",
+      "Why Alphabet Stock Popped Today - The Motley Fool"
+    ],
+    "2026-06-04": [
+      "Is Alphabet Inc. the Best Goldman Sachs Tech Stock to Buy Now? - Yahoo Finance",
+      "Is Alphabet Stock Underperforming the Nasdaq? - Barchart.com",
+      "Alphabet is seeking fresh capital as stock's 4-week losing streak tests investor appetite - CNBC",
+      "Does Alphabet Stock Have More Upside? - Trefis",
+      "Why Alphabet Pivoted to Massive $80 Billion Stock Sale to Fund AI Build-Out – With Berkshire’s Help - MarketWise",
+      "Massive News for Alphabet Stock Investors! - The Motley Fool",
+      "Alphabet Stock: Managing AI Capex Well And Seems Highly Underrated (NASDAQ:GOOGL) - Seeking Alpha",
+      "Alphabet Is Raising $80 Billion From Stock Sales -- Here's the Most Important Question Investors Should Ask - Yahoo Finance"
+    ],
+    "2026-06-05": [
+      "Piper Sandler Raises PT on Alphabet (GOOGL) Stock - Yahoo Finance",
+      "GOOGL Stock Alert: The $85 Billion Reason Alphabet Is Down Today - Barchart.com",
+      "Alphabet is seeking fresh capital as stock's 4-week losing streak tests investor appetite - CNBC",
+      "Alphabet Stock: Managing AI Capex Well And Seems Highly Underrated (NASDAQ:GOOGL) - Seeking Alpha",
+      "Alphabet Is Raising $80 Billion From Stock Sales -- Here's the Most Important Question Investors Should Ask - The Motley Fool",
+      "Between Alphabet and Spotify Technology, Which Stock Looks Set to Break Out? - Trefis",
+      "Google Parent Alphabet Secures Massive SpaceX Computing Deal Ahead of Multi-Trillion Dollar IPO - TIKR.com",
+      "Alphabet Stock Slides After Report Reveals Cloud Division Layoffs - TradingView"
+    ],
+    "2026-06-06": [
+      "Piper Sandler Raises PT on Alphabet (GOOGL) Stock - Yahoo Finance",
+      "Still Bullish On Alphabet After Its $85B Capital Raise - Seeking Alpha",
+      "Google Parent Alphabet Secures Massive SpaceX Computing Deal Ahead of Multi-Trillion Dollar IPO - TIKR.com",
+      "Google Stock Fell on CapEx Plans. Don’t Miss the Silver Lining in Berkshire Hathaway’s Big Bet. - Barchart.com",
+      "Alphabet storms markets with historic US$90bn equity raise - ifr-logo",
+      "Is Alphabet’s equity raise a stock market warning sign? - Yahoo Finance UK",
+      "Eli Lilly, Google Lead Five Stocks To Watch - Investor's Business Daily",
+      "Reflecting On Consumer Internet Stocks’ Q1 Earnings: Alphabet (NASDAQ:GOOGL) - TradingView"
+    ],
+    "2026-06-07": [
+      "Is Alphabet Inc. (GOOGL) A Good Stock To Buy Now? - Yahoo Finance",
+      "What's Going On With Alphabet Stock? - Benzinga",
+      "Alphabet Inc. (GOOG) Stock Drops Despite Market Gains: Important Facts to Note - Yahoo Finance",
+      "Alphabet Stock (GOOG) Opinions on Gemini AI Deal and Stock Performance - Quiver Quantitative",
+      "Google Stock Fell on CapEx Plans. Don’t Miss the Silver Lining in Berkshire Hathaway’s Big Bet. - Barchart.com",
+      "Warren Buffett Praises New CEO Greg Abel as Berkshire Hathaway Makes Major Acquisition and Bets $10 Billion on Alphabet AI Infrastructure - TIKR.com",
+      "Alphabet taps company veteran for principal accounting post - CFO Dive",
+      "Google to pay dividends next week; Here’s how much 100 GOOGL shares will earn - Finbold"
+    ],
+    "2026-06-08": [
+      "Is Alphabet Inc. (GOOGL) A Good Stock To Buy Now? - Yahoo Finance",
+      "TD Cowen raises Alphabet stock price target on AI infrastructure analysis - Investing.com",
+      "Alphabet And Microsoft: Holding The Winner, Buying The Laggard (NASDAQ:GOOG) - Seeking Alpha",
+      "What's Going On With Alphabet Stock? - Benzinga",
+      "Alphabet Convertible Preferred Offers 6% Yield and Upside With Common Stock - Barron's",
+      "Google Parent Alphabet Is Issuing More Shares. Time to Sell? - The Motley Fool",
+      "Alphabet Inc. (GOOG) Stock Drops Despite Market Gains: Important Facts to Note - Yahoo Finance",
+      "Alphabet (GOOGL) Stock Slides as Market Rises: Facts to Know Before You Trade - Yahoo Finance"
+    ],
+    "2026-06-09": [
+      "SpaceX IPO Can Pump $100 Billion Into Google’s Alphabet Stock - Yahoo Finance",
+      "TD Cowen raises Alphabet stock price target on AI infrastructure analysis - Investing.com",
+      "Alphabet And Microsoft: Holding The Winner, Buying The Laggard (NASDAQ:GOOG) - Seeking Alpha",
+      "Alphabet Convertible Preferred Offers 6% Yield and Upside With Common Stock - Barron's",
+      "Google Parent Alphabet Is Issuing More Shares. Time to Sell? - The Motley Fool",
+      "Prediction: Google Stock Will Hit $500 on This Date - 24/7 Wall St.",
+      "Google Stock Weakens After Launch of Real-Time Speech AI Tool - TradingView",
+      "Alphabet Is Raising $80 Billion for AI Infrastructure. These 4 Semiconductor Stocks Win the Most. - The Motley Fool"
+    ],
+    "2026-06-10": [
+      "Should You Buy Alphabet Stock Down 10% From Its All-Time Highs? - Yahoo Finance",
+      "The Billion-User Number Alphabet Stock Quietly Dropped From Its Story - Trefis",
+      "Waymo Is Doubling Down on Self-Driving Car Ambitions. What That Means for GOOGL Stock. - Barchart.com",
+      "Alphabet Shares Are Under Pressure Thursday: What Investors Need To Know - Alphabet (NASDAQ:GOOG), Alphab - Benzinga",
+      "SpaceX IPO Can Pump $100 Billion Into Google’s Alphabet Stock - Bitget",
+      "Alphabet: Now Is The Time To Raise Equity, Agentic AI Is Here (Rating Upgrade) (GOOG) - Seeking Alpha",
+      "Alphabet Inc. (GOOGL) Is A Top AI Stock In Ken Griffin’s Portfolio - Yahoo Finance",
+      "Alphabet Is Raising $80 Billion for AI Infrastructure. These 4 Semiconductor Stocks Win the Most. - The Motley Fool"
+    ],
+    "2026-06-11": [
+      "Should You Buy Alphabet Stock Down 10% From Its All-Time Highs? - Yahoo Finance",
+      "Does Google Stock Have More Upside? - Trefis",
+      "Waymo Is Doubling Down on Self-Driving Car Ambitions. What That Means for GOOGL Stock. - Barchart.com",
+      "Alphabet Shares Are Under Pressure Thursday: What Investors Need To Know - Alphabet (NASDAQ:GOOG), Alphab - Benzinga",
+      "Alphabet: The Search, Cloud, And AI Setup Is Hard To Ignore (NASDAQ:GOOGL) - Seeking Alpha",
+      "Alphabet (GOOGL) Among Our Good Stocks to Buy Now - Yahoo Finance",
+      "The Billion-User Number Alphabet Stock Quietly Dropped From Its Story - Trefis",
+      "Alphabet: Now Is The Time To Raise Equity, Agentic AI Is Here (Rating Upgrade) (GOOG) - Seeking Alpha"
+    ],
+    "2026-06-12": [
+      "Alphabet Stock Is Up Nearly 100% Over the Past Year. Is It Still a Buy? - Yahoo Finance",
+      "Alphabet Stock Is Up Nearly 100% Over the Past Year. Is It Still a Buy? - The Motley Fool",
+      "Does Google Stock Have More Upside? - Trefis",
+      "Alphabet: Buckle Up For What's Coming (NASDAQ:GOOG) - Seeking Alpha",
+      "Alphabet Stock Rises as Google Faces New AI Liability Risk Ahead of Q2 Earnings - TechStock²",
+      "Is Alphabet (GOOGL) Still Undervalued? - Yahoo Finance",
+      "Billionaire Brad Gerstner Dumped All of His Alphabet Then Bought 2 Stocks Nobody Expected - 24/7 Wall St.",
+      "Google and Amazon Stocks Will Benefit from More Expensive AI. Here’s Why. - Barron's"
+    ],
+    "2026-06-13": [
+      "Alphabet Stock Is Up Nearly 100% Over the Past Year. Is It Still a Buy? - Yahoo Finance",
+      "Alphabet Stock Is Up Nearly 100% Over the Past Year. Is It Still a Buy? - The Motley Fool",
+      "Alphabet Stock Just Raised $84.75 Billion for AI: What Berkshire’s $10 Billion Bet Means for Investors - TIKR.com",
+      "Alphabet Stock (GOOG) Opinions on Capital Raise Amid AI Push - Quiver Quantitative",
+      "Alphabet: Buckle Up For What's Coming (NASDAQ:GOOG) - Seeking Alpha",
+      "Alphabet's Most Overlooked Division Just Had a Big Week - MarketBeat",
+      "Alphabet Stock Rises as Google Faces New AI Liability Risk Ahead of Q2 Earnings - TechStock²",
+      "Is Alphabet (GOOGL) Still Undervalued? - Yahoo Finance"
+    ],
+    "2026-06-14": [
+      "Alphabet (GOOGL) Stock After 109% Year Gain And AI Headlines Is It Still Reasonable Priced - Yahoo Finance",
+      "Alphabet Stock Just Raised $84.75 Billion for AI: What Berkshire’s $10 Billion Bet Means for Investors - TIKR.com",
+      "Why GOOGL Stock May Have More Room to Run Even After a 100% Rally - Barchart.com",
+      "Alphabet Stock (GOOG) Opinions on Capital Raise Amid AI Push - Quiver Quantitative",
+      "Should You Buy SpaceX After Its IPO if You Already Own Alphabet Stock? - The Motley Fool",
+      "What's Going On With Alphabet Stock Monday? - Alphabet (NASDAQ:GOOG), Alphabet (NASDAQ:GOOGL) - Benzinga",
+      "Alphabet's Most Overlooked Division Just Had a Big Week - MarketBeat",
+      "Alphabet Gains, Google Stock Nears $500 Mark - TechStock²"
+    ],
+    "2026-06-15": [
+      "Alphabet (GOOGL) Stock After 109% Year Gain And AI Headlines Is It Still Reasonable Priced - Yahoo Finance",
+      "Why GOOGL Stock May Have More Room to Run Even After a 100% Rally - Barchart.com",
+      "Nvidia vs. Alphabet: Which Is the Better AI Chip Stock to Own for the Next 5 Years? - The Motley Fool",
+      "Alphabet: Still A Big Tech Pick To 'Buy' Now (NASDAQ:GOOGL) - Seeking Alpha",
+      "What's Going On With Alphabet Stock Monday? - Alphabet (NASDAQ:GOOG), Alphabet (NASDAQ:GOOGL) - Benzinga",
+      "Adobe Stock Meets Alphabet And Wolfspeed In This AI Trifecta - simplywall.st",
+      "A Researcher Who Left the AI Labs Predicted Google’s Stock Would “Explode” - 24/7 Wall St.",
+      "Oppenheimer Picks Alphabet, Dumps Meta in Highest-Conviction Stock Picks - TradingView"
+    ],
+    "2026-06-16": [
+      "Alphabet Drops 6% in a Month: Buy, Sell, or Hold the GOOGL Stock? - Yahoo Finance",
+      "Nvidia vs. Alphabet: Which Is the Better AI Chip Stock to Own for the Next 5 Years? - The Motley Fool",
+      "Alphabet Drops 6% in a Month: Buy, Sell, or Hold the GOOGL Stock? - June 17, 2026 - Zacks Investment Research",
+      "Alphabet: Still A Big Tech Pick To 'Buy' Now (NASDAQ:GOOGL) - Seeking Alpha",
+      "A Researcher Who Left the AI Labs Predicted Google’s Stock Would “Explode” - 24/7 Wall St.",
+      "Alphabet, Lam Research, A Financial Stock: CNBC’s ‘Final Trades’ - Alphabet (NASDAQ:GOOG), Alphabet (NASD - Benzinga",
+      "Is Alphabet (GOOGL) The Best AI Stock in Billionaire Dan Loeb’s Portfolio? - Yahoo Finance",
+      "Amazon vs. Alphabet: Which Magnificent Stock Is the Better Buy? - The Motley Fool"
+    ],
+    "2026-06-17": [
+      "GOOGL Stock In Focus: Waymo Recalls Thousands Of US Robotaxis Over Navigation Issue - Yahoo Finance",
+      "Why Alphabet Raised $84.75 Billion In Stock For Its AI Build-Out - Forbes",
+      "Alphabet Drops 6% in a Month: Buy, Sell, or Hold the GOOGL Stock? - June 17, 2026 - Zacks Investment Research",
+      "Amazon vs. Alphabet: Which Magnificent Stock Is the Better Buy? - The Motley Fool",
+      "Google’s AI Superstar Is Joining OpenAI. Alphabet Stock Is Doing Just Fine. - Barron's",
+      "Google VP of Engineering Noam Shazeer Resigns From Tech Giant to Join Rival OpenAI - TIKR.com",
+      "Alphabet Drops 6% in a Month: Buy, Sell, or Hold the GOOGL Stock? - Yahoo Finance",
+      "Waymo Has a Tesla-Like Recall. What It Means for Alphabet Stock. - Barron's"
+    ],
+    "2026-06-18": [
+      "Prediction: Alphabet Stock Will Outpace the Market in 2026 - Yahoo Finance",
+      "Alphabet Stock (GOOGL) Opinions on AI Capital Raise - Quiver Quantitative",
+      "Why Alphabet Raised $84.75 Billion In Stock For Its AI Build-Out - Forbes",
+      "Alphabet: Why I Am Diluting My Largest Position (Rating Downgrade) - Seeking Alpha",
+      "Google’s AI Superstar Is Joining OpenAI. Alphabet Stock Is Doing Just Fine. - Barron's",
+      "Google VP of Engineering Noam Shazeer Resigns From Tech Giant to Join Rival OpenAI - TIKR.com",
+      "Snowflake vs Alphabet: Which Cloud Analytics Stock Has an Edge Now? - Zacks Investment Research",
+      "GOOGL Stock In Focus: Waymo Recalls Thousands Of US Robotaxis Over Navigation Issue - Yahoo Finance"
+    ],
+    "2026-06-19": [
+      "Where Will Alphabet Stock Be in 5 Years? - Yahoo Finance",
+      "Where Will Alphabet Stock Be in 5 Years? - The Motley Fool",
+      "Alphabet Stock (GOOGL) Opinions on AI Capital Raise - Quiver Quantitative",
+      "Alphabet: Why I Am Diluting My Largest Position (Rating Downgrade) - Seeking Alpha",
+      "Prediction: Alphabet Stock Will Outpace the Market in 2026 - 24/7 Wall St.",
+      "Where Will Alphabet Stock Be in 5 Years? - AOL.com",
+      "Why Did Alphabet Become an AI Giant Under Sundar Pichai? Ask Gemini. - Barron's",
+      "There is more to Alphabet than Google search – what it means for investors - MoneyWeek"
+    ],
+    "2026-06-20": [
+      "Where Will Alphabet Stock Be in 5 Years? - Yahoo Finance",
+      "Where Will Alphabet Stock Be in 5 Years? - The Motley Fool",
+      "Wall Street Keeps Raising Its Alphabet Target While the Stock Slips. Here’s Where the Stock Could Go - TIKR.com",
+      "Where Will Alphabet Stock Be in 5 Years? - AOL.com",
+      "Forget Ads: Alphabet’s CEO Says This Is Now the Biggest Growth Driver - 24/7 Wall St.",
+      "Morgan Stanley gives Google stock investors reason to rethink AI spending - thestreet.com",
+      "There is more to Alphabet than Google search – what it means for investors - MoneyWeek",
+      "Jeremy Grantham’s Latest Portfolio: Microsoft, Alphabet Dominate GMO Holdings - The Acquirer's Multiple"
+    ],
+    "2026-06-21": [
+      "Why Alphabet Stock Just Crashed - Yahoo Finance",
+      "Alphabet has its worst day in over a year on AI concerns after high-profile exits - CNBC",
+      "Berkshire Looked Like It Got a Bargain on Alphabet Stock. It Didn’t. - Barron's",
+      "Why Alphabet Stock Just Crashed - The Motley Fool",
+      "Google Stock: The Price Of A Juggernaut - Trefis",
+      "Alphabet shares trade around $367 following record first-quarter results and expanded AI infrastructure spending plans - eciks.org",
+      "Wall Street Keeps Raising Its Alphabet Target While the Stock Slips. Here’s Where the Stock Could Go - TIKR.com",
+      "Stocks Erase Early Gains as Alphabet and Software Companies Fall - Barchart.com"
+    ],
+    "2026-06-22": [
+      "Alphabet: Shares Sell Off on Artificial Intelligence Talent Exits; We See a Buying Opportunity - Morningstar",
+      "Why Alphabet Stock Just Crashed - Yahoo Finance",
+      "Alphabet has its worst day in over a year on AI concerns after high-profile exits - CNBC",
+      "How Low Can Google Stock Go? - Trefis",
+      "Alphabet Stock Extends Losses as Wall Street Asks if It Remains an AI Winner - Barron's",
+      "Why Alphabet Stock Just Crashed - The Motley Fool",
+      "Why Alphabet (GOOGL) Shares Are Getting Obliterated Today - Yahoo Finance",
+      "Alphabet (GOOGL) Stock Falls Again as Anthropic Poaches DeepMind Nobel Winner - Barron's"
+    ],
+    "2026-06-23": [
+      "Alphabet: Shares Sell Off on Artificial Intelligence Talent Exits; We See a Buying Opportunity - Morningstar",
+      "GOOGL Stock Gains After-Hours As Alphabet Is Set To Replace Verizon In Dow Jones — Retail Eyes ‘$400’ Level - Yahoo Finance",
+      "How Low Can Google Stock Go? - Trefis",
+      "Alphabet Stock Extends Losses as Wall Street Asks if It Remains an AI Winner - Barron's",
+      "Alphabet added to Dow Jones Industrial Average, replacing Verizon - CNBC",
+      "Alphabet Joins The Dow As AI Infrastructure Royalty (Rating Upgrade) - Seeking Alpha",
+      "GOOGL Stock Gains After-Hours As Alphabet Is Set To Replace Verizon In Dow Jones — Retail Eyes ‘$400’ Level - Stocktwits",
+      "Alphabet (GOOGL) Stock Falls Again as Anthropic Poaches DeepMind Nobel Winner - Barron's"
+    ],
+    "2026-06-24": [
+      "Alphabet Shares Fall After Report on Further AI Talent Departures - WSJ",
+      "Here’s Why Alphabet (GOOGL) Is One of the Most Promising AI Stocks to Buy and Hold for the Next 2 Years - Yahoo Finance",
+      "Why the Alphabet Stock Dip Looks Like a Golden Buying Opportunity - The Motley Fool",
+      "Alphabet Stock Joins the Dow. What History Says Happens Next. - Barron's",
+      "Yardeni: Here's What's Behind The June Swoon Of Google Stock - Investor's Business Daily",
+      "Alphabet shares rise ahead of Dow debut - CNBC",
+      "Alphabet Joins The Dow As AI Infrastructure Royalty (Rating Upgrade) - Seeking Alpha",
+      "Why is Alphabet stock sliding today? - Investing.com"
+    ],
+    "2026-06-25": [
+      "Alphabet Shares Fall After Report on Further AI Talent Departures - WSJ",
+      "Here’s Why Alphabet (GOOGL) Is One of the Most Promising AI Stocks to Buy and Hold for the Next 2 Years - Yahoo Finance",
+      "Alphabet Joined the Dow—and It Didn’t Help. What to Do With the Stock Now. - Barron's",
+      "Why the Alphabet Stock Dip Looks Like a Golden Buying Opportunity - The Motley Fool",
+      "Dow set to add Alphabet and drop Verizon - Axios",
+      "Yardeni: Here's What's Behind The June Swoon Of Google Stock - Investor's Business Daily",
+      "Why is Alphabet stock sliding today? - Investing.com",
+      "Alphabet's Dip Looks Increasingly Hard To Ignore (NASDAQ:GOOG) - Seeking Alpha"
+    ],
+    "2026-06-26": [
+      "Is AI Genius John Jumper Worth $250 Billion? Alphabet's Stock Plunge After His Departure Makes It Seem So. - Yahoo Finance",
+      "Alphabet Stock Falls Below Berkshire’s Buying Price, but GOOG Is Not a Screaming Buy Yet - Barchart.com",
+      "Alphabet burnishes one of its best weapons in the battle for AI supremacy - CNBC",
+      "Alphabet Joined the Dow—and It Didn’t Help. What to Do With the Stock Now. - Barron's",
+      "Alphabet: This Is A Dip Worth Buying - Seeking Alpha",
+      "Dow set to add Alphabet and drop Verizon - Axios",
+      "Is AI Genius John Jumper Worth $250 Billion? Alphabet's Stock Plunge After His Departure Makes It Seem So. - The Motley Fool",
+      "Alphabet Fell 5% in a Single Day as AI Stars Defected. Is the Selloff Overdone? - TIKR.com"
+    ],
+    "2026-06-27": [
+      "Alphabet Stock Falls Below Berkshire’s Buying Price, but GOOG Is Not a Screaming Buy Yet - Barchart.com",
+      "Better Quantum Computing Stock: Alphabet vs. IonQ - Yahoo Finance",
+      "Alphabet burnishes one of its best weapons in the battle for AI supremacy - CNBC",
+      "Alphabet: This Is A Dip Worth Buying - Seeking Alpha",
+      "Why Alphabet’s Pullback May Be an Opportunity in Disguise - MarketBeat",
+      "Alphabet Fell 5% in a Single Day as AI Stars Defected. Is the Selloff Overdone? - TIKR.com",
+      "Microsoft vs. Alphabet: What Their Revenue Trends Tell Investors - The Globe and Mail",
+      "Hers’s Why Alphabet (GOOGL) Is One of the Best Cloud Computing Stocks to Buy According to Hedge Funds - Yahoo Finance"
+    ],
+    "2026-06-28": [
+      "Alphabet stock pops 4% on Dow debut, but the tech giant faces major AI questions - CNBC",
+      "Alphabet is finally joining the Dow. What took so long? - Business Insider",
+      "Why Is Alphabet Stock (GOOGL) Up? Dow Entry and Google AI Limits on Meta. - Barron's",
+      "Alphabet shares rise on Dow debut, Verizon falls after index exit - Yahoo Finance",
+      "Alphabet: The Path To $576/Share (NASDAQ:GOOGL) - Seeking Alpha",
+      "Better Quantum Computing Stock: Alphabet vs. IonQ - The Motley Fool",
+      "Why Alphabet’s Pullback May Be an Opportunity in Disguise - MarketBeat",
+      "Alphabet Stock Gains on First Day as a Dow Member -- Barrons.com - Moomoo"
+    ],
+    "2026-06-29": [
+      "Alphabet stock pops 4% on Dow debut, but the tech giant faces major AI questions - CNBC",
+      "Is Trending Stock Alphabet Inc. (GOOGL) a Buy Now? - Yahoo Finance",
+      "Alphabet is finally joining the Dow. What took so long? - Business Insider",
+      "Why Is Alphabet Stock (GOOGL) Up? Dow Entry and Google AI Limits on Meta. - Barron's",
+      "Alphabet: The Path To $576/Share (NASDAQ:GOOGL) - Seeking Alpha",
+      "Why Amazon, Alphabet, and Other Tech Stocks Popped Today - The Motley Fool",
+      "Alphabet Stock Gains on First Day as a Dow Member -- Barrons.com - Moomoo",
+      "Alphabet shares rise on Dow debut, Verizon falls after index exit - Yahoo Finance"
+    ],
+    "2026-06-30": [
+      "Is Trending Stock Alphabet Inc. (GOOGL) a Buy Now? - Yahoo Finance",
+      "Alphabet stock rally exposes Google’s unusual AI problem - thestreet.com",
+      "Alphabet Just Replaced Verizon in the Dow. Could Nike Be the Next Dow Stock to Be Deleted? - The Motley Fool",
+      "Alphabet (GOOGL) technical analysis - Alphabet (NASDAQ:GOOGL) - Benzinga",
+      "Alphabet Stock Price Prediction: The Forecast Points to 20% Upside - Yahoo Finance",
+      "Morgan Stanley reiterated coverage on Alphabet A with a new price target - Quantisnow",
+      "Morgan Stanley Maintains Alphabet-A(GOOGL.US) With Buy Rating, Raises Target Price to $415 - Moomoo",
+      "Alphabet shares rise on Dow debut, Verizon falls after index exit - Proactive financial news"
+    ],
+    "2026-07-01": [
+      "Alphabet stock rally exposes Google’s unusual AI problem - thestreet.com",
+      "Alphabet Stock Price Prediction: The Forecast Points to 20% Upside - Yahoo Finance",
+      "Alphabet (GOOGL) technical analysis - Alphabet (NASDAQ:GOOGL) - Benzinga",
+      "Wells Fargo cuts Alphabet stock price target to $416 on cloud forecast - Investing.com India",
+      "Alphabet gains $2T in market cap as investors weigh AI ambitions against regulatory headwinds - Crypto Briefing",
+      "Google’s power struggles are killing its AI mojo - The Business Times",
+      "Wells Fargo lowers Alphabet price target to $416 - scanx.trade",
+      "Tokenized Google stock surges 7,700% in DeFi lending exploit - Bitget"
+    ],
+    "2026-07-02": [
+      "Here’s Why Jim Cramer Thinks Alphabet Is Still Cheap - Yahoo Finance",
+      "Google Parent Alphabet Invested $900 Million Into SpaceX in January 2015 -- Here's How Much That Investment Is Worth Today - The Motley Fool",
+      "Dear Google Stock Fans, Mark Your Calendars for July 22 - Yahoo Finance",
+      "Wells Fargo cuts Alphabet stock price target to $416 on cloud forecast - Investing.com Canada",
+      "Better Artificial Intelligence (AI) Stock: Alphabet vs. Micron Technology (the Winner May Surprise You) - The Motley Fool",
+      "Wells Fargo lowers Alphabet price target to $416 - scanx.trade",
+      "Alphabet Inc. (GOOGL) Slips Slightly, Holds Ground Above Key Support - High Yield Stocks - dars.gov.et",
+      "Final Trades: Alphabet, Netflix, Target and Nike - CNBC"
+    ],
+    "2026-07-03": [
+      "Argus Maintains Buy Rating on Alphabet (GOOGL) Stock - Yahoo Finance",
+      "Alphabet Stock in July 2026: A 5% Dividend Hike Meets a $36 Billion Capex Quarter - TIKR.com",
+      "Google Parent Alphabet Invested $900 Million Into SpaceX in January 2015 -- Here's How Much That Investment Is Worth Today - The Motley Fool",
+      "Warren Buffett's Berkshire Hathaway Owns $41 Billion of Alphabet Stock: Here Are 3 Possible Reasons Why - Yahoo Finance",
+      "Alphabet joins Dow as investors eye Coca-Cola for dividends - MSN",
+      "Bill Ackman reveals why he still likes Alphabet, Amazon, and Meta stocks - thestreet.com",
+      "Klarna’s Google Court Win Could Give Its BNPL Story a Needed Cash Catalyst - MarketBeat",
+      "Here’s Why Jim Cramer Thinks Alphabet Is Still Cheap - Yahoo Finance"
+    ],
+    "2026-07-04": [
+      "Argus Maintains Buy Rating on Alphabet (GOOGL) Stock - Yahoo Finance",
+      "Where Will Alphabet Stock Be in 5 Years? - The Motley Fool",
+      "Alphabet Stock in July 2026: A 5% Dividend Hike Meets a $36 Billion Capex Quarter - TIKR.com",
+      "Warren Buffett's Berkshire Hathaway Owns $41 Billion of Alphabet Stock: Here Are 3 Possible Reasons Why - Yahoo Finance",
+      "Alphabet joins Dow as investors eye Coca-Cola for dividends - MSN",
+      "Bill Ackman reveals why he still likes Alphabet, Amazon, and Meta stocks - thestreet.com",
+      "Alphabet Stock Has Doubled in a Year. Is It Too Late to Buy? - The Motley Fool",
+      "Where Will Alphabet Stock Be in 5 Years? - Yahoo Finance"
+    ],
+    "2026-07-05": [
+      "Where Will Alphabet Stock Be in 5 Years? - Yahoo Finance",
+      "Where Will Alphabet Stock Be in 5 Years? - The Motley Fool",
+      "Alphabet (GOOGL) director Ram Shriram awarded 980 GSUs in annual grant - Stock Titan",
+      "Alphabet Inc. (GOOGL) Shares Up Significantly After Jim Cramer Praised The Firm - Yahoo Finance",
+      "Alphabet Stock Has Doubled in a Year. Is It Too Late to Buy? - The Motley Fool",
+      "Alphabet (GOOG) director Robin Washington awarded 980 Google Stock Units - Stock Titan",
+      "Down Over 10% From Its All-Time High, Is Now the Perfect Time to Buy Alphabet Stock? - The Motley Fool",
+      "Anthropic Strengthens Alphabet Inc. (GOOGL)’s Google Cloud Positioning in Enterprise AI Development - Yahoo Finance"
+    ],
+    "2026-07-06": [
+      "Alphabet Inc. (GOOGL) Is A Top AI Stock To Buy According To Billionaire Jeffrey Talpins - Yahoo Finance",
+      "Alphabet’s SWOT analysis: stock faces talent exodus test - Investing.com",
+      "Alphabet (GOOGL) director Ram Shriram awarded 980 GSUs in annual grant - Stock Titan",
+      "Down Over 10% From Its All-Time High, Is Now the Perfect Time to Buy Alphabet Stock? - The Motley Fool",
+      "How Google’s ‘Other’ Business Doubled The Stock - Trefis",
+      "Alphabet Q2 Earnings Preview: What To Expect From Upcoming Report - Yahoo Finance",
+      "Prediction: Following Alphabet, This Could Be the Next Trillion-Dollar Artificial Intelligence (AI) Stock Greg Abel Adds to Berkshire's Portfolio - The Globe and Mail",
+      "Prediction: Following Alphabet, This Could Be the Next Trillion-Dollar Artificial Intelligence (AI) Stock Greg Abel Adds to Berkshire's Portfolio - The Motley Fool"
+    ],
+    "2026-07-07": [
+      "Alphabet Stock: Locking In Long-Term Rule Of 40 Supremacy (NASDAQ:GOOG) - Seeking Alpha",
+      "Alphabet Inc. (GOOGL) Is A Top AI Stock To Buy According To Billionaire Jeffrey Talpins - Yahoo Finance",
+      "Alphabet’s SWOT analysis: stock faces talent exodus test - Investing.com",
+      "The Cloud Backlog That Changed Everything For Google Stock - Trefis",
+      "Alphabet Q2 Earnings Preview: What To Expect From Upcoming Report - Yahoo Finance",
+      "Alphabet's Q2 Includes A Massive Bill Nobody's Talking About (NASDAQ:GOOGL) - Seeking Alpha",
+      "How Google’s ‘Other’ Business Doubled The Stock - Trefis",
+      "Alphabet Inc. (GOOG) Sees a More Significant Dip Than Broader Market: Some Facts to Know - Yahoo Finance"
+    ],
+    "2026-07-08": [
+      "Price Prediction: Alphabet Stock Will Trade at This Price in 2030 - Yahoo Finance",
+      "Alphabet Stock: Locking In Long-Term Rule Of 40 Supremacy (NASDAQ:GOOG) - Seeking Alpha",
+      "Alphabet Stock (GOOGL) Opinions on AI Model Competition and Market Performance - Quiver Quantitative",
+      "Alphabet vs. Meta: Which AI Stock Is the Better Buy Right Now? - The Motley Fool",
+      "The Cloud Backlog That Changed Everything For Google Stock - Trefis",
+      "Alphabet vs. Meta: Which AI Stock Is the Better Buy Right Now? - Yahoo Finance",
+      "Alphabet's Best Days May Still Lie Ahead (NASDAQ:GOOG) - Seeking Alpha",
+      "Greg Abel's Alphabet Bet Topped Berkshire's Coca-Cola Stake - The Motley Fool"
+    ],
+    "2026-07-09": [
+      "Alphabet Stock Looks Undervalued After a 100% Rally in a Year. Analysts See More Upside - 24/7 Wall St.",
+      "Price Prediction: Alphabet Stock Will Trade at This Price in 2030 - Yahoo Finance",
+      "Alphabet: Panic Surrounding Recent Brain Drain Is Pure Noise - Seeking Alpha",
+      "What Google Stock Was Telling You Before It Doubled - Trefis",
+      "Alphabet Stock (GOOGL) Opinions on AI Model Competition and Market Performance - Quiver Quantitative",
+      "Alphabet vs. Meta: Which AI Stock Is the Better Buy Right Now? - The Motley Fool",
+      "Alphabet's AI push fuels growth but ETF outpaces stock - MSN",
+      "Alphabet vs. Meta: Which AI Stock Is the Better Buy Right Now? - Yahoo Finance"
+    ],
+    "2026-07-10": [
+      "Alphabet Stock Looks Undervalued After a 100% Rally in a Year. Analysts See More Upside - 24/7 Wall St.",
+      "Greg Abel Built a $31 Billion Berkshire Stake in Alphabet - Yahoo Finance",
+      "Alphabet: Panic Surrounding Recent Brain Drain Is Pure Noise - Seeking Alpha",
+      "What Google Stock Was Telling You Before It Doubled - Trefis",
+      "Alphabet's AI push fuels growth but ETF outpaces stock - MSN",
+      "Greg Abel Built a $31 Billion Berkshire Stake in Alphabet - The Motley Fool",
+      "Alphabet (GOOGL) Lands Berkshire Backing In $80 Billion AI Infrastructure Raise - Sahm",
+      "Alphabet Is the Dow's Newest Member. This One Has Been Raising Its Dividend Since Before Google Existed. - Yahoo Finance"
+    ],
+    "2026-07-11": [
+      "Alphabet Inc. (GOOGL) A Top AI Stock In D. E. Shaw’s Holdings - Yahoo Finance",
+      "Alphabet vs. Amazon vs. Microsoft: Which Is the Best Cloud Computing Stock to Buy Today? - The Motley Fool",
+      "Sierra Summit Advisors LLC Has $24.68 Million Position in Alphabet Inc. $GOOGL - MarketBeat",
+      "Alphabet (GOOGL) Lands Berkshire Backing In $80 Billion AI Infrastructure Raise - Sahm",
+      "Google vs Apple: Which of the 2 Biggest AI Stocks Is the Better Buy Right Now? - Yahoo Finance",
+      "Did Nvidia's 2028 Rack Delay Under Jensen Huang Open a Door for AMD and Google? - The Motley Fool",
+      "S&amp;P 500 Retreats as Tech Selloff Deepens With Semiconductors and Alphabet Under Heavy Pressure - BBN Times",
+      "Alphabet Inc Mission Statement &amp; Vision 2026 - FourWeekMBA"
+    ],
+    "2026-07-12": [
+      "Alphabet Inc (GOOGL) Stock: Looking Beyond the $4.7 Billion EU Fine - Yahoo Finance",
+      "Dear Google Stock Fans, Mark Your Calendars for July 13 - Barchart.com",
+      "Alphabet Q2 Preview: Full-Stack Diversified AI Fortified From Downfall (NASDAQ:GOOGL) - Seeking Alpha",
+      "Alphabet vs. Amazon vs. Microsoft: Which Is the Best Cloud Computing Stock to Buy Today? - The Motley Fool",
+      "GOOGL 260710 475.00C (GOOGL260710C475000) Stock Options Chain | Quotes &amp; News - Moomoo",
+      "Citizens reiterates Alphabet stock rating on AI infrastructure needs - Investing.com",
+      "Alphabet Inc. (GOOGL) A Top AI Stock In D. E. Shaw’s Holdings - Yahoo Finance",
+      "Does Berkshire Hathaway CEO Greg Abel's New Favorite Stock, Alphabet, Achieve the Rule of 40? - The Motley Fool"
+    ],
+    "2026-07-13": [
+      "Alphabet Inc (GOOGL) Stock: Looking Beyond the $4.7 Billion EU Fine - Yahoo Finance",
+      "What Could Push GOOGL Stock Higher From Here? - Trefis",
+      "Dear Google Stock Fans, Mark Your Calendars for July 13 - Barchart.com",
+      "Alphabet Q2 Preview: Full-Stack Diversified AI Fortified From Downfall (NASDAQ:GOOGL) - Seeking Alpha",
+      "Alphabet (GOOGL) Stock Looks Reasonable On Cash Flow, Richer On Earnings - simplywall.st",
+      "Does Berkshire Hathaway CEO Greg Abel's New Favorite Stock, Alphabet, Achieve the Rule of 40? - The Motley Fool",
+      "Google Parent Alphabet Has Abandoned Its $346 Billion Investment -- and History Points to This Decision Being a Mixed Bag - Yahoo Finance",
+      "Alphabet Q2 Preview: Expecting No Let Up In AI Spending Outlook (NASDAQ:GOOG) - Seeking Alpha"
+    ],
+    "2026-07-14": [
+      "Alphabet Inc. (GOOGL): 8 Best Stocks to Buy Following Federal Reserve Pivot Expectations - Yahoo Finance",
+      "Alphabet Stock Is Moving Higher as Buffett Regrets Google Miss - Benzinga",
+      "Warren Buffett tells CNBC he initiated Berkshire Hathaway's investment in Alphabet - CNBC",
+      "Warren Buffett says he made the call for Berkshire to plow billions into Alphabet, but regrets not getting in earlier - Business Insider",
+      "What Could Push GOOGL Stock Higher From Here? - Trefis",
+      "Better Artificial Intelligence (AI) Stock: Amazon vs. Alphabet - The Motley Fool",
+      "GOOGL Stock: Do AI Growth Drivers Justify the Premium Valuation? - Yahoo Finance",
+      "Better Artificial Intelligence (AI) Stock: Alphabet Versus Meta Platforms - The Motley Fool"
+    ],
+    "2026-07-15": [
+      "Why Alphabet (GOOGL) Stock Is Falling Today - Yahoo Finance",
+      "Alphabet stock falls 4% on report of Gemini AI model delays - Investing.com",
+      "Warren Buffett says he made the call for Berkshire to plow billions into Alphabet, but regrets not getting in earlier - Business Insider",
+      "Alphabet Stock Is Moving Higher as Buffett Regrets Google Miss - Benzinga",
+      "Warren Buffett tells CNBC he initiated Berkshire Hathaway's investment in Alphabet - CNBC",
+      "Booking, Alphabet, and 7 Other Stocks to Buy Ahead of Earnings - Barron's",
+      "What Alphabet Stock’s Calm Price Doesn’t Tell You About Its Potential Swing - Trefis",
+      "Buffett Says He Was Behind Berkshire Purchase of Alphabet Shares - Bloomberg.com"
+    ],
+    "2026-07-16": [
+      "Why Alphabet (GOOGL) Stock Is Falling Today - Yahoo Finance",
+      "Alphabet shares fall on report its most powerful AI model Gemini 3.5 Pro is delayed - CNBC",
+      "Alphabet stock falls 4% on report of Gemini AI model delays - Investing.com",
+      "Alphabet’s stock falls as Gemini delays suggest Google is struggling to keep up in the AI race - MarketWatch",
+      "GOOGL Stock Falls 5% As Google’s Flagship AI Model Reportedly Runs Behind Schedule — Why Retail Traders Aren’t Worried - TradingView",
+      "Alphabet Inc Class C Stock (GOOG) Moved Down by 3.79% on Jul 16: What Investors Need To Know - TradingKey",
+      "GOOGL Stock Falls 5% As Google’s Flagship AI Model Reportedly Runs Behind Schedule — Why Retail Traders Aren’t Worried - Stocktwits",
+      "Alphabet Stock Sinks on Reports of Google Gemini Delays - Benzinga"
+    ],
+    "2026-07-17": [
+      "Ahead of Earnings, Is Alphabet Stock a Buy, a Sell, or Fairly Valued? - Morningstar",
+      "Why Alphabet Stock Dropped on Friday - Yahoo Finance",
+      "Alphabet Stock Is Being Hit by 2 Big AI Fears - Barron's",
+      "Why Alphabet Stock Dropped on Friday - The Motley Fool",
+      "Ahead of Alphabet Earnings, Here's What Barchart Data Says Comes Next for GOOGL Stock - Barchart.com",
+      "Stocks making the biggest moves premarket: Netflix, SpaceX, Alphabet and more - CNBC",
+      "How To Bank 8.8% On GOOGL Stock Before Buying A Single Share - Trefis",
+      "Google Parent Alphabet Stock Still Sliding After Reports of Months-Long Gemini Delay - Benzinga"
+    ],
+    "2026-07-18": [
+      "Alphabet's Stock Is a Must Buy Before July 22 - Yahoo Finance",
+      "Alphabet's Stock Is a Must Buy Before July 22 - The Motley Fool",
+      "How To Bank 8.8% On GOOGL Stock Before Buying A Single Share - Trefis",
+      "Alphabet-A (GOOGL) Stock Forecast &amp; Analyst Ratings - Moomoo",
+      "Smart Investor: Top Sector Stock Picks, What to Watch in Tesla and Alphabet Earnings, and the AI Debt Wave - Morningstar",
+      "Should You Buy Alphabet Stock Before the Huge Investor Update? - The Globe and Mail",
+      "Alphabet (GOOGL) Stock Forecast: Google Drops 4% Ahead of Earnings—Can AI Keep the Rally Alive? - FXLeaders",
+      "Sageworth Trust Co Raises Stock Position in Alphabet Inc. $GOOGL - MarketBeat"
+    ],
+    "2026-07-19": [
+      "Warren Buffett Takes Credit for Berkshire’s Alphabet Stock Buy: ‘I Initiated It’ - Yahoo Finance",
+      "Should You Buy Alphabet Stock Before the Huge Investor Update? - The Motley Fool",
+      "Should You Buy Alphabet Stock Before the Huge Investor Update? - The Globe and Mail",
+      "Bank of America doubles down on Google stock ahead of earnings - thestreet.com",
+      "If You Invested $100 In Alphabet Stock 10 Years Ago, You Would Have This Much Today - Sahm",
+      "Alphabet (GOOGL) Week Review: EU Hit, Gemini Delays, Earnings Wednesday - TradingKey",
+      "Alphabet, SpaceX Spur Record U.S. Equity Sales - The Information",
+      "Buffett says he initiated Berkshire’s $31B Alphabet stake - MSN"
+    ],
+    "2026-07-20": [
+      "Ahead of Earnings, Is Alphabet Stock a Buy, a Sell, or Fairly Valued? - Morningstar",
+      "Alphabet stock pops on report it's developing a more efficient AI chip - CNBC",
+      "Alphabet's Google developing new chip for AI model, stock jumps - Yahoo Finance",
+      "How To Bank 8.8% On GOOGL Stock Before Buying A Single Share - Trefis",
+      "Alphabet Rally Boosts Google Cofounder Fortunes By $15 Billion—Here’s Why Shares Are Up - Forbes",
+      "If You'd Put $1,000 Into Google Stock 20 Years Ago, Here's What You'd Have Today - Kiplinger",
+      "Better \"Magnificent Seven\" Stock: Alphabet vs. Microsoft - The Motley Fool",
+      "Why is Alphabet stock rallying today? - Investing.com"
+    ],
+    "2026-07-21": [
+      "Should You Buy Alphabet Stock Before July 22? Wall Street Has a Clear Answer. - Yahoo Finance",
+      "Here’s How Much Google Parent Alphabet’s Stock Is Seen Moving After Earnings - Investopedia",
+      "Alphabet's Gemini delay, spending worries loom over earnings - Reuters",
+      "Alphabet: Earnings And Gemini 3.5 Pro Delay (NASDAQ:GOOG) - Seeking Alpha",
+      "Should You Buy Alphabet Stock Before July 22? Wall Street Has a Clear Answer. - The Motley Fool",
+      "Google Is Developing a Chip for Its Own AI Models. What This Means for GOOGL Stock. - Barchart.com",
+      "Alphabet Q2 Preview: Stock on Sale? Analyst Says ‘Attractive Entry’ Ahead of Earnings - Benzinga",
+      "How To Bank 8.4% On GOOGL Stock Before Buying A Single Share - Trefis"
+    ],
+    "2026-07-22": [
+      "Google Q2 earnings top expectations, cloud revenue grows 82%, but stock falls on capex growth - Yahoo Finance",
+      "Google’s AI Spending Spree Has Investors Nervous - WSJ",
+      "Alphabet’s stock sinks after it bumps up AI infrastructure spending yet again - SiliconANGLE",
+      "Alphabet Quadruples Profit to $112 Billion, Fueled by A.I. Investments - The New York Times",
+      "Anthropic and SpaceX just handed Google the biggest profit quarter in company history—on paper - Fortune",
+      "Alphabet Reports Q2 Results After the Bell Today. The Number That Decides the Stock Isn't Revenue or Earnings -- It's Capex. - The Motley Fool",
+      "Google Earnings, Revenue Top Views As Cloud Growth Accelerates. Search Results In-Line. - Investor's Business Daily",
+      "How To Bank 8.4% On GOOGL Stock Before Buying A Single Share - Trefis"
+    ],
+    "2026-07-23": [
+      "GOOGL Stock Sinks 8% A Day After Strong Q2 Earnings — But Wall Street Isn’t Backing Away Despite Price Target Cuts - Yahoo Finance",
+      "When AI CapEx Eats Cash: Is Alphabet’s Huge Bet Building a Moat or Sinking Margins? - Barron's",
+      "Tesla, Alphabet lose hundreds of billions in value in post-earnings stock plunge - CNBC",
+      "Alphabet Earnings: Strong AI Monetization Continues to Spearhead Results - Morningstar",
+      "Big Drop in Alphabet Stock Underscores Investor Unease With AI Spending - Investopedia",
+      "4 Reasons to Buy Alphabet Stock After the CAPEX Shock: Bank of America - Benzinga",
+      "Google 2027 Capital Spending Could Boom Near $400 Billion, Predicts JPMorgan - Investor's Business Daily",
+      "Warren Buffett Just Said This About Berkshire Hathaway's Massive Google Investment - The Motley Fool"
+    ],
+    "2026-07-24": [
+      "Alphabet Inc. (GOOGL) Stock Price, News, Quote &amp; History - Yahoo Finance",
+      "The Discount On GOOGL Stock Looks Overdone - Trefis",
+      "Meta vs. Alphabet: One AI Stock Looks Like the Better Value - 24/7 Wall St.",
+      "Alphabet: Is the Stock a Buy on the Dip as Cloud Revenue Surges? - The Motley Fool",
+      "Alphabet (GOOGL) Stock Faces Earnings Quality Questions After 55% Net Margin Headline Beat - simplywall.st",
+      "GOOGL Stock: Should You Buy the Best-Performing Magnificent Seven Stock Right Now? - TradingKey",
+      "Bank of America says Alphabet stock investors are missing the bigger signal - thestreet.com",
+      "Alphabet Q2: The Market Lost Its Mind (NASDAQ:GOOG) - Seeking Alpha"
+    ]
+  }
+}
