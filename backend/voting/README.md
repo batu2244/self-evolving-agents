@@ -47,8 +47,22 @@ voting/
 .venv/bin/python -m voting.demo                     # scripted binary-vote demo
 .venv/bin/python -m voting.simulate NVDA            # one-off vote on live data
 .venv/bin/python -m voting.cycle NVDA               # ← run this every 10 min
+.venv/bin/python -m voting.village XTB.WA           # village heartbeat (one of
+                                                    #  each agent type votes)
 .venv/bin/uvicorn 'voting.api:create_app' --factory --reload   # standalone API
 ```
+
+## Villages
+
+A **village** is one committee instance. Initializing it creates exactly one
+agent of every registered type (`deltadesk/agents`: news, realtime,
+historical — each emitting the uniform Signal contract), and they all vote
+each heartbeat: grade the previous heartbeat → collect concurrently →
+stances (signal direction ≥ 0 → BUY else SELL) → cases → rebuttals → judged
+verdict. An agent whose collection fails sits that vote out; the rest
+proceed. New agent types call `voting.village.register_agent_type(name,
+factory)` and appear in every village initialized afterwards. State
+persists per village name in `voting/data/`.
 
 ## The 10-minute loop
 
