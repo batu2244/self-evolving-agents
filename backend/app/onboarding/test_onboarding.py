@@ -65,6 +65,50 @@ def test_chat_defaults_when_user_delegates():
     assert body["slots"]["capitalUsd"] == 10_000
 
 
+def test_chat_warsaw_path_reaches_xtb():
+    body = _chat([{"role": "user", "content": "Warsaw stock exchange, balanced, 20k"}])
+    assert body["done"]
+    assert body["proposal"]["trackerSymbol"] == "WIG20"
+    assert body["proposal"]["currency"] == "PLN"
+    symbols = [a["symbol"] for a in body["proposal"]["universe"]]
+    assert "XTB" in symbols
+
+
+def test_chat_xtb_ticker_infers_warsaw():
+    body = _chat([{"role": "user", "content": "I'd buy XTB"}])
+    assert body["slots"]["market"] == "pl"
+
+
+def test_chat_radar_candidates_every_stage():
+    body = _chat([{"role": "user", "content": "keep it safe"}])
+    assert not body["done"]
+    assert len(body["candidates"]) >= 3
+    body = _chat(
+        [{"role": "user", "content": "Warsaw please"}],
+        {"riskLevel": "balanced"},
+    )
+    syms = [c["symbol"] for c in body["candidates"]]
+    assert "XTB" in syms  # market known -> radar narrows to GPW names
+
+
+def test_chat_four_question_cap_forces_proposal():
+    # four assistant turns already happened; the fifth reply must propose
+    messages = [
+        {"role": "assistant", "content": "greeting"},
+        {"role": "user", "content": "hmm"},
+        {"role": "assistant", "content": "q2"},
+        {"role": "user", "content": "not sure"},
+        {"role": "assistant", "content": "q3"},
+        {"role": "user", "content": "hard to say"},
+        {"role": "assistant", "content": "q4"},
+        {"role": "user", "content": "still unsure"},
+    ]
+    body = _chat(messages)
+    assert body["done"]
+    assert body["proposal"] is not None
+    assert "Four questions is my cap" in body["reply"]
+
+
 def test_chat_doubles_capital_after_proposal():
     slots = {"riskLevel": "balanced", "targetReturnPct": 2.0, "capitalUsd": 10_000, "market": "us"}
     body = _chat([{"role": "user", "content": "Double the capital"}], slots)

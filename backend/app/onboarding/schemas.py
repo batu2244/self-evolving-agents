@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 RiskLevel = Literal["conservative", "balanced", "aggressive"]
-Market = Literal["us", "eu", "crypto"]
+Market = Literal["us", "eu", "pl", "crypto"]
 VolBand = Literal["low", "medium", "high"]
 
 
@@ -46,7 +46,7 @@ class RiskRules(BaseModel):
 class UniverseProposal(BaseModel):
     tracker_symbol: str = Field(alias="trackerSymbol")
     tracker_name: str = Field(alias="trackerName")
-    currency: Literal["USD", "EUR"]
+    currency: Literal["USD", "EUR", "PLN"]
     trading_window: str = Field(alias="tradingWindow")
     universe: list[UniverseAsset]
     rules: RiskRules

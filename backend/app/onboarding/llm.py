@@ -30,7 +30,7 @@ _SCHEMA = {
             ]
         },
         "market": {
-            "anyOf": [{"type": "string", "enum": ["us", "eu", "crypto"]}, {"type": "null"}]
+            "anyOf": [{"type": "string", "enum": ["us", "eu", "pl", "crypto"]}, {"type": "null"}]
         },
         "capital_usd": {"anyOf": [{"type": "number"}, {"type": "null"}]},
         "target_return_pct": {"anyOf": [{"type": "number"}, {"type": "null"}]},
@@ -44,7 +44,7 @@ _SYSTEM = """You extract a trading risk envelope from an onboarding conversation
 
 Slots:
 - risk_level: conservative | balanced | aggressive. Infer from stated appetite OR from what the user says they'd buy (NVDA/TSLA/SOL-style momentum names read aggressive; KO/JNJ/Nestlé-style names read conservative; broad large caps read balanced).
-- market: us | eu | crypto. Infer from named assets if not stated.
+- market: us | eu | pl | crypto. Infer from named assets if not stated (pl = Warsaw Stock Exchange / GPW; XTB, CD Projekt, Allegro, PKO read pl).
 - capital_usd: committed paper capital in USD.
 - target_return_pct: how much they want to beat the benchmark tracker by, in % per QUARTER.
 - defaults_requested: true only if the user asks you to decide for them.

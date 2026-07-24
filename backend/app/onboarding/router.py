@@ -15,7 +15,7 @@ from typing import Literal
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.onboarding.chat import Slots, respond, rule_extract
+from app.onboarding.chat import MAX_QUESTIONS, Slots, respond, rule_extract
 from app.onboarding.llm import llm_extract
 from app.onboarding.schemas import (
     Market,
@@ -56,6 +56,8 @@ class ChatResponse(BaseModel):
     suggestions: list[str]
     proposal: UniverseProposal | None = None
     done: bool
+    # stocks on the radar for the current partial envelope ({symbol, name})
+    candidates: list[dict[str, str]] = []
 
 
 class RatifyRequest(BaseModel):
@@ -89,7 +91,15 @@ async def chat(body: ChatRequest) -> ChatResponse:
         if extraction.capital_usd is None:
             extraction.capital_multiplier = rules.capital_multiplier
 
-    turn = respond(last_user.content, slots, extraction)
+    # demo constraint: the concierge asks at most MAX_QUESTIONS questions —
+    # after that it fills the gaps with defaults and proposes
+    questions_asked = sum(1 for m in body.messages if m.role == "assistant")
+    turn = respond(
+        last_user.content,
+        slots,
+        extraction,
+        force_complete=questions_asked >= MAX_QUESTIONS,
+    )
     return ChatResponse(
         reply=turn.reply,
         slots=PartialEnvelope(
@@ -101,6 +111,7 @@ async def chat(body: ChatRequest) -> ChatResponse:
         suggestions=turn.suggestions,
         proposal=turn.proposal,
         done=turn.done,
+        candidates=turn.candidates,
     )
 
 

@@ -4,7 +4,7 @@
  */
 
 export type RiskLevel = "conservative" | "balanced" | "aggressive";
-export type Market = "us" | "eu" | "crypto";
+export type Market = "us" | "eu" | "pl" | "crypto";
 export type VolBand = "low" | "medium" | "high";
 
 export interface RiskEnvelope {
@@ -51,7 +51,7 @@ export interface RiskRules {
 export interface UniverseProposal {
   trackerSymbol: string;
   trackerName: string;
-  currency: "USD" | "EUR";
+  currency: "USD" | "EUR" | "PLN";
   tradingWindow: string;
   universe: UniverseAsset[];
   rules: RiskRules;
@@ -62,16 +62,23 @@ export interface ChatTurnMessage {
   content: string;
 }
 
+export interface RadarItem {
+  symbol: string;
+  name: string;
+}
+
 export interface ChatResponse {
   reply: string;
   slots: EnvelopeSlots;
   suggestions: string[];
   proposal: UniverseProposal | null;
   done: boolean;
+  candidates: RadarItem[];
 }
 
 export const MARKET_LABEL: Record<Market, string> = {
   us: "US equities",
   eu: "EU equities",
+  pl: "Warsaw (GPW)",
   crypto: "Crypto",
 };

@@ -28,6 +28,9 @@ _BASE_PRICES: dict[str, float] = {
     "ASML": 880, "ADYEN": 1350, "IFX": 33,
     "BTC/USD": 96_500, "ETH/USD": 3_450, "LTC/USD": 105, "SOL/USD": 190,
     "LINK/USD": 22, "DOT/USD": 8.5, "AVAX/USD": 38, "NEAR/USD": 6.8, "INJ/USD": 27,
+    # GPW names quoted in PLN
+    "PZU": 58, "PKO": 62, "DNP": 445, "OPL": 8.6, "XTB": 74,
+    "PKN": 63, "ALE": 34, "PEO": 185, "CDR": 145, "KGH": 138, "11B": 260,
 }
 
 _DAILY_VOL = {"low": 0.009, "medium": 0.018, "high": 0.034}
@@ -67,6 +70,11 @@ _TRACKERS: dict[Market, dict[RiskLevel, tuple[str, str]]] = {
         "conservative": ("EXSA", "iShares STOXX Europe 600"),
         "balanced": ("EXW1", "iShares EURO STOXX 50"),
         "aggressive": ("EXV3", "iShares STOXX Europe 600 Technology"),
+    },
+    "pl": {
+        "conservative": ("WIG20", "WIG20 Index (GPW)"),
+        "balanced": ("WIG20", "WIG20 Index (GPW)"),
+        "aggressive": ("mWIG40", "mWIG40 Mid-Cap Index (GPW)"),
     },
     "crypto": {
         "conservative": ("BTC/USD", "Bitcoin"),
@@ -110,6 +118,19 @@ _CATALOG: dict[Market, list[UniverseAsset]] = {
         UniverseAsset(symbol="ADYEN", name="Adyen", sector="Financials", vol_band="high"),
         UniverseAsset(symbol="IFX", name="Infineon", sector="Technology", vol_band="high"),
     ],
+    "pl": [
+        UniverseAsset(symbol="PZU", name="PZU", sector="Insurance", vol_band="low"),
+        UniverseAsset(symbol="PKO", name="PKO Bank Polski", sector="Financials", vol_band="low"),
+        UniverseAsset(symbol="DNP", name="Dino Polska", sector="Consumer Staples", vol_band="low"),
+        UniverseAsset(symbol="OPL", name="Orange Polska", sector="Communication", vol_band="low"),
+        UniverseAsset(symbol="XTB", name="X-Trade Brokers", sector="Financials", vol_band="medium"),
+        UniverseAsset(symbol="PKN", name="Orlen", sector="Energy", vol_band="medium"),
+        UniverseAsset(symbol="ALE", name="Allegro", sector="Consumer Discretionary", vol_band="medium"),
+        UniverseAsset(symbol="PEO", name="Bank Pekao", sector="Financials", vol_band="medium"),
+        UniverseAsset(symbol="CDR", name="CD Projekt", sector="Gaming", vol_band="high"),
+        UniverseAsset(symbol="KGH", name="KGHM", sector="Materials", vol_band="high"),
+        UniverseAsset(symbol="11B", name="11 bit studios", sector="Gaming", vol_band="high"),
+    ],
     "crypto": [
         UniverseAsset(symbol="BTC/USD", name="Bitcoin", sector="Layer 1", vol_band="low"),
         UniverseAsset(symbol="ETH/USD", name="Ethereum", sector="Layer 1", vol_band="low"),
@@ -145,6 +166,7 @@ _RULES: dict[RiskLevel, RiskRules] = {
 _MARKET_META: dict[Market, tuple[str, str]] = {
     "us": ("USD", "NYSE 09:30–16:00 ET, daily cycle at 12:00 ET"),
     "eu": ("EUR", "XETRA 09:00–17:30 CET, daily cycle at 12:00 CET"),
+    "pl": ("PLN", "GPW 09:00–17:00 CET, daily cycle at 12:00 CET"),
     "crypto": ("USD", "24/7, daily cycle at 18:00 PT"),
 }
 

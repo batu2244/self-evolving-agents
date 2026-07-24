@@ -55,9 +55,9 @@ export function ProposalCard(props: {
   onRatified: (desk: StoredDesk) => void;
 }) {
   const { proposal } = props;
-  const [selected, setSelected] = useState<Set<string>>(
-    () => new Set(proposal.universe.map((a) => a.symbol)),
-  );
+  // starts empty on purpose: the user actively picks the stock(s) the
+  // committee will trade
+  const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [ratified, setRatified] = useState(false);
@@ -178,8 +178,10 @@ export function ProposalCard(props: {
           Max position {proposal.rules.maxPositionPct}% · drawdown ≤{" "}
           {proposal.rules.maxDailyDrawdownPct}% · {proposal.rules.stopRule.toLowerCase()}
         </span>
-        <span className={selected.size === 0 ? "text-loss" : "text-muted"}>
-          {selected.size}/{proposal.universe.length} staffed to the committee
+        <span className={selected.size === 0 ? "text-amber" : "text-muted"}>
+          {selected.size === 0
+            ? "pick the stocks to staff"
+            : `${selected.size}/${proposal.universe.length} staffed to the committee`}
         </span>
       </div>
 
@@ -208,7 +210,9 @@ export function ProposalCard(props: {
                 : `Ratify ${selected.size} name${selected.size === 1 ? "" : "s"} → staff the committee`}
             </button>
             {selected.size === 0 && (
-              <span className="text-data text-xs text-loss">Pick at least one stock.</span>
+              <span className="text-data text-xs text-amber">
+                Click a row to pick your stock — at least one.
+              </span>
             )}
           </div>
         )}

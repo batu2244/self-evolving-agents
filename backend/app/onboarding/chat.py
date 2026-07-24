@@ -43,6 +43,10 @@ POPULAR: dict[str, tuple[str, Market, RiskLevel]] = {
     "SAP": ("SAP", "eu", "balanced"),
     "LVMH": ("LVMH", "eu", "balanced"),
     "NESN": ("Nestlé", "eu", "conservative"),
+    "XTB": ("X-Trade Brokers", "pl", "balanced"),
+    "CDR": ("CD Projekt", "pl", "aggressive"),
+    "ALE": ("Allegro", "pl", "balanced"),
+    "PKO": ("PKO Bank Polski", "pl", "conservative"),
     "BTC": ("Bitcoin", "crypto", "balanced"),
     "ETH": ("Ethereum", "crypto", "balanced"),
     "SOL": ("Solana", "crypto", "aggressive"),
@@ -55,6 +59,7 @@ _NAME_ALIASES: dict[str, str] = {
     "amazon": "AMZN", "jpmorgan": "JPM", "coca-cola": "KO", "coca cola": "KO",
     "walmart": "WMT", "nestle": "NESN", "nestlé": "NESN",
     "bitcoin": "BTC", "ethereum": "ETH", "solana": "SOL", "dogecoin": "DOGE",
+    "x-trade": "XTB", "cd projekt": "CDR", "allegro": "ALE",
 }
 
 _RISK_PATTERNS: list[tuple[RiskLevel, str]] = [
@@ -64,6 +69,7 @@ _RISK_PATTERNS: list[tuple[RiskLevel, str]] = [
 ]
 
 _MARKET_PATTERNS: list[tuple[Market, str]] = [
+    ("pl", r"warsaw|poland|polish|\bgpw\b|\bwig\s?20\b|\bwig\b|\bpln\b|z[łl]oty"),
     ("crypto", r"crypto|bitcoin|\bbtc\b|ethereum|\beth\b|blockchain|\bdefi\b|stablecoin|\bcoins?\b|\btokens?\b"),
     ("eu", r"\beurope(?:an)?\b|\beu\b|stoxx|\bdax\b|xetra|euronext"),
     ("us", r"u\.s\.|\busa\b|\bamerican?\b|s&p|nasdaq|nyse|\bdow\b|united states|wall street|\bus (?:stocks|equities|market|tech)\b"),
@@ -74,7 +80,12 @@ _DEFAULTS_PATTERN = (
     r"\bidk\b|don'?t know|\bdunno\b|no idea|just set|defaults?\b"
 )
 
-MARKET_LABEL: dict[Market, str] = {"us": "US equities", "eu": "EU equities", "crypto": "crypto"}
+MARKET_LABEL: dict[Market, str] = {
+    "us": "US equities",
+    "eu": "EU equities",
+    "pl": "Warsaw (GPW)",
+    "crypto": "crypto",
+}
 
 
 @dataclass
@@ -223,12 +234,44 @@ class Turn:
     suggestions: list[str]
     proposal: UniverseProposal | None
     done: bool
+    candidates: list[dict[str, str]] = field(default_factory=list)
 
 
-def respond(user_text: str, slots: Slots, ex: Extraction | None = None) -> Turn:
+# The concierge asks at most this many questions before proposing with defaults.
+MAX_QUESTIONS = 4
+
+
+def radar(slots: Slots) -> list[dict[str, str]]:
+    """Stocks on the radar for the current partial envelope — shown at every
+    stage so the user is always looking at concrete names."""
+    from app.onboarding.universe import _CATALOG, _ELIGIBLE_BANDS  # local import to avoid a cycle
+
+    if slots.market:
+        pool = _CATALOG[slots.market]
+        if slots.risk_level:
+            bands = _ELIGIBLE_BANDS[slots.risk_level]
+            pool = [a for a in pool if a.vol_band in bands]
+        return [{"symbol": a.symbol, "name": a.name} for a in pool[:5]]
+    # market unknown — one flavour of each floor
+    picks = ["NVDA", "ASML", "XTB", "KO", "BTC"]
+    return [{"symbol": s, "name": POPULAR[s][0]} for s in picks if s in POPULAR]
+
+
+def respond(
+    user_text: str,
+    slots: Slots,
+    ex: Extraction | None = None,
+    force_complete: bool = False,
+) -> Turn:
     ex = ex or rule_extract(user_text)
     new = apply_extraction(slots, ex)
     parts: list[str] = []
+
+    if force_complete and not new.complete():
+        new.risk_level = new.risk_level or "balanced"
+        new.market = new.market or "us"
+        new.capital_usd = new.capital_usd or 10_000
+        parts.append("Four questions is my cap — I filled the rest with desk defaults.")
 
     if ex.tickers:
         names = ", ".join(f"{s} ({POPULAR[s][0]})" for s in ex.tickers[:4])
@@ -262,13 +305,14 @@ def respond(user_text: str, slots: Slots, ex: Extraction | None = None) -> Turn:
             f"Here's the desk I'd staff: {len(proposal.universe)} names screened against "
             f"{proposal.tracker_symbol} ({proposal.tracker_name}), max position "
             f"{proposal.rules.max_position_pct:g}%, daily drawdown capped at "
-            f"{proposal.rules.max_daily_drawdown_pct:g}%. Pick the stocks you want — each one "
-            f"goes to the committee to argue over daily — then ratify. Or tell me what to change."
+            f"{proposal.rules.max_daily_drawdown_pct:g}%. Pick the stock you want to trade — "
+            f"each pick goes to the committee to argue over daily — then ratify. "
+            f"Or tell me what to change."
         )
         return Turn(
             reply=" ".join(parts),
             slots=new,
-            suggestions=["Make it more aggressive", "Double the capital", "Switch to crypto"],
+            suggestions=["Make it more aggressive", "Double the capital", "Switch to Warsaw (GPW)"],
             proposal=proposal,
             done=True,
         )
@@ -277,7 +321,14 @@ def respond(user_text: str, slots: Slots, ex: Extraction | None = None) -> Turn:
         parts.append("I didn't catch anything I can trade on there.")
     question, suggestions = _next_question(new)
     parts.append(question)
-    return Turn(reply=" ".join(parts), slots=new, suggestions=suggestions, proposal=None, done=False)
+    return Turn(
+        reply=" ".join(parts),
+        slots=new,
+        suggestions=suggestions,
+        proposal=None,
+        done=False,
+        candidates=radar(new),
+    )
 
 
 def _next_question(slots: Slots) -> tuple[str, list[str]]:
@@ -288,8 +339,8 @@ def _next_question(slots: Slots) -> tuple[str, list[str]]:
         )
     if slots.market is None:
         return (
-            "Where should the desk trade — US equities, EU equities, or crypto (24/7)?",
-            ["US equities", "EU equities", "Crypto"],
+            "Where should the desk trade — US equities, EU equities, Warsaw (GPW), or crypto (24/7)?",
+            ["US equities", "EU equities", "Warsaw (GPW)", "Crypto"],
         )
     return (
         "How much paper capital should the desk run? Anywhere from $1,000 to $10,000,000.",

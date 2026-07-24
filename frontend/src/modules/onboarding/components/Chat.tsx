@@ -7,6 +7,7 @@ import {
   MARKET_LABEL,
   type ChatTurnMessage,
   type EnvelopeSlots,
+  type RadarItem,
   type RiskEnvelope,
   type UniverseProposal,
 } from "../types";
@@ -14,14 +15,23 @@ import { ProposalCard } from "./ProposalCard";
 
 const GREETING =
   "Welcome to the floor. I staff a desk of trading agents around your risk envelope — " +
-  "tell me your goals in your own words. Most-watched right now: NVDA, TSLA, AAPL, BTC, KO. " +
+  "four questions max, then you pick the stock the committee trades. " +
+  "Most-watched right now: NVDA, TSLA, XTB, BTC, KO. " +
   "If you had to buy one today, which would it be?";
 
 const GREETING_CHIPS = [
   "NVDA and TSLA",
   "Something safe like KO",
-  "Crypto — BTC and ETH",
+  "XTB on the Warsaw exchange",
   "Just pick for me",
+];
+
+const GREETING_RADAR: RadarItem[] = [
+  { symbol: "NVDA", name: "NVIDIA" },
+  { symbol: "TSLA", name: "Tesla" },
+  { symbol: "XTB", name: "X-Trade Brokers" },
+  { symbol: "BTC", name: "Bitcoin" },
+  { symbol: "KO", name: "Coca-Cola" },
 ];
 
 interface Msg {
@@ -30,6 +40,7 @@ interface Msg {
   content: string;
   proposal?: UniverseProposal | null;
   envelope?: RiskEnvelope | null;
+  candidates?: RadarItem[];
   error?: boolean;
 }
 
@@ -37,7 +48,7 @@ let nextId = 1;
 
 export function OnboardingChat() {
   const [msgs, setMsgs] = useState<Msg[]>([
-    { id: 0, role: "assistant", content: GREETING },
+    { id: 0, role: "assistant", content: GREETING, candidates: GREETING_RADAR },
   ]);
   const [slots, setSlots] = useState<EnvelopeSlots>(EMPTY_SLOTS);
   const [chips, setChips] = useState<string[]>(GREETING_CHIPS);
@@ -83,6 +94,7 @@ export function OnboardingChat() {
             content: res.reply,
             proposal: res.proposal,
             envelope,
+            candidates: res.candidates,
           },
         ]);
       })
@@ -186,6 +198,22 @@ export function OnboardingChat() {
               >
                 {msg.content}
               </div>
+              {msg.candidates && msg.candidates.length > 0 && !msg.proposal && (
+                <div className="mt-2" aria-label="Stocks on the radar">
+                  <span className="text-data mr-2 text-xs uppercase text-faint">On the radar</span>
+                  {msg.candidates.map((c) => (
+                    <button
+                      key={c.symbol}
+                      type="button"
+                      title={c.name}
+                      onClick={() => send(`I'd buy ${c.symbol}`)}
+                      className="text-data mb-1 mr-1.5 inline-block border border-line bg-surface px-2 py-1 text-xs text-muted transition-colors hover:border-phosphor hover:text-phosphor"
+                    >
+                      {c.symbol}
+                    </button>
+                  ))}
+                </div>
+              )}
               {msg.proposal && msg.envelope && (
                 <ProposalCard
                   envelope={msg.envelope}
