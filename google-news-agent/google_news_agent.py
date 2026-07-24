@@ -388,6 +388,72 @@ class PioneerStage:
         self.fatal: str | None = None
 
 
+def _pioneer_error(resp: httpx.Response) -> str:
+    """Pioneer returns {"detail": {"code", "message", "resolution_url"}} on errors."""
+    try:
+        detail = resp.json().get("detail")
+    except Exception:  # noqa: BLE001 - non-JSON error body
+        return f"HTTP {resp.status_code}: {resp.text[:200]}"
+    if isinstance(detail, dict):
+        parts = [f"HTTP {resp.status_code}"]
+        if detail.get("code"):
+            parts.append(f"[{detail['code']}]")
+        if detail.get("message"):
+            parts.append(str(detail["message"]))
+        if detail.get("resolution_url"):
+            parts.append(f"-> {detail['resolution_url']}")
+        return " ".join(parts)
+    return f"HTTP {resp.status_code}: {str(detail)[:200]}"
+
+
+async def preflight_pioneer(
+    client: httpx.AsyncClient, api_key: str, model: str, base_url: str
+) -> tuple[bool, str]:
+    """Check the configured model against GET /base-models before firing N inference calls.
+
+    Note: /base-models is a public endpoint -- it returns 200 with no key at all -- so this
+    validates reachability and the model id only. Key validity and inference entitlement
+    are proven solely by an actual /inference call.
+    """
+    url = base_url.rstrip("/") + "/base-models"
+    try:
+        resp = await client.get(
+            url, headers={"X-API-Key": api_key}, params={"supports_inference": "true"}
+        )
+    except Exception as exc:  # noqa: BLE001
+        return False, f"cannot reach Pioneer at {url}: {exc}"
+
+    if resp.status_code in (401, 403):
+        # Defensive: the catalog is currently public, but may be gated later.
+        return False, f"model catalog rejected the request: {_pioneer_error(resp)}"
+    if resp.status_code != 200:
+        return False, f"unexpected catalog response: {_pioneer_error(resp)}"
+
+    try:
+        payload = resp.json()
+        models = payload.get("models", payload) if isinstance(payload, dict) else payload
+        catalog = {m["id"]: m for m in models if isinstance(m, dict) and "id" in m}
+    except Exception as exc:  # noqa: BLE001
+        return False, f"could not parse the model catalog: {exc}"
+
+    entry = catalog.get(model)
+    if entry is None:
+        encoders = sorted(mid for mid, m in catalog.items() if m.get("task_type") == "encoder")
+        return False, (
+            f"PIONEER_MODEL {model!r} is not in the inference-ready catalog. "
+            f"Encoder models available: {', '.join(encoders) or '(none)'}"
+        )
+    if not entry.get("supports_inference", True):
+        return False, f"model {model!r} does not support inference"
+    if entry.get("deprecated"):
+        log.warning(
+            "Pioneer model %r is deprecated (sunset %s, replacement %s)",
+            model, entry.get("sunset_date"), entry.get("replacement_model"),
+        )
+    log.info("Pioneer preflight OK: model %r is in the inference-ready catalog", model)
+    return True, "ok"
+
+
 # Status codes worth retrying; everything else in 4xx is a client-side problem.
 RETRYABLE_STATUS = {408, 425, 429, 500, 502, 503, 504}
 
@@ -422,11 +488,16 @@ async def analyze_with_pioneer(
             if 400 <= resp.status_code < 500 and resp.status_code not in RETRYABLE_STATUS:
                 # Auth, billing, or a malformed request: retrying cannot help, and
                 # it will fail identically for every other article.
-                message = f"Pioneer HTTP {resp.status_code}: {resp.text[:300]}"
+                message = _pioneer_error(resp)
                 if stage is not None and not stage.fatal:
                     stage.fatal = message
-                    log.error("%s -- skipping Pioneer analysis for the remaining articles", message)
+                    log.error("Pioneer %s -- skipping analysis for the remaining articles", message)
                 return None
+            if resp.headers.get("Deprecation"):
+                log.warning(
+                    "Pioneer flagged this request shape as deprecated (sunset: %s)",
+                    resp.headers.get("Sunset", "unspecified"),
+                )
             resp.raise_for_status()
             body = resp.json()
             heads = _iter_predictions(body.get("result"))
@@ -803,6 +874,7 @@ def _empty_result(hours: int, reason: str) -> dict[str, Any]:
             "articles_scored": 0,
             "total_weight": 0.0,
         },
+        "pioneer_status": "not_run",
         "articles": [],
         "disclaimer": DISCLAIMER,
     }
@@ -833,20 +905,33 @@ async def process(args: argparse.Namespace) -> dict[str, Any]:
 
     # --- Step 2: Pioneer analysis -----------------------------------------
     analyses: list[tuple[Article, PioneerAnalysis, str]] = []
+    pioneer_status = "not_configured"
     if pioneer_key:
         semaphore = asyncio.Semaphore(PIONEER_CONCURRENCY)
         stage = PioneerStage()
         async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
+            ok, reason = await preflight_pioneer(client, pioneer_key, pioneer_model, pioneer_base)
+            if not ok:
+                # Don't fire N doomed inference calls when the catalog already told us why.
+                log.error("Pioneer preflight failed: %s", reason)
+                pioneer_status = f"preflight_failed: {reason}"
+            else:
 
-            async def run(article: Article) -> tuple[Article, PioneerAnalysis | None]:
-                async with semaphore:
-                    return article, await analyze_with_pioneer(
-                        client, article, pioneer_key, pioneer_model, pioneer_base, stage
-                    )
+                async def run(article: Article) -> tuple[Article, PioneerAnalysis | None]:
+                    async with semaphore:
+                        return article, await analyze_with_pioneer(
+                            client, article, pioneer_key, pioneer_model, pioneer_base, stage
+                        )
 
-            for article, analysis in await asyncio.gather(*(run(a) for a in articles)):
-                if analysis is not None:
-                    analyses.append((article, analysis, "pioneer"))
+                for article, analysis in await asyncio.gather(*(run(a) for a in articles)):
+                    if analysis is not None:
+                        analyses.append((article, analysis, "pioneer"))
+                if stage.fatal:
+                    pioneer_status = f"inference_failed: {stage.fatal}"
+                elif analyses:
+                    pioneer_status = "ok"
+                else:
+                    pioneer_status = "no_usable_predictions"
     else:
         log.warning("PIONEER_API_KEY not set")
 
@@ -861,11 +946,13 @@ async def process(args: argparse.Namespace) -> dict[str, Any]:
     ]
     log.info("analyzed=%d kept=%d", len(analyses), len(kept))
     if not kept:
-        return _empty_result(
+        result = _empty_result(
             args.hours,
             "No article cleared the relevance and significance filters, so there is "
             "no news-driven reason to act.",
         )
+        result["pioneer_status"] = pioneer_status
+        return result
 
     kept.sort(key=lambda item: (item[1].significance_score, item[0].published_at), reverse=True)
     kept = kept[: args.limit]
@@ -924,6 +1011,7 @@ async def process(args: argparse.Namespace) -> dict[str, Any]:
             "decision_provider": decision_provider,
         },
         "signal_score": quant,
+        "pioneer_status": pioneer_status,
         "articles": [
             {
                 "title": article.title,
@@ -950,6 +1038,72 @@ async def process(args: argparse.Namespace) -> dict[str, Any]:
         ],
         "disclaimer": DISCLAIMER,
     }
+
+
+async def check_pioneer() -> int:
+    """Diagnose Pioneer access: key, model catalog, then a real inference probe."""
+    key = os.getenv("PIONEER_API_KEY", "").strip()
+    model = os.getenv("PIONEER_MODEL", "fastino/gliner2-base-v1").strip()
+    base = os.getenv("PIONEER_BASE_URL", "https://api.pioneer.ai").strip()
+
+    def out(line: str) -> None:
+        print(line, file=sys.stderr)
+
+    out(f"base_url : {base}")
+    out(f"model    : {model}")
+    out(f"api_key  : {'set (' + key[:12] + '...)' if key else 'MISSING'}")
+    if not key:
+        out("\nRESULT: PIONEER_API_KEY is not set. Add it to .env.")
+        return 1
+
+    async with httpx.AsyncClient(timeout=HTTP_TIMEOUT) as client:
+        ok, reason = await preflight_pioneer(client, key, model, base)
+        out(f"\ncatalog  : {'OK' if ok else 'FAILED'} -- {reason}")
+        out("           (/base-models is public -- this checks the model id, not the key)")
+        if not ok:
+            out("\nRESULT: cannot reach an inference-ready model. Fix the above first.")
+            return 1
+
+        # Only a real /inference call proves the key and the account's entitlement.
+        probe = {
+            "model_id": model,
+            "text": "Alphabet reported quarterly earnings above expectations.",
+            "schema": {"classifications": [{"task": "sentiment",
+                                            "labels": ["negative", "neutral", "positive"],
+                                            "multi_label": False, "top_k": 1}]},
+            "threshold": 0.3,
+        }
+        try:
+            resp = await client.post(
+                base.rstrip("/") + "/inference",
+                json=probe,
+                headers={"X-API-Key": key, "Content-Type": "application/json"},
+            )
+        except Exception as exc:  # noqa: BLE001
+            out(f"inference: FAILED -- {exc}")
+            return 1
+
+        if resp.status_code == 200:
+            body = resp.json()
+            heads = _iter_predictions(body.get("result"))
+            out(f"inference: OK -- HTTP 200, latency {body.get('latency_ms')}ms")
+            out(f"parsed   : {len(heads)} classification head(s): {list(heads)}")
+            out(f"raw result: {json.dumps(body.get('result'))[:400]}")
+            if not heads:
+                out("\nRESULT: inference works, but the result shape did not parse. "
+                    "Send the raw result above to whoever maintains _iter_predictions().")
+                return 1
+            out("\nRESULT: Pioneer is fully working. Drop --fallback-analysis.")
+            return 0
+
+        out(f"inference: FAILED -- {_pioneer_error(resp)}")
+        if resp.status_code == 403 and "card_required" in resp.text:
+            out("\nRESULT: the key is valid and the model is correct, but this account "
+                "cannot run inference until a Hobby or Pro plan is active. No code change "
+                "will fix this. Run with --fallback-analysis until billing is enabled.")
+        else:
+            out("\nRESULT: inference rejected. See the error above.")
+        return 1
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -988,6 +1142,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Print the trader system prompt to stderr and exit",
     )
+    parser.add_argument(
+        "--check-pioneer",
+        action="store_true",
+        help="Diagnose the Pioneer key, model, and inference access, then exit",
+    )
     parser.add_argument("--verbose", action="store_true", help="Debug logging on stderr")
     return parser.parse_args(argv)
 
@@ -1004,6 +1163,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.print_system_prompt:
         print(TRADER_SYSTEM_PROMPT, file=sys.stderr)
         return 0
+
+    if args.check_pioneer:
+        return asyncio.run(check_pioneer())
 
     try:
         results = asyncio.run(process(args))

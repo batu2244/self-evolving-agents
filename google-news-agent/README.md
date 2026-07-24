@@ -102,6 +102,7 @@ python google_news_agent.py --hours 24 --limit 10
 | `--buy-threshold`        | Weighted-score magnitude needed for BUY/SELL rather than HOLD                  | `0.25`  |
 | `--system-prompt-file`   | Override the built-in trader system prompt                                     | —       |
 | `--print-system-prompt`  | Print the system prompt to stderr and exit                                     | off     |
+| `--check-pioneer`        | Diagnose Pioneer key, model, and inference access, then exit                    | off     |
 | `--fallback-analysis`    | If Pioneer returns nothing, classify locally with a keyword heuristic (opt-in) | off     |
 | `--verbose`              | Debug logging on stderr                                                        | off     |
 
@@ -200,16 +201,39 @@ If Pioneer fails for one article, that article is skipped and the rest continue.
 non-retryable status (401/403/404/422) fails the whole stage immediately rather than
 repeating a request that cannot succeed.
 
-### Pioneer billing note
+### Diagnosing Pioneer
 
-Pioneer inference requires a paid plan. Without one, `/inference` returns:
-
-```json
-{"detail": {"code": "card_required", "message": "To run inference on Pioneer, subscribe to the Hobby or Pro plan..."}}
+```bash
+python google_news_agent.py --check-pioneer
 ```
 
-Since every article is then rejected, the strict pipeline correctly returns a HOLD with no
-articles. Use `--fallback-analysis` to keep the pipeline demonstrable in the meantime — it
+This checks the model id against `GET /base-models`, then runs a real inference probe, and
+prints a verdict. Note that `/base-models` is a **public** endpoint — it returns 200 with no
+key at all — so it validates the model id and reachability, *not* your key. Only an actual
+`/inference` call proves key validity and entitlement, which is why the probe exists.
+
+The same catalog check runs as a preflight before every batch, so a wrong `PIONEER_MODEL`
+is caught once with the list of valid encoder models, rather than as N identical failures.
+
+### Pioneer billing note
+
+Pioneer inference requires a paid plan. Without one, `/inference` returns HTTP 403:
+
+```json
+{"detail": {"code": "card_required", "message": "To run inference on Pioneer, subscribe to the Hobby or Pro plan...", "resolution_url": "https://agent.pioneer.ai/billing"}}
+```
+
+This is an account entitlement gate, not a request-shape problem — the quickstart's own
+verbatim NER example fails identically with the same key. A useful distinction when
+debugging: an **invalid** key returns `401 Invalid API key`, while a valid-but-unentitled
+key returns `403 card_required`. Getting a 403 therefore confirms the key itself is good.
+
+Every response carries a `pioneer_status` field recording exactly what happened
+(`ok`, `not_configured`, `preflight_failed: ...`, `inference_failed: ...`,
+`no_usable_predictions`), so a degraded run is never silently indistinguishable from a
+clean one.
+
+Use `--fallback-analysis` to keep the pipeline demonstrable in the meantime — it
 substitutes a deterministic local keyword classifier and tags the output
 `analysis_provider: "heuristic"`. Remove the flag once the Pioneer plan is active.
 
