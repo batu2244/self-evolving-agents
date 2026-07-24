@@ -1,0 +1,974 @@
+{
+  "symbol": "XTB.WA",
+  "exchange": "Warsaw Stock Exchange (GPW)",
+  "currency": "PLN",
+  "heartbeat": "twice daily: 10:00 (open+1h) and 16:00 (close-1h) Europe/Warsaw",
+  "generated_at": "2026-07-24T23:50:48.398005+02:00",
+  "buy_and_hold_ret": 0.278722,
+  "decision_points": [
+    {
+      "id": "2026-06-25-open+1h",
+      "date": "2026-06-25",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 107.06,
+      "features": {
+        "ret_last_hour": -0.004093,
+        "ret_since_open": -0.004093,
+        "gap_open": -0.000372,
+        "prev_day_ret": -0.014299,
+        "ret_5d": -0.01466,
+        "ret_20d": -0.011944,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.006165,
+        "next_point": "2026-06-25-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-25-close-1h",
+      "date": "2026-06-25",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 107.72,
+      "features": {
+        "ret_last_hour": -0.001113,
+        "ret_since_open": 0.002047,
+        "gap_open": -0.000372,
+        "prev_day_ret": -0.014299,
+        "ret_5d": -0.01466,
+        "ret_20d": -0.011944,
+        "volume_ratio": 1.259,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.017638,
+        "next_point": "2026-06-26-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-26-open+1h",
+      "date": "2026-06-26",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 105.82,
+      "features": {
+        "ret_last_hour": -0.019641,
+        "ret_since_open": -0.019641,
+        "gap_open": 0.00316,
+        "prev_day_ret": 0.000558,
+        "ret_5d": -0.021818,
+        "ret_20d": 0.078156,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.010584,
+        "next_point": "2026-06-26-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-26-close-1h",
+      "date": "2026-06-26",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 104.7,
+      "features": {
+        "ret_last_hour": 0.001722,
+        "ret_since_open": -0.030017,
+        "gap_open": 0.00316,
+        "prev_day_ret": 0.000558,
+        "ret_5d": -0.021818,
+        "ret_20d": 0.078156,
+        "volume_ratio": 0.938,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.008405,
+        "next_point": "2026-06-29-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-29-open+1h",
+      "date": "2026-06-29",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 105.58,
+      "features": {
+        "ret_last_hour": 0.009562,
+        "ret_since_open": 0.009562,
+        "gap_open": 0.004418,
+        "prev_day_ret": -0.032342,
+        "ret_5d": -0.049132,
+        "ret_20d": 0.020784,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.004357,
+        "next_point": "2026-06-29-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-29-close-1h",
+      "date": "2026-06-29",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 106.04,
+      "features": {
+        "ret_last_hour": -0.003383,
+        "ret_since_open": 0.013961,
+        "gap_open": 0.004418,
+        "prev_day_ret": -0.032342,
+        "ret_5d": -0.049132,
+        "ret_20d": 0.020784,
+        "volume_ratio": 0.398,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.018484,
+        "next_point": "2026-06-30-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-06-30-open+1h",
+      "date": "2026-06-30",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 104.08,
+      "features": {
+        "ret_last_hour": -0.018113,
+        "ret_since_open": -0.018113,
+        "gap_open": 0.004359,
+        "prev_day_ret": 0.013638,
+        "ret_5d": -0.035283,
+        "ret_20d": 0.018333,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.032859,
+        "next_point": "2026-06-30-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-06-30-close-1h",
+      "date": "2026-06-30",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 107.5,
+      "features": {
+        "ret_last_hour": 0.00336,
+        "ret_since_open": 0.014151,
+        "gap_open": 0.004359,
+        "prev_day_ret": 0.013638,
+        "ret_5d": -0.035283,
+        "ret_20d": 0.018333,
+        "volume_ratio": 1.243,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.005953,
+        "next_point": "2026-07-01-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-01-open+1h",
+      "date": "2026-07-01",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 108.14,
+      "features": {
+        "ret_last_hour": 0.009711,
+        "ret_since_open": 0.009711,
+        "gap_open": 0.001309,
+        "prev_day_ret": 0.013455,
+        "ret_5d": -0.019615,
+        "ret_20d": 0.037641,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.008138,
+        "next_point": "2026-07-01-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-01-close-1h",
+      "date": "2026-07-01",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 109.02,
+      "features": {
+        "ret_last_hour": 0.000551,
+        "ret_since_open": 0.017927,
+        "gap_open": 0.001309,
+        "prev_day_ret": 0.013455,
+        "ret_5d": -0.019615,
+        "ret_20d": 0.037641,
+        "volume_ratio": 0.964,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.032104,
+        "next_point": "2026-07-02-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-02-open+1h",
+      "date": "2026-07-02",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 112.52,
+      "features": {
+        "ret_last_hour": 0.022909,
+        "ret_since_open": 0.022909,
+        "gap_open": 0.0,
+        "prev_day_ret": 0.028422,
+        "ret_5d": 0.022875,
+        "ret_20d": 0.069831,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.052257,
+        "next_point": "2026-07-02-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-02-close-1h",
+      "date": "2026-07-02",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 118.4,
+      "features": {
+        "ret_last_hour": 0.007317,
+        "ret_since_open": 0.076364,
+        "gap_open": 0.0,
+        "prev_day_ret": 0.028422,
+        "ret_5d": 0.022875,
+        "ret_20d": 0.069831,
+        "volume_ratio": 2.895,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.00473,
+        "next_point": "2026-07-03-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-03-open+1h",
+      "date": "2026-07-03",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 117.84,
+      "features": {
+        "ret_last_hour": 0.011502,
+        "ret_since_open": 0.011502,
+        "gap_open": -0.003763,
+        "prev_day_ret": 0.063091,
+        "ret_5d": 0.086803,
+        "ret_20d": 0.105084,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.004582,
+        "next_point": "2026-07-03-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-03-close-1h",
+      "date": "2026-07-03",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 118.38,
+      "features": {
+        "ret_last_hour": 0.000845,
+        "ret_since_open": 0.016137,
+        "gap_open": -0.003763,
+        "prev_day_ret": 0.063091,
+        "ret_5d": 0.086803,
+        "ret_20d": 0.105084,
+        "volume_ratio": 0.538,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.00963,
+        "next_point": "2026-07-06-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-06-open+1h",
+      "date": "2026-07-06",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 119.52,
+      "features": {
+        "ret_last_hour": 0.006061,
+        "ret_since_open": 0.006061,
+        "gap_open": 0.003378,
+        "prev_day_ret": 0.012485,
+        "ret_5d": 0.137149,
+        "ret_20d": 0.090239,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.001673,
+        "next_point": "2026-07-06-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-06-close-1h",
+      "date": "2026-07-06",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 119.32,
+      "features": {
+        "ret_last_hour": -0.000168,
+        "ret_since_open": 0.004377,
+        "gap_open": 0.003378,
+        "prev_day_ret": 0.012485,
+        "ret_5d": 0.137149,
+        "ret_20d": 0.090239,
+        "volume_ratio": 0.71,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.005699,
+        "next_point": "2026-07-07-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-07-open+1h",
+      "date": "2026-07-07",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 120.0,
+      "features": {
+        "ret_last_hour": 0.0,
+        "ret_since_open": 0.0,
+        "gap_open": -0.001664,
+        "prev_day_ret": 0.015203,
+        "ret_5d": 0.138905,
+        "ret_20d": 0.120641,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.0165,
+        "next_point": "2026-07-07-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-07-close-1h",
+      "date": "2026-07-07",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 121.98,
+      "features": {
+        "ret_last_hour": -0.001473,
+        "ret_since_open": 0.0165,
+        "gap_open": -0.001664,
+        "prev_day_ret": 0.015203,
+        "ret_5d": 0.138905,
+        "ret_20d": 0.120641,
+        "volume_ratio": 1.416,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.003279,
+        "next_point": "2026-07-08-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-08-open+1h",
+      "date": "2026-07-08",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 122.38,
+      "features": {
+        "ret_last_hour": 0.002622,
+        "ret_since_open": 0.002622,
+        "gap_open": 0.005105,
+        "prev_day_ret": 0.010316,
+        "ret_5d": 0.135378,
+        "ret_20d": 0.11372,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.007844,
+        "next_point": "2026-07-08-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-08-close-1h",
+      "date": "2026-07-08",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 123.34,
+      "features": {
+        "ret_last_hour": -0.000162,
+        "ret_since_open": 0.010487,
+        "gap_open": 0.005105,
+        "prev_day_ret": 0.010316,
+        "ret_5d": 0.135378,
+        "ret_20d": 0.11372,
+        "volume_ratio": 1.475,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.033566,
+        "next_point": "2026-07-09-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-09-open+1h",
+      "date": "2026-07-09",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 127.48,
+      "features": {
+        "ret_last_hour": 0.028562,
+        "ret_since_open": 0.028562,
+        "gap_open": -0.000484,
+        "prev_day_ret": 0.02108,
+        "ret_5d": 0.127273,
+        "ret_20d": 0.138659,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.008943,
+        "next_point": "2026-07-09-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-09-close-1h",
+      "date": "2026-07-09",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 128.62,
+      "features": {
+        "ret_last_hour": 0.001869,
+        "ret_since_open": 0.03776,
+        "gap_open": -0.000484,
+        "prev_day_ret": 0.02108,
+        "ret_5d": 0.127273,
+        "ret_20d": 0.138659,
+        "volume_ratio": 2.371,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.001555,
+        "next_point": "2026-07-10-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-10-open+1h",
+      "date": "2026-07-10",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 128.42,
+      "features": {
+        "ret_last_hour": 0.003438,
+        "ret_since_open": 0.003438,
+        "gap_open": 0.000626,
+        "prev_day_ret": 0.031452,
+        "ret_5d": 0.093723,
+        "ret_20d": 0.173395,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.000934,
+        "next_point": "2026-07-10-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-10-close-1h",
+      "date": "2026-07-10",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 128.3,
+      "features": {
+        "ret_last_hour": 0.003284,
+        "ret_since_open": 0.0025,
+        "gap_open": 0.000626,
+        "prev_day_ret": 0.031452,
+        "ret_5d": 0.093723,
+        "ret_20d": 0.173395,
+        "volume_ratio": 1.13,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.011535,
+        "next_point": "2026-07-13-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-13-open+1h",
+      "date": "2026-07-13",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 129.78,
+      "features": {
+        "ret_last_hour": 0.006047,
+        "ret_since_open": 0.006047,
+        "gap_open": -0.003091,
+        "prev_day_ret": 0.011728,
+        "ret_5d": 0.092905,
+        "ret_20d": 0.176364,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.014486,
+        "next_point": "2026-07-13-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-13-close-1h",
+      "date": "2026-07-13",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 127.9,
+      "features": {
+        "ret_last_hour": 0.007721,
+        "ret_since_open": -0.008527,
+        "gap_open": -0.003091,
+        "prev_day_ret": 0.011728,
+        "ret_5d": 0.092905,
+        "ret_20d": 0.176364,
+        "volume_ratio": 1.416,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.007037,
+        "next_point": "2026-07-14-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-14-open+1h",
+      "date": "2026-07-14",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 128.8,
+      "features": {
+        "ret_last_hour": 0.009404,
+        "ret_since_open": 0.009404,
+        "gap_open": -0.004214,
+        "prev_day_ret": -0.009737,
+        "ret_5d": 0.066057,
+        "ret_20d": 0.184726,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.009006,
+        "next_point": "2026-07-14-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-14-close-1h",
+      "date": "2026-07-14",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 129.96,
+      "features": {
+        "ret_last_hour": -0.000615,
+        "ret_since_open": 0.018495,
+        "gap_open": -0.004214,
+        "prev_day_ret": -0.009737,
+        "ret_5d": 0.066057,
+        "ret_20d": 0.184726,
+        "volume_ratio": 0.612,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.012311,
+        "next_point": "2026-07-15-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-15-open+1h",
+      "date": "2026-07-15",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 131.56,
+      "features": {
+        "ret_last_hour": 0.00581,
+        "ret_since_open": 0.00581,
+        "gap_open": 0.000765,
+        "prev_day_ret": 0.019978,
+        "ret_5d": 0.076252,
+        "ret_20d": 0.199963,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.021283,
+        "next_point": "2026-07-15-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-15-close-1h",
+      "date": "2026-07-15",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 134.36,
+      "features": {
+        "ret_last_hour": 0.010986,
+        "ret_since_open": 0.027217,
+        "gap_open": 0.000765,
+        "prev_day_ret": 0.019978,
+        "ret_5d": 0.076252,
+        "ret_20d": 0.199963,
+        "volume_ratio": 3.658,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.02084,
+        "next_point": "2026-07-16-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-16-open+1h",
+      "date": "2026-07-16",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 131.56,
+      "features": {
+        "ret_last_hour": -0.024759,
+        "ret_since_open": -0.024759,
+        "gap_open": -0.002219,
+        "prev_day_ret": 0.03443,
+        "ret_5d": 0.090323,
+        "ret_20d": 0.238776,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.001976,
+        "next_point": "2026-07-16-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-16-close-1h",
+      "date": "2026-07-16",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 131.3,
+      "features": {
+        "ret_last_hour": -0.005454,
+        "ret_since_open": -0.026686,
+        "gap_open": -0.002219,
+        "prev_day_ret": 0.03443,
+        "ret_5d": 0.090323,
+        "ret_20d": 0.238776,
+        "volume_ratio": 1.099,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.008378,
+        "next_point": "2026-07-17-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-17-open+1h",
+      "date": "2026-07-17",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 130.2,
+      "features": {
+        "ret_last_hour": -0.006107,
+        "ret_since_open": -0.006107,
+        "gap_open": -0.00607,
+        "prev_day_ret": -0.025148,
+        "ret_5d": 0.030493,
+        "ret_20d": 0.198182,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.008295,
+        "next_point": "2026-07-17-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-17-close-1h",
+      "date": "2026-07-17",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 131.28,
+      "features": {
+        "ret_last_hour": -0.000305,
+        "ret_since_open": 0.002137,
+        "gap_open": -0.00607,
+        "prev_day_ret": -0.025148,
+        "ret_5d": 0.030493,
+        "ret_20d": 0.198182,
+        "volume_ratio": 0.716,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.010512,
+        "next_point": "2026-07-20-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-20-open+1h",
+      "date": "2026-07-20",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 132.66,
+      "features": {
+        "ret_last_hour": 0.009589,
+        "ret_since_open": 0.009589,
+        "gap_open": 0.0,
+        "prev_day_ret": -0.003035,
+        "ret_5d": 0.015456,
+        "ret_20d": 0.2,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.001357,
+        "next_point": "2026-07-20-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-20-close-1h",
+      "date": "2026-07-20",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 132.48,
+      "features": {
+        "ret_last_hour": -0.00346,
+        "ret_since_open": 0.008219,
+        "gap_open": 0.0,
+        "prev_day_ret": -0.003035,
+        "ret_5d": 0.015456,
+        "ret_20d": 0.2,
+        "volume_ratio": 0.265,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.031552,
+        "next_point": "2026-07-21-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-21-open+1h",
+      "date": "2026-07-21",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 136.66,
+      "features": {
+        "ret_last_hour": 0.019851,
+        "ret_since_open": 0.019851,
+        "gap_open": 0.004046,
+        "prev_day_ret": 0.015677,
+        "ret_5d": 0.041517,
+        "ret_20d": 0.219927,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.000585,
+        "next_point": "2026-07-21-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-21-close-1h",
+      "date": "2026-07-21",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 136.58,
+      "features": {
+        "ret_last_hour": 0.004265,
+        "ret_since_open": 0.019254,
+        "gap_open": 0.004046,
+        "prev_day_ret": 0.015677,
+        "ret_5d": 0.041517,
+        "ret_20d": 0.219927,
+        "volume_ratio": 0.688,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.006297,
+        "next_point": "2026-07-22-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-22-open+1h",
+      "date": "2026-07-22",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 137.44,
+      "features": {
+        "ret_last_hour": -0.002902,
+        "ret_since_open": -0.002902,
+        "gap_open": 0.00189,
+        "prev_day_ret": 0.030871,
+        "ret_5d": 0.05264,
+        "ret_20d": 0.261045,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": 0.003347,
+        "next_point": "2026-07-22-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-22-close-1h",
+      "date": "2026-07-22",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 137.9,
+      "features": {
+        "ret_last_hour": 0.005835,
+        "ret_since_open": 0.000435,
+        "gap_open": 0.00189,
+        "prev_day_ret": 0.030871,
+        "ret_5d": 0.05264,
+        "ret_20d": 0.261045,
+        "volume_ratio": 0.816,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": -0.004641,
+        "next_point": "2026-07-23-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-23-open+1h",
+      "date": "2026-07-23",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 137.26,
+      "features": {
+        "ret_last_hour": -0.006083,
+        "ret_since_open": -0.006083,
+        "gap_open": 0.000725,
+        "prev_day_ret": 0.003053,
+        "ret_5d": 0.02071,
+        "ret_20d": 0.283243,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.012531,
+        "next_point": "2026-07-23-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-23-close-1h",
+      "date": "2026-07-23",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 135.54,
+      "features": {
+        "ret_last_hour": -0.00776,
+        "ret_since_open": -0.018537,
+        "gap_open": 0.000725,
+        "prev_day_ret": 0.003053,
+        "ret_5d": 0.02071,
+        "ret_20d": 0.283243,
+        "volume_ratio": 1.132,
+        "session_bars": 7
+      },
+      "outcome": {
+        "forward_ret": 0.014461,
+        "next_point": "2026-07-24-open+1h",
+        "overnight": true
+      }
+    },
+    {
+      "id": "2026-07-24-open+1h",
+      "date": "2026-07-24",
+      "label": "open+1h",
+      "time_local": "10:00",
+      "price": 137.5,
+      "features": {
+        "ret_last_hour": 0.011029,
+        "ret_since_open": 0.011029,
+        "gap_open": 0.000294,
+        "prev_day_ret": -0.014783,
+        "ret_5d": 0.031563,
+        "ret_20d": 0.263569,
+        "volume_ratio": 0.0,
+        "session_bars": 1
+      },
+      "outcome": {
+        "forward_ret": -0.004364,
+        "next_point": "2026-07-24-close-1h",
+        "overnight": false
+      }
+    },
+    {
+      "id": "2026-07-24-close-1h",
+      "date": "2026-07-24",
+      "label": "close-1h",
+      "time_local": "16:00",
+      "price": 136.9,
+      "features": {
+        "ret_last_hour": -0.002623,
+        "ret_since_open": 0.006618,
+        "gap_open": 0.000294,
+        "prev_day_ret": -0.014783,
+        "ret_5d": 0.031563,
+        "ret_20d": 0.263569,
+        "volume_ratio": 0.499,
+        "session_bars": 7
+      },
+      "outcome": null
+    }
+  ]
+}
