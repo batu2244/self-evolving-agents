@@ -7,8 +7,8 @@
   --color-line: #1f282d;
   --color-line-strong: #2d3a41;
   --color-fg: #e9ede9;
-  --color-muted: #8d968f;
-  --color-faint: #5a635e;
+  --color-muted: #98a19a;
+  --color-faint: #7d8781; /* ≥4.5:1 on ink and raised surfaces (WCAG AA) */
   --color-phosphor: #3df08c;
   --color-phosphor-dim: #1d5e3d;
   --color-loss: #ff5c5c;

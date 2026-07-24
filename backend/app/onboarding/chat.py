@@ -108,6 +108,7 @@ class Extraction:
     inferred_risk: RiskLevel | None = None
     inferred_market: Market | None = None
     defaults_requested: bool = False
+    capital_multiplier: float | None = None  # "double/halve the capital"
     notes: list[str] = field(default_factory=list)  # bounds violations etc.
 
 
@@ -157,6 +158,12 @@ def rule_extract(text: str) -> Extraction:
             bound = "minimum is $1,000" if capital < CAPITAL_MIN else "maximum is $10,000,000"
             ex.notes.append(f"${capital:,.0f} won't work — the {bound}. This is a paper desk, not a fund.")
 
+    if ex.capital_usd is None:
+        if re.search(r"\bdouble\b", lowered):
+            ex.capital_multiplier = 2.0
+        elif re.search(r"\b(halve|half)\b", lowered):
+            ex.capital_multiplier = 0.5
+
     ex.defaults_requested = bool(re.search(_DEFAULTS_PATTERN, lowered))
     return ex
 
@@ -166,9 +173,15 @@ _MULTIPLIERS = {"k": 1_000, "m": 1_000_000, "thousand": 1_000, "million": 1_000_
 
 def _extract_capital(lowered: str) -> float | None:
     t = re.sub(r"\d+(?:\.\d+)?\s*(?:%|percent)", " ", lowered)  # don't read targets as capital
+    # negative amounts are noise, not a commitment — drop them before parsing
+    t = re.sub(r"-\s*\$?\s*[\d,]+(?:\.\d+)?\s*(?:k|m|thousand|million|grand|dollars|bucks|usd)?\b", " ", t)
     m = re.search(r"\$\s*([\d,]+(?:\.\d+)?)\s*(k|m|thousand|million|grand)?\b", t)
     if not m:
         m = re.search(r"\b([\d,]+(?:\.\d+)?)\s*(k|m|thousand|million|grand)\b", t)
+    if not m:
+        m = re.search(r"\b([\d,]+(?:\.\d+)?)\s*(?:dollars|bucks|usd)\b", t)
+        if m:
+            return float(m.group(1).replace(",", ""))
     if not m:
         m = re.search(r"\b(\d{4,}|\d{1,3}(?:,\d{3})+)\b", t)
         if m:
@@ -187,6 +200,8 @@ def apply_extraction(slots: Slots, ex: Extraction) -> Slots:
         new.market = ex.market
     if ex.capital_usd is not None:
         new.capital_usd = ex.capital_usd
+    elif ex.capital_multiplier is not None and slots.capital_usd is not None:
+        new.capital_usd = min(max(slots.capital_usd * ex.capital_multiplier, CAPITAL_MIN), CAPITAL_MAX)
     if ex.target_return_pct is not None:
         new.target_return_pct = ex.target_return_pct
     # inference from tickers only fills gaps, never overrides a stated answer

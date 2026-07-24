@@ -222,9 +222,7 @@ export function OnboardingChat() {
 
       {chips.length > 0 && !pending && (
         <div className="mt-3" role="group" aria-label="Multiple choice answers">
-          <p className="text-data text-xs uppercase text-faint">
-            Pick one — or type your own below
-          </p>
+          <p className="text-data text-xs uppercase text-faint">Pick one — or type your own below</p>
           <div className="mt-1.5 flex flex-wrap gap-2">
             {chips.map((chip, i) => (
               <button
@@ -256,14 +254,6 @@ export function OnboardingChat() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            // digit hotkeys answer the current multiple choice when the input is empty
-            const n = Number(e.key);
-            if (input === "" && chips.length > 0 && n >= 1 && n <= chips.length) {
-              e.preventDefault();
-              send(chips[n - 1]);
-            }
-          }}
           placeholder={ratifiedDesk ? "Desk is live — tell me what to change…" : "Tell the desk what you're after…"}
           aria-label="Message the desk concierge"
           disabled={pending}
@@ -272,8 +262,11 @@ export function OnboardingChat() {
         />
         <button
           type="submit"
-          disabled={pending || !input.trim()}
-          className="text-data border-l border-line px-5 text-sm text-muted transition-colors hover:text-phosphor disabled:cursor-not-allowed disabled:opacity-40"
+          disabled={pending}
+          aria-disabled={pending || !input.trim()}
+          className={`text-data border-l border-line px-5 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+            input.trim() ? "text-muted hover:text-phosphor" : "cursor-default text-faint opacity-50"
+          }`}
         >
           Send ↵
         </button>

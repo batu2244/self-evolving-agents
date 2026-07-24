@@ -81,11 +81,13 @@ async def chat(body: ChatRequest) -> ChatResponse:
     # Claude extraction when a key is configured; deterministic rules otherwise.
     extraction = await llm_extract([m.model_dump() for m in body.messages], slots)
     if extraction is not None:
-        # rules still contribute ticker mentions for reply flavor
+        # rules still contribute ticker mentions and relative adjustments
         rules = rule_extract(last_user.content)
         extraction.tickers = rules.tickers
         extraction.inferred_risk = extraction.risk_level or rules.inferred_risk
         extraction.inferred_market = extraction.market or rules.inferred_market
+        if extraction.capital_usd is None:
+            extraction.capital_multiplier = rules.capital_multiplier
 
     turn = respond(last_user.content, slots, extraction)
     return ChatResponse(

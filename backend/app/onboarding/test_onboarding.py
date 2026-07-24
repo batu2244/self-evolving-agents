@@ -65,6 +65,13 @@ def test_chat_defaults_when_user_delegates():
     assert body["slots"]["capitalUsd"] == 10_000
 
 
+def test_chat_doubles_capital_after_proposal():
+    slots = {"riskLevel": "balanced", "targetReturnPct": 2.0, "capitalUsd": 10_000, "market": "us"}
+    body = _chat([{"role": "user", "content": "Double the capital"}], slots)
+    assert body["slots"]["capitalUsd"] == 20_000
+    assert body["done"]
+
+
 def test_chat_revises_after_proposal():
     slots = {"riskLevel": "balanced", "targetReturnPct": 2.0, "capitalUsd": 10_000, "market": "us"}
     body = _chat([{"role": "user", "content": "switch to crypto"}], slots)
@@ -80,6 +87,13 @@ def test_rule_extract_bounds():
     assert ex.target_return_pct is None and ex.notes
     ex = rule_extract("100k, 3% above")
     assert ex.capital_usd == 100_000 and ex.target_return_pct == 3.0
+
+
+def test_rule_extract_dollar_words_and_negatives():
+    assert rule_extract("I have 500 dollars").notes  # below minimum, but recognized
+    assert rule_extract("50000 bucks").capital_usd == 50_000
+    ex = rule_extract("-5000 please")
+    assert ex.capital_usd is None  # negative amounts are not a commitment
 
 
 def test_respond_never_downgrades_stated_answers():
