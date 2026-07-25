@@ -107,18 +107,16 @@ export function findVillage(villages: Village[], id: string): Village | undefine
   return villages.find((v) => v.id === id);
 }
 
-/** Every symbol with an actual trading record. Onboarding mandates are
- * deliberately NOT a source: ratifying a desk does not create a village —
- * villages are pre-created (DEFAULT_SYMBOLS + whatever has traded). The
- * `mandates` field is kept so call sites stay stable. */
+/** Every symbol the desk is mandated for or has actually touched — ratifying
+ * a desk in onboarding creates a village for each selected stock. */
 export function collectSymbols(sources: {
   mandates?: string[];
   fills?: Fill[];
   memos?: DecisionMemo[];
   outcomes?: OutcomeRecord[];
 }): string[] {
-  void sources.mandates;
   return [
+    ...(sources.mandates ?? []),
     ...(sources.fills ?? []).map((f) => f.symbol),
     ...(sources.memos ?? []).flatMap((m) => m.decisions.map((d) => d.ticker)),
     ...(sources.outcomes ?? []).flatMap((o) => (o.ticker ? [o.ticker] : [])),
